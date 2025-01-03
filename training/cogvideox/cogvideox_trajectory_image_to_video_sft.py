@@ -53,7 +53,7 @@ from transformers import AutoTokenizer, T5EncoderModel
 from torchvision.transforms.functional import resize
 
 from args import get_args  # isort:skip
-from dataset import BucketSampler, VideoDatasetWithResizing, VideoDatasetWithResizeAndRectangleCrop  # isort:skip
+from dataset import BucketSampler, VideoTrajectoryDatasetWithResizing  # isort:skip
 from text_encoder import compute_prompt_embeddings  # isort:skip
 from utils import (
     get_gradient_norm,
@@ -274,10 +274,14 @@ class CollateFunction:
         videos = [x["video"] for x in data[0]]
         videos = torch.stack(videos).to(dtype=self.weight_dtype, non_blocking=True)
 
+        trajectory_maps = [x["trajectory_maps"] for x in data[0]]
+        trajectory_maps = torch.stack(trajectory_maps).to(dtype=self.weight_dtype, non_blocking=True)
+
         return {
             "images": images,
             "videos": videos,
             "prompts": prompts,
+            "trajectory_maps": trajectory_maps,
         }
 
 
@@ -535,10 +539,7 @@ def main(args):
 
     # Dataset and DataLoader
     dataset_init_kwargs = {
-        "data_root": args.data_root,
         "dataset_file": args.dataset_file,
-        "caption_column": args.caption_column,
-        "video_column": args.video_column,
         "max_num_frames": args.max_num_frames,
         "id_token": args.id_token,
         "height_buckets": args.height_buckets,
@@ -547,13 +548,10 @@ def main(args):
         "load_tensors": args.load_tensors,
         "random_flip": args.random_flip,
         "image_to_video": True,
+        "trajectory_maps_type": args.trajectory_maps_type,
+        "frame_interval": args.frame_interval,
     }
-    if args.video_reshape_mode is None:
-        train_dataset = VideoDatasetWithResizing(**dataset_init_kwargs)
-    else:
-        train_dataset = VideoDatasetWithResizeAndRectangleCrop(
-            video_reshape_mode=args.video_reshape_mode, **dataset_init_kwargs
-        )
+    train_dataset = VideoTrajectoryDatasetWithResizing(**dataset_init_kwargs)
 
     collate_fn = CollateFunction(weight_dtype, args.load_tensors)
 
@@ -692,8 +690,9 @@ def main(args):
                 images = batch["images"].to(accelerator.device, non_blocking=True)
                 videos = batch["videos"].to(accelerator.device, non_blocking=True)
                 prompts = batch["prompts"]
-                trajectory_maps = torch.zeros_like(videos)
-                # print(images.shape, videos.shape, prompts) # torch.Size([1, 1, 3, 480, 720]) torch.Size([1, 49, 3, 480, 720])
+                trajectory_maps = batch["trajectory_maps"].to(accelerator.device, non_blocking=True)
+                assert trajectory_maps.shape == videos.shape
+                # print(images.shape, videos.shape) # torch.Size([1, 1, 3, 480, 720]) torch.Size([1, 49, 3, 480, 720])
 
                 # Encode videos
                 if not args.load_tensors:

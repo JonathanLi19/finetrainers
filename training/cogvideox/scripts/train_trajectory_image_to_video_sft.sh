@@ -22,10 +22,10 @@ ACCELERATE_CONFIG_FILE="accelerate_configs/my_config.yaml"
 # Absolute path to where the data is located. Make sure to have read the README for how to prepare data.
 # This example assumes you downloaded an already prepared dataset from HF CLI as follows:
 #   huggingface-cli download --repo-type dataset Wild-Heart/Disney-VideoGeneration-Dataset --local-dir /path/to/my/datasets/disney-dataset
-DATA_ROOT="video-dataset-disney"
-CAPTION_COLUMN="prompt.txt"
-VIDEO_COLUMN="videos.txt"
+DATA_ROOT="/home/qid/quanhao/workspace/Open-Sora/data/DAVIS/DAVIS_data.csv"
 MODEL_PATH="THUDM/CogVideoX-5b-I2V"
+TRAJECTORY_MAPS_TYPE="box"
+frame_interval=1
 
 # Set ` --load_tensors ` to load tensors from disk instead of recomputing the encoder process.
 # Launch experiments with different hyperparameters
@@ -40,16 +40,15 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --gpu_ids $GPU_IDS \
           training/cogvideox/cogvideox_trajectory_image_to_video_sft.py \
           --pretrained_model_name_or_path  $MODEL_PATH \
-          --data_root $DATA_ROOT \
-          --caption_column $CAPTION_COLUMN \
-          --video_column $VIDEO_COLUMN \
-          --id_token BW_STYLE \
+          --dataset_file $DATA_ROOT \
+          --trajectory_maps_type $TRAJECTORY_MAPS_TYPE \
+          --frame_interval $frame_interval \
           --height_buckets 480 \
           --width_buckets 720 \
           --frame_buckets 49 \
           --dataloader_num_workers 8 \
           --pin_memory \
-          --validation_prompt \"BW_STYLE A rocket landing.\" \
+          --validation_prompt \"A rocket landing.\" \
           --validation_images \"/home/qid/quanhao/workspace/Open-Sora/assets/images/condition/rocket/0.jpg\" \
           --validation_prompt_separator ::: \
           --num_validation_videos 1 \

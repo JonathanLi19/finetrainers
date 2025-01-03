@@ -102,6 +102,18 @@ def _get_dataset_args(parser: argparse.ArgumentParser) -> None:
         action="store_true",
         help="Whether or not to use the pinned memory setting in pytorch dataloader.",
     )
+    parser.add_argument(
+        "--trajectory_maps_type",
+        type=str,
+        default="mask",
+        help="Type of trajectory maps to use. Choose between ['mask', 'box']",
+    )
+    parser.add_argument(
+        "--frame_interval",
+        type=int,
+        default=1,
+        help="Interval between frames to sample from the dataset.",
+    )
 
 
 def _get_validation_args(parser: argparse.ArgumentParser) -> None:

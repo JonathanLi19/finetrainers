@@ -1,4 +1,6 @@
 import random
+import os
+import cv2
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -11,7 +13,7 @@ from torch.utils.data import Dataset, Sampler
 from torchvision import transforms
 from torchvision.transforms import InterpolationMode
 from torchvision.transforms.functional import resize
-
+from video_transforms import TemporalRandomCropFromIndex
 
 # Must import after torch because this can sometimes lead to a nasty segmentation fault, or stack smashing error
 # Very few bug reports but it happens. Look in decord Github issues for more relevant information.
@@ -25,6 +27,21 @@ HEIGHT_BUCKETS = [256, 320, 384, 480, 512, 576, 720, 768, 960, 1024, 1280, 1536]
 WIDTH_BUCKETS = [256, 320, 384, 480, 512, 576, 720, 768, 960, 1024, 1280, 1536]
 FRAME_BUCKETS = [16, 24, 32, 48, 64, 80]
 
+def temporal_random_crop_from_index(num_frames, frame_interval, start_index, end_index):
+    # 使用修改后的 TemporalRandomCrop 类，指定帧范围 [a, b]
+    temporal_sample = TemporalRandomCropFromIndex(num_frames * frame_interval, start_index, end_index)
+    
+    # 获取在 [start_index, end_index] 范围内裁剪的起始和结束帧索引
+    start_frame_ind, end_frame_ind = temporal_sample()
+    
+    # 检查是否有足够的帧数可供采样
+    assert (
+        end_frame_ind - start_frame_ind >= num_frames
+    ), f"Not enough frames to sample, {end_frame_ind} - {start_frame_ind} < {num_frames}"
+    
+    # 均匀地选择指定数量的帧
+    frame_indice = np.linspace(start_frame_ind, end_frame_ind - 1, num_frames, dtype=int)
+    return frame_indice
 
 class VideoDataset(Dataset):
     def __init__(
@@ -362,6 +379,176 @@ class VideoDatasetWithResizeAndRectangleCrop(VideoDataset):
         nearest_res = min(self.resolutions, key=lambda x: abs(x[1] - height) + abs(x[2] - width))
         return nearest_res[1], nearest_res[2]
 
+class VideoTrajectoryDatasetWithResizing(Dataset):
+    def __init__(
+        self,
+        dataset_file: str = "",
+        caption_column: str = "text",
+        video_column: str = "video",
+        max_num_frames: int = 49,
+        id_token: Optional[str] = None,
+        height_buckets: List[int] = None,
+        width_buckets: List[int] = None,
+        frame_buckets: List[int] = None,
+        load_tensors: bool = False,
+        random_flip: Optional[float] = None,
+        image_to_video: bool = False,
+        trajectory_maps_type: str = "mask",
+        frame_interval: int = 1,
+    ) -> None:
+        super().__init__()
+
+        self.dataset_file = dataset_file
+        self.caption_column = caption_column
+        self.video_column = video_column
+        self.max_num_frames = max_num_frames
+        self.id_token = f"{id_token.strip()} " if id_token else ""
+        self.height_buckets = height_buckets or HEIGHT_BUCKETS
+        self.width_buckets = width_buckets or WIDTH_BUCKETS
+        self.frame_buckets = frame_buckets or FRAME_BUCKETS
+        self.load_tensors = load_tensors
+        self.random_flip = random_flip
+        self.image_to_video = image_to_video
+        self.frame_interval = frame_interval
+
+        self.resolutions = [
+            (f, h, w) for h in self.height_buckets for w in self.width_buckets for f in self.frame_buckets
+        ]
+
+        self.data = pd.read_csv(self.dataset_file)
+
+        self.video_transforms = transforms.Compose(
+            [
+                transforms.RandomHorizontalFlip(random_flip)
+                if random_flip
+                else transforms.Lambda(self.identity_transform),
+                transforms.Lambda(self.scale_transform),
+                transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5], inplace=True),
+            ]
+        )
+
+        self.trajectory_maps_type=trajectory_maps_type # box / mask
+
+    @staticmethod
+    def identity_transform(x):
+        return x
+
+    @staticmethod
+    def scale_transform(x):
+        return x / 255.0
+
+    def __len__(self) -> int:
+        return len(self.data)
+
+    def _preprocess_video(self, sample) -> torch.Tensor:
+        if self.load_tensors:
+            raise NotImplementedError
+        else:
+            path = sample["path"]
+            num_frames = sample["num_frames"]
+
+            trajectory_maps_path = None
+            if self.trajectory_maps_type == "mask":
+                trajectory_maps_path = sample["trajectory_maps_path"]  # trajectory maps for each frame of this video
+            else:
+                trajectory_maps_path = sample["box_path"]
+            assert not trajectory_maps_path.endswith(".mp4")
+
+            mask_start_index, mask_end_index = sample["mask_start_index"], sample["mask_end_index"]
+            if mask_start_index == -1 or mask_end_index == -1:
+                return None, None, None
+            
+            frame_interval = self.frame_interval
+            while mask_end_index - mask_start_index + 1 >= num_frames * frame_interval * 2 and frame_interval <= 2:
+                frame_interval *= 2
+
+            if path.endswith(".mp4") or path.endswith(".mkv"):
+                video_reader = decord.VideoReader(uri=path.as_posix())
+                video_num_frames = len(video_reader)
+                nearest_frame_bucket = min(
+                    self.frame_buckets, key=lambda x: abs(x - min(video_num_frames, self.max_num_frames))
+                )
+                frame_indices = temporal_random_crop_from_index(nearest_frame_bucket, frame_interval, mask_start_index, mask_end_index)
+
+                frames = video_reader.get_batch(frame_indices).float()
+                frames = frames.permute(0, 3, 1, 2).contiguous() # [T, C, H, W]
+            else:
+                image_files = sorted(os.listdir(path))
+                if not os.path.isdir(path) or not image_files:
+                    raise ValueError("Error: Invalid images path or no images found")
+                video_num_frames = len(image_files)
+                nearest_frame_bucket = min(
+                    self.frame_buckets, key=lambda x: abs(x - min(video_num_frames, self.max_num_frames))
+                )
+                frame_indices = temporal_random_crop_from_index(nearest_frame_bucket, frame_interval, mask_start_index, mask_end_index)
+
+                frames = []
+                for frame_index in frame_indices:
+                    frame_path = os.path.join(path, image_files[frame_index])
+                    frame = cv2.imread(frame_path, cv2.IMREAD_COLOR)
+                    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                    frames.append(frame)
+                frames = np.stack(frames)
+                frames = torch.from_numpy(frames).float() 
+                frames = frames.permute(0, 3, 1, 2).contiguous()  # [T, C, H, W]
+
+            trajectory_maps = []
+            trajectory_maps_files = sorted(os.listdir(trajectory_maps_path))
+            for frame_index in frame_indices:
+                frame_path = os.path.join(trajectory_maps_path, trajectory_maps_files[frame_index])
+                frame = cv2.imread(frame_path, cv2.IMREAD_COLOR)
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                trajectory_maps.append(frame)
+            trajectory_maps = np.stack(trajectory_maps)
+            trajectory_maps = torch.from_numpy(trajectory_maps).float() 
+            trajectory_maps = trajectory_maps.permute(0, 3, 1, 2).contiguous()  # [T, C, H, W]
+
+            nearest_res = self._find_nearest_resolution(frames.shape[2], frames.shape[3])
+            frames_resized = torch.stack([resize(frame, nearest_res) for frame in frames], dim=0)
+            frames = torch.stack([self.video_transforms(frame) for frame in frames_resized], dim=0)
+
+            trajectory_maps_resized = torch.stack([resize(frame, nearest_res) for frame in trajectory_maps], dim=0)
+            trajectory_maps = torch.stack([self.video_transforms(frame) for frame in trajectory_maps_resized], dim=0)
+
+            image = frames[:1].clone() if self.image_to_video else None
+
+            assert frames.shape == trajectory_maps.shape
+
+            return image, frames, trajectory_maps
+
+    def _find_nearest_resolution(self, height, width):
+        nearest_res = min(self.resolutions, key=lambda x: abs(x[1] - height) + abs(x[2] - width))
+        return nearest_res[1], nearest_res[2]
+    
+    def __getitem__(self, index: int) -> Dict[str, Any]:
+        if isinstance(index, list):
+            # Here, index is actually a list of data objects that we need to return.
+            # The BucketSampler should ideally return indices. But, in the sampler, we'd like
+            # to have information about num_frames, height and width. Since this is not stored
+            # as metadata, we need to read the video to get this information. You could read this
+            # information without loading the full video in memory, but we do it anyway. In order
+            # to not load the video twice (once to get the metadata, and once to return the loaded video
+            # based on sampled indices), we cache it in the BucketSampler. When the sampler is
+            # to yield, we yield the cache data instead of indices. So, this special check ensures
+            # that data is not loaded a second time. PRs are welcome for improvements.
+            return index
+
+        if self.load_tensors:
+            raise NotImplementedError
+        else:
+            sample = self.data.iloc[index]
+            image, video, trajectory_maps = self._preprocess_video(sample)
+            return {
+                "prompt": self.id_token + sample["text"],
+                "image": image,
+                "video": video,
+                "trajectory_maps": trajectory_maps,
+                "video_metadata": {
+                    "num_frames": video.shape[0],
+                    "height": video.shape[2],
+                    "width": video.shape[3],
+                },
+            }
 
 class BucketSampler(Sampler):
     r"""

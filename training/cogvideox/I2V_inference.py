@@ -23,11 +23,6 @@ from diffusers.utils import convert_unet_state_dict_to_peft, export_to_video, lo
 from args import get_args 
 from pipelines.pipeline_trajectory import CogVideoXTrajectoryImageToVideoPipeline
 from models.transformer_trajectory import CogVideoXTrajectoryTransformer3DModel
-from numerize import numerize
-from diffusers import (
-    CogVideoXTransformer3DModel,
-)
-import time
 
 def main(args):
     model_card = "THUDM/CogVideoX-5b-I2V"
