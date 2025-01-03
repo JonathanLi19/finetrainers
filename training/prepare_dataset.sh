@@ -1,14 +1,14 @@
 #!/bin/bash
 
-MODEL_ID="THUDM/CogVideoX-2b"
+MODEL_ID="THUDM/CogVideoX-5b-I2V"
 
-NUM_GPUS=8
+NUM_GPUS=4
 
 # For more details on the expected data format, please refer to the README.
-DATA_ROOT="/path/to/my/datasets/video-dataset"  # This needs to be the path to the base directory where your videos are located.
+DATA_ROOT="video-dataset-disney"  # This needs to be the path to the base directory where your videos are located.
 CAPTION_COLUMN="prompt.txt"
 VIDEO_COLUMN="videos.txt"
-OUTPUT_DIR="/path/to/my/datasets/preprocessed-dataset"
+OUTPUT_DIR="preprocessed_datasets/disney"
 HEIGHT_BUCKETS="480 720"
 WIDTH_BUCKETS="720 960"
 FRAME_BUCKETS="49"
@@ -22,7 +22,7 @@ DTYPE=fp32
 # For Image-to-Video finetuning, make sure to pass `--save_image_latents`
 CMD_WITHOUT_PRE_ENCODING="\
   torchrun --nproc_per_node=$NUM_GPUS \
-    training/prepare_dataset.py \
+    training/cogvideox/prepare_dataset.py \
       --model_id $MODEL_ID \
       --data_root $DATA_ROOT \
       --caption_column $CAPTION_COLUMN \
@@ -35,7 +35,8 @@ CMD_WITHOUT_PRE_ENCODING="\
       --max_sequence_length $MAX_SEQUENCE_LENGTH \
       --target_fps $TARGET_FPS \
       --batch_size $BATCH_SIZE \
-      --dtype $DTYPE
+      --dtype $DTYPE \
+      --save_image_latents
 "
 
 CMD_WITH_PRE_ENCODING="$CMD_WITHOUT_PRE_ENCODING --save_latents_and_embeddings"

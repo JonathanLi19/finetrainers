@@ -22,7 +22,9 @@ import shutil
 from datetime import timedelta
 from pathlib import Path
 from typing import Any, Dict
-
+import cv2
+import numpy as np
+import pandas as pd
 import diffusers
 import torch
 import transformers
@@ -38,8 +40,6 @@ from accelerate.utils import (
 from diffusers import (
     AutoencoderKLCogVideoX,
     CogVideoXDPMScheduler,
-    CogVideoXImageToVideoPipeline,
-    CogVideoXTransformer3DModel,
 )
 from diffusers.models.autoencoders.vae import DiagonalGaussianDistribution
 from diffusers.optimization import get_scheduler
@@ -50,7 +50,7 @@ from huggingface_hub import create_repo, upload_folder
 from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
 from transformers import AutoTokenizer, T5EncoderModel
-
+from torchvision.transforms.functional import resize
 
 from args import get_args  # isort:skip
 from dataset import BucketSampler, VideoDatasetWithResizing, VideoDatasetWithResizeAndRectangleCrop  # isort:skip
@@ -63,6 +63,9 @@ from utils import (
     reset_memory,
     unwrap_model,
 )
+from models.transformer_trajectory import CogVideoXTrajectoryTransformer3DModel
+from pipelines.pipeline_trajectory import CogVideoXTrajectoryImageToVideoPipeline
+
 
 
 logger = get_logger(__name__)
@@ -121,10 +124,30 @@ Please adhere to the licensing terms as described [here](https://huggingface.co/
     model_card = populate_model_card(model_card, tags=tags)
     model_card.save(os.path.join(repo_folder, "README.md"))
 
+def load_frames_as_tensor(trajectory_maps_path, num_frames, height, width):
+    # 获取所有的帧文件并排序（假设是png或jpg格式）
+    frame_names = sorted([f for f in os.listdir(trajectory_maps_path) if f.endswith(('.png', '.jpg'))])#[:num_frames]
+    indices = np.linspace(0, len(frame_names) - 1, num_frames, dtype=int)
+    frame_names = [frame_names[i] for i in indices]
+    assert len(frame_names) == num_frames
+    
+    # 读取图像并转换为Tensor，同时提取bounding box坐标
+    frames = []
+    for frame_file in frame_names:
+        frame_path = os.path.join(trajectory_maps_path, frame_file)
+        image = cv2.imread(frame_path, cv2.IMREAD_COLOR)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        image_tensor = torch.from_numpy(image).permute(2, 0, 1)  # [C, H, W]
+        frames.append(image_tensor)
+    
+    # 将帧列表堆叠成 (T, C, H, W) 的Tensor
+    frames_resized = torch.stack([resize(frame, (height, width)) for frame in frames], dim=0)
+
+    return frames_resized
 
 def log_validation(
     accelerator: Accelerator,
-    pipe: CogVideoXImageToVideoPipeline,
+    pipe: CogVideoXTrajectoryImageToVideoPipeline,
     args: Dict[str, Any],
     pipeline_args: Dict[str, Any],
     is_final_validation: bool = False,
@@ -184,7 +207,7 @@ def run_validation(
     print_memory(accelerator.device)
     torch.cuda.synchronize(accelerator.device)
 
-    pipe = CogVideoXImageToVideoPipeline.from_pretrained(
+    pipe = CogVideoXTrajectoryImageToVideoPipeline.from_pretrained(
         args.pretrained_model_name_or_path,
         transformer=unwrap_model(accelerator, transformer),
         scheduler=scheduler,
@@ -202,7 +225,9 @@ def run_validation(
 
     validation_prompts = args.validation_prompt.split(args.validation_prompt_separator)
     validation_images = args.validation_images.split(args.validation_prompt_separator)
-    for validation_image, validation_prompt in zip(validation_images, validation_prompts):
+    validation_trajectory_maps = args.validation_trajectory_maps.split(args.validation_prompt_separator)
+    for validation_image, validation_prompt, validation_trajectory_map in zip(validation_images, validation_prompts, validation_trajectory_maps):
+
         pipeline_args = {
             "image": load_image(validation_image),
             "prompt": validation_prompt,
@@ -211,6 +236,8 @@ def run_validation(
             "height": args.height,
             "width": args.width,
             "max_sequence_length": model_config.max_text_seq_length,
+            "trajectory_maps": load_frames_as_tensor(validation_trajectory_map, args.max_num_frames, args.height, args.width), # [args.max_num_frames, 3, args.height, args.width]
+            "trajectory_guidance_scale": 2,
         }
 
         log_validation(
@@ -329,7 +356,7 @@ def main(args):
     # CogVideoX-2b weights are stored in float16
     # CogVideoX-5b and CogVideoX-5b-I2V weights are stored in bfloat16
     load_dtype = torch.bfloat16 if "5b" in args.pretrained_model_name_or_path.lower() else torch.float16
-    transformer = CogVideoXTransformer3DModel.from_pretrained(
+    transformer = CogVideoXTrajectoryTransformer3DModel.from_pretrained(
         args.pretrained_model_name_or_path,
         subfolder="transformer",
         torch_dtype=load_dtype,
@@ -358,7 +385,10 @@ def main(args):
 
     text_encoder.requires_grad_(False)
     vae.requires_grad_(False)
-    transformer.requires_grad_(True)
+    transformer.requires_grad_(False)
+    for name, param in transformer.named_parameters():
+        if 'trajectory' in name:
+            param.requires_grad_(True)
 
     VAE_SCALING_FACTOR = vae.config.scaling_factor
     VAE_SCALE_FACTOR_SPATIAL = 2 ** (len(vae.config.block_out_channels) - 1)
@@ -431,12 +461,12 @@ def main(args):
                     raise ValueError(f"Unexpected save model: {unwrap_model(accelerator, model).__class__}")
         else:
             with init_empty_weights():
-                transformer_ = CogVideoXTransformer3DModel.from_config(
+                transformer_ = CogVideoXTrajectoryTransformer3DModel.from_config(
                     args.pretrained_model_name_or_path, subfolder="transformer"
                 )
                 init_under_meta = True
 
-        load_model = CogVideoXTransformer3DModel.from_pretrained(os.path.join(input_dir, "transformer"))
+        load_model = CogVideoXTrajectoryTransformer3DModel.from_pretrained(os.path.join(input_dir, "transformer"))
         transformer_.register_to_config(**load_model.config)
         transformer_.load_state_dict(load_model.state_dict(), assign=init_under_meta)
         del load_model
@@ -662,6 +692,7 @@ def main(args):
                 images = batch["images"].to(accelerator.device, non_blocking=True)
                 videos = batch["videos"].to(accelerator.device, non_blocking=True)
                 prompts = batch["prompts"]
+                trajectory_maps = torch.zeros_like(videos)
                 # print(images.shape, videos.shape, prompts) # torch.Size([1, 1, 3, 480, 720]) torch.Size([1, 49, 3, 480, 720])
 
                 # Encode videos
@@ -676,9 +707,11 @@ def main(args):
 
                     videos = videos.permute(0, 2, 1, 3, 4)  # [B, C, F, H, W]
                     latent_dist = vae.encode(videos).latent_dist
+
+                    trajectory_maps = trajectory_maps.permute(0, 2, 1, 3, 4)  # [B, C, F, H, W]
+                    trajectory_latent_dist = vae.encode(trajectory_maps).latent_dist
                 else:
-                    image_latent_dist = DiagonalGaussianDistribution(images)
-                    latent_dist = DiagonalGaussianDistribution(videos)
+                    raise NotImplementedError("Loading tensors is not supported in trajectory training.")
 
                 image_latents = image_latent_dist.sample() * VAE_SCALING_FACTOR
                 image_latents = image_latents.permute(0, 2, 1, 3, 4)  # [B, F, C, H, W]
@@ -687,6 +720,10 @@ def main(args):
                 video_latents = latent_dist.sample() * VAE_SCALING_FACTOR
                 video_latents = video_latents.permute(0, 2, 1, 3, 4)  # [B, F, C, H, W]
                 video_latents = video_latents.to(memory_format=torch.contiguous_format, dtype=weight_dtype)
+
+                trajectory_latents = trajectory_latent_dist.sample() * VAE_SCALING_FACTOR
+                trajectory_latents = trajectory_latents.permute(0, 2, 1, 3, 4)  # [B, F, C, H, W]
+                trajectory_latents = trajectory_latents.to(memory_format=torch.contiguous_format, dtype=weight_dtype)
 
                 padding_shape = (video_latents.shape[0], video_latents.shape[1] - 1, *video_latents.shape[2:])
                 latent_padding = image_latents.new_zeros(padding_shape)
@@ -756,6 +793,7 @@ def main(args):
                     ofs=ofs_emb,
                     image_rotary_emb=image_rotary_emb,
                     return_dict=False,
+                    trajectory_hidden_states=trajectory_latents,
                 )[0]
 
                 model_pred = scheduler.get_velocity(model_output, noisy_video_latents, timesteps)
@@ -882,7 +920,7 @@ def main(args):
         reset_memory(accelerator.device)
 
         # Final test inference
-        pipe = CogVideoXImageToVideoPipeline.from_pretrained(
+        pipe = CogVideoXTrajectoryImageToVideoPipeline.from_pretrained(
             args.pretrained_model_name_or_path,
             revision=args.revision,
             variant=args.variant,

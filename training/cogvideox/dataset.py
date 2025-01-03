@@ -144,7 +144,6 @@ class VideoDataset(Dataset):
             }
         else:
             image, video, _ = self._preprocess_video(self.video_paths[index])
-
             return {
                 "prompt": self.id_token + self.prompts[index],
                 "image": image,

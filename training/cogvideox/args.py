@@ -159,6 +159,12 @@ def _get_validation_args(parser: argparse.ArgumentParser) -> None:
         default=False,
         help="Whether or not to enable model-wise CPU offloading when performing validation/testing to save memory.",
     )
+    parser.add_argument(
+        "--validation_trajectory_maps",
+        type=str,
+        default=None,
+        help="Path to the trajectory maps for the validation videos.",
+    )
 
 
 def _get_training_args(parser: argparse.ArgumentParser) -> None:
