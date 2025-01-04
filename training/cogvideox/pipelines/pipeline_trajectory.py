@@ -872,8 +872,11 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
                 device,
                 generator,
             )
-            if do_trajectory_guidance:
-                trajectory_latents = torch.cat([torch.zeros_like(trajectory_latents), trajectory_latents, trajectory_latents], dim=0)
+            if do_classifier_free_guidance:
+                if do_trajectory_guidance:
+                    trajectory_latents = torch.cat([torch.zeros_like(trajectory_latents), trajectory_latents, trajectory_latents], dim=0)
+                else:
+                    trajectory_latents = torch.cat([trajectory_latents, trajectory_latents], dim=0)
 
         # 6. Prepare extra step kwargs. TODO: Logic should ideally just be moved out of the pipeline
         extra_step_kwargs = self.prepare_extra_step_kwargs(generator, eta)

@@ -177,6 +177,12 @@ def _get_validation_args(parser: argparse.ArgumentParser) -> None:
         default=None,
         help="Path to the trajectory maps for the validation videos.",
     )
+    parser.add_argument(
+        "--output_path",
+        type=str,
+        default="output.mp4",
+        help="Path to save the generated video.",
+    )
 
 
 def _get_training_args(parser: argparse.ArgumentParser) -> None:

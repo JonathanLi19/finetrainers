@@ -175,3 +175,5 @@ outputs*
 !requirements.txt
 
 video-dataset-disney/
+samples/
+output_trajectory/

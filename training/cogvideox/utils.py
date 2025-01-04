@@ -7,7 +7,11 @@ from accelerate import Accelerator
 from accelerate.logging import get_logger
 from diffusers.models.embeddings import get_3d_rotary_pos_embed
 from diffusers.utils.torch_utils import is_compiled_module
-
+import cv2
+import numpy as np
+import pandas as pd
+import os
+from torchvision.transforms.functional import resize
 
 logger = get_logger(__name__)
 
@@ -258,3 +262,24 @@ def unwrap_model(accelerator: Accelerator, model):
     model = accelerator.unwrap_model(model)
     model = model._orig_mod if is_compiled_module(model) else model
     return model
+
+def load_frames_as_tensor(trajectory_maps_path, num_frames, height, width):
+    # 获取所有的帧文件并排序（假设是png或jpg格式）
+    frame_names = sorted([f for f in os.listdir(trajectory_maps_path) if f.endswith(('.png', '.jpg'))])#[:num_frames]
+    indices = np.linspace(0, len(frame_names) - 1, num_frames, dtype=int)
+    frame_names = [frame_names[i] for i in indices]
+    assert len(frame_names) == num_frames
+    
+    # 读取图像并转换为Tensor，同时提取bounding box坐标
+    frames = []
+    for frame_file in frame_names:
+        frame_path = os.path.join(trajectory_maps_path, frame_file)
+        image = cv2.imread(frame_path, cv2.IMREAD_COLOR)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        image_tensor = torch.from_numpy(image).permute(2, 0, 1)  # [C, H, W]
+        frames.append(image_tensor)
+    
+    # 将帧列表堆叠成 (T, C, H, W) 的Tensor
+    frames_resized = torch.stack([resize(frame, (height, width)) for frame in frames], dim=0)
+
+    return frames_resized

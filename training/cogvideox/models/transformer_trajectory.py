@@ -644,91 +644,6 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
         if not return_dict:
             return (output,)
         return Transformer2DModelOutput(sample=output)
-    
-    # @classmethod
-    # def from_pretrained(cls, pretrained_model_name_or_path, **kwargs):
-    #     from diffusers import __version__
-    #     from huggingface_hub.constants import HF_HUB_CACHE
-    #     print(f"loading CogVideoXTransformer3DModel's pretrained weights from {pretrained_model_name_or_path} ...")
-
-    #     cache_dir = kwargs.pop("cache_dir", HF_HUB_CACHE)
-    #     force_download = kwargs.pop("force_download", False)
-    #     proxies = kwargs.pop("proxies", None)
-    #     local_files_only = kwargs.pop("local_files_only", None)
-    #     token = kwargs.pop("token", None)
-    #     revision = kwargs.pop("revision", None)
-    #     torch_dtype = kwargs.pop("torch_dtype", None)
-    #     subfolder = kwargs.pop("subfolder", None)
-    #     low_cpu_mem_usage = kwargs.pop("low_cpu_mem_usage", True)
-
-    #     # Load config if we don't provide a configuration
-    #     config_path = pretrained_model_name_or_path
-
-    #     user_agent = {
-    #         "diffusers": __version__,
-    #         "file_type": "model",
-    #         "framework": "pytorch",
-    #     }
-
-    #     # load config
-    #     config, unused_kwargs, commit_hash = cls.load_config(
-    #         config_path,
-    #         cache_dir=cache_dir,
-    #         return_unused_kwargs=True,
-    #         return_commit_hash=True,
-    #         force_download=force_download,
-    #         proxies=proxies,
-    #         local_files_only=local_files_only,
-    #         token=token,
-    #         revision=revision,
-    #         subfolder=subfolder,
-    #         user_agent=user_agent,
-    #         **kwargs,
-    #     )
-
-    #     config["_class_name"] = cls.__name__
-    #     # no in-place modification of the original config.
-    #     config = copy.deepcopy(config)
-    #     print(config)
-
-    #     # 2. 使用父类的配置初始化子类模型
-    #     start_time = time.time()
-    #     if low_cpu_mem_usage:
-    #         # Instantiate model with empty weights
-    #         with accelerate.init_empty_weights():
-    #             model = cls.from_config(config, **unused_kwargs)
-    #     end_time = time.time()
-    #     print(f"CogVideoXTrajectoryTransformer3DModel init time: {end_time - start_time}")
-
-    #     # 3. 加载父类的权重字典
-    #     start_time = time.time()
-    #     base_model_state_dict = CogVideoXTransformer3DModel.from_pretrained(
-    #         pretrained_model_name_or_path,
-    #         subfolder=subfolder,
-    #         torch_dtype=torch_dtype,
-    #         cache_dir=cache_dir,
-    #         **kwargs
-    #     ).state_dict()
-    #     end_time = time.time()
-    #     print(f"CogVideoXTransformer3DModel load time: {end_time - start_time}")
-
-    #     # 4. 只加载匹配的参数，跳过子类新增的模块
-    #     missing, unexpected = model.load_state_dict(base_model_state_dict, strict=False)
-    #     # if missing:
-    #     #     print(f"Missing keys (likely trajectory-related): {missing}")
-    #     # if unexpected:
-    #     #     print(f"Unexpected keys: {unexpected}")
-
-    #     # 5. 初始化新增的 trajectory 模块
-    #     for name, module in model.named_modules():
-    #         if "trajectory" in name:
-    #             model._init_weights(module)
-    #     params = [p.numel() if "trajectory" in n else 0 for n, p in model.named_parameters()]
-    #     print(f"### Trajectory Parameters: {sum(params) / 1e9} B")
-    #     params = [p.numel() for n, p in model.named_parameters()]
-    #     print(f"### Whole Parameters: {sum(params) / 1e9} B")
-
-    #     return model
 
     @classmethod
     def from_pretrained(cls, pretrained_model_name_or_path, **kwargs):
@@ -867,6 +782,11 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
             for name, module in trajectory_model.named_modules():
                 if "trajectory" in name:
                     trajectory_model._init_weights(module)
+                if "trajectory_proj_out" in name:
+                    torch.nn.init.constant_(module.weight, 0)
+                    if module.bias is not None:
+                        torch.nn.init.constant_(module.bias, 0)
+                        
             model = trajectory_model
 
         params = [p.numel() if "trajectory" in n else 0 for n, p in model.named_parameters()]
@@ -880,10 +800,5 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
     def _init_weights(self, module):
         if isinstance(module, torch.nn.Linear):
             torch.nn.init.xavier_uniform_(module.weight)
-            if module.bias is not None:
-                torch.nn.init.zeros_(module.bias)
-        # 2. 卷积层 (Conv) 初始化
-        elif isinstance(module, (nn.Conv1d, nn.Conv2d, nn.Conv3d)):
-            torch.nn.init.kaiming_normal_(module.weight, mode='fan_out', nonlinearity='relu')
             if module.bias is not None:
                 torch.nn.init.zeros_(module.bias)
