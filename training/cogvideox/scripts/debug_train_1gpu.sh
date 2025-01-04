@@ -1,11 +1,11 @@
 export TORCH_LOGS="+dynamo,recompiles,graph_breaks"
 export TORCHDYNAMO_VERBOSE=1
-export WANDB_MODE="online"
+export WANDB_MODE="offline"
 # export NCCL_P2P_DISABLE=1
 export TORCH_NCCL_ENABLE_MONITORING=0
 export TOKENIZERS_PARALLELISM=true
 export OMP_NUM_THREADS=16
-GPU_IDS="0,1,2,3"
+GPU_IDS="3"
 
 # Training Configurations
 # Experiment with as many hyperparameters as you want!
@@ -15,12 +15,13 @@ OPTIMIZERS=("adamw")
 MAX_TRAIN_STEPS=("10000")
 
 # Single GPU uncompiled training
-ACCELERATE_CONFIG_FILE="accelerate_configs/deepspeed.yaml"
+# ACCELERATE_CONFIG_FILE="accelerate_configs/my_config.yaml"
+ACCELERATE_CONFIG_FILE="accelerate_configs/uncompiled_1.yaml"
 
 # Absolute path to where the data is located. Make sure to have read the README for how to prepare data.
 # This example assumes you downloaded an already prepared dataset from HF CLI as follows:
 #   huggingface-cli download --repo-type dataset Wild-Heart/Disney-VideoGeneration-Dataset --local-dir /path/to/my/datasets/disney-dataset
-DATA_ROOT="/home/qid/quanhao/workspace/Open-Sora/data/DAVIS/DAVIS_data.csv"
+DATA_ROOT="/home/qid/quanhao/workspace/Open-Sora/data/DAVIS/DAVIS_data_mini.csv"
 MODEL_PATH="THUDM/CogVideoX-5b-I2V"
 TRAJECTORY_MAPS_TYPE="mask"
 frame_interval=1
@@ -32,7 +33,7 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
   for lr_schedule in "${LR_SCHEDULES[@]}"; do
     for optimizer in "${OPTIMIZERS[@]}"; do
       for steps in "${MAX_TRAIN_STEPS[@]}"; do
-        output_dir="./output_trajectory/deepspeed/mask/cogvideox-sft__optimizer_${optimizer}__steps_${steps}__lr-schedule_${lr_schedule}__learning-rate_${learning_rate}/"
+        output_dir="./output_trajectory/mask/cogvideox-sft__optimizer_${optimizer}__steps_${steps}__lr-schedule_${lr_schedule}__learning-rate_${learning_rate}/"
 
         cmd="accelerate launch --config_file $ACCELERATE_CONFIG_FILE\
           --gpu_ids $GPU_IDS \
@@ -46,6 +47,12 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --frame_buckets 49 \
           --dataloader_num_workers 8 \
           --pin_memory \
+          --validation_prompt \"A boat sailing in the river.\" \
+          --validation_images \"/home/qid/quanhao/workspace/Open-Sora/assets/images/condition/boat.png\" \
+          --validation_prompt_separator ::: \
+          --num_validation_videos 1 \
+          --validation_steps 50 \
+          --validation_trajectory_maps \"/home/qid/quanhao/workspace/Open-Sora/assets/mask_trajectory/boat/moved_mask_right\" \
           --seed 42 \
           --mixed_precision bf16 \
           --output_dir $output_dir \
@@ -69,7 +76,8 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --max_grad_norm 1.0 \
           --allow_tf32 \
           --report_to wandb \
-          --nccl_timeout 1800 "
+          --nccl_timeout 1800 \
+          --use_cpu_offload_optimizer "
         
         echo "Running command: $cmd"
         eval $cmd

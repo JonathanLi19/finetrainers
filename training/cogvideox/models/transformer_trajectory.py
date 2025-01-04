@@ -30,7 +30,7 @@ from diffusers.models.modeling_utils import ModelMixin
 from diffusers.models.normalization import AdaLayerNorm, CogVideoXLayerNormZero
 from diffusers.models.transformers import CogVideoXTransformer3DModel
 from models.embeddings import CogVideoXTrajectoryPatchEmbed
-import time
+from utils import save_hidden_states_as_images
 
 if is_accelerate_available():
     import accelerate
@@ -279,7 +279,7 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
         self.trajectory_patch_embed = CogVideoXTrajectoryPatchEmbed(
             patch_size=patch_size,
             patch_size_t=patch_size_t,
-            in_channels=in_channels,
+            in_channels=in_channels // 2,
             embed_dim=inner_dim,
             text_embed_dim=text_embed_dim,
             bias=patch_bias,
@@ -341,18 +341,15 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
                 for _ in range(num_layers)
             ]
         )
+        self.trajectory_adapters = nn.ModuleList(
+            [
+                nn.Linear(inner_dim, inner_dim) for _ in range(num_layers)
+            ]
+        )
         self.norm_final = nn.LayerNorm(inner_dim, norm_eps, norm_elementwise_affine)
-        self.trajectory_norm_final = nn.LayerNorm(inner_dim, norm_eps, norm_elementwise_affine)
 
         # 4. Output blocks
         self.norm_out = AdaLayerNorm(
-            embedding_dim=time_embed_dim,
-            output_dim=2 * inner_dim,
-            norm_elementwise_affine=norm_elementwise_affine,
-            norm_eps=norm_eps,
-            chunk_dim=1,
-        )
-        self.trajectory_norm_out = AdaLayerNorm(
             embedding_dim=time_embed_dim,
             output_dim=2 * inner_dim,
             norm_elementwise_affine=norm_elementwise_affine,
@@ -368,9 +365,11 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
             output_dim = patch_size * patch_size * patch_size_t * out_channels
 
         self.proj_out = nn.Linear(inner_dim, output_dim)
-        self.trajectory_proj_out = nn.Linear(inner_dim, output_dim)
 
         self.gradient_checkpointing = False
+
+
+        self.initialize_weights()
 
     def _set_gradient_checkpointing(self, module, value=False):
         self.gradient_checkpointing = value
@@ -505,9 +504,6 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
 
         batch_size, num_frames, channels, height, width = hidden_states.shape
         # print(hidden_states.shape) # torch.Size([1, 13, 32, 60, 90])  
-        # if trajectory_hidden_states is not None:
-        #     print(trajectory_hidden_states.shape) # torch.Size([1, 13, 16, 60, 90])  
-        # print("encoder_hidden_states", encoder_hidden_states.shape) # torch.Size([2, 226, 4096])
 
         # 1. Time embedding
         timesteps = timestep
@@ -525,56 +521,24 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
             ofs_emb = self.ofs_embedding(ofs_emb)
             emb = emb + ofs_emb
 
-        # print("time_embed", emb.shape) # torch.Size([2, 512])
-
         # 2. Patch embedding
-        hidden_states_text = self.patch_embed(encoder_hidden_states, hidden_states)
-        hidden_states_text = self.embedding_dropout(hidden_states_text)
+        hidden_states = self.patch_embed(encoder_hidden_states, hidden_states)
+        hidden_states = self.embedding_dropout(hidden_states)
 
         text_seq_length = encoder_hidden_states.shape[1]
-        encoder_hidden_states = hidden_states_text[:, :text_seq_length]
-        hidden_states_text = hidden_states_text[:, text_seq_length:]
-        # print("hidden_states", hidden_states.shape) # hidden_states torch.Size([2, 33792, 3072])
+        encoder_hidden_states = hidden_states[:, :text_seq_length]
+        hidden_states = hidden_states[:, text_seq_length:]
+        # print("hidden_states", hidden_states.shape) # hidden_states torch.Size([2, 17550, 3072])
         # print("encoder_hidden_states", encoder_hidden_states.shape) # encoder_hidden_states torch.Size([2, 226, 3072])
 
         # Trajectory Patch Embedding
         if trajectory_hidden_states is not None:
-            hidden_states_trajectory = self.trajectory_patch_embed(trajectory_hidden_states, hidden_states)
-            hidden_states_trajectory = self.embedding_dropout(hidden_states_trajectory)
-
-            trajectory_seq_length = hidden_states_trajectory.shape[1] // 2
-            trajectory_hidden_states = hidden_states_trajectory[:, :trajectory_seq_length]
-            hidden_states_trajectory = hidden_states_trajectory[:, trajectory_seq_length:]
+            trajectory_hidden_states = self.trajectory_patch_embed(trajectory_hidden_states)
+            trajectory_hidden_states = self.embedding_dropout(trajectory_hidden_states)
 
         # 3. Transformer blocks
-        for i, block in enumerate(self.transformer_blocks):
-            if torch.is_grad_enabled() and self.gradient_checkpointing:
-
-                def create_custom_forward(module):
-                    def custom_forward(*inputs):
-                        return module(*inputs)
-
-                    return custom_forward
-
-                ckpt_kwargs: Dict[str, Any] = {"use_reentrant": False} if is_torch_version(">=", "1.11.0") else {}
-                hidden_states_text, encoder_hidden_states = torch.utils.checkpoint.checkpoint(
-                    create_custom_forward(block),
-                    hidden_states_text,
-                    encoder_hidden_states,
-                    emb,
-                    image_rotary_emb,
-                    **ckpt_kwargs,
-                )
-            else:
-                hidden_states_text, encoder_hidden_states = block(
-                    hidden_states=hidden_states_text,
-                    encoder_hidden_states=encoder_hidden_states,
-                    temb=emb,
-                    image_rotary_emb=image_rotary_emb,
-                )
-
         if trajectory_hidden_states is not None:
-            for i, block in enumerate(self.trajectory_transformer_blocks):
+            for i, (block, trajectory_block, trajectory_adapter) in enumerate(zip(self.transformer_blocks, self.trajectory_transformer_blocks, self.trajectory_adapters)):
                 if torch.is_grad_enabled() and self.gradient_checkpointing:
 
                     def create_custom_forward(module):
@@ -584,46 +548,80 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
                         return custom_forward
 
                     ckpt_kwargs: Dict[str, Any] = {"use_reentrant": False} if is_torch_version(">=", "1.11.0") else {}
+
+                    hidden_states_text, encoder_hidden_states = torch.utils.checkpoint.checkpoint(
+                        create_custom_forward(block),
+                        hidden_states,
+                        encoder_hidden_states,
+                        emb,
+                        image_rotary_emb,
+                        **ckpt_kwargs,
+                    )
                     hidden_states_trajectory, trajectory_hidden_states = torch.utils.checkpoint.checkpoint(
                         create_custom_forward(block),
-                        hidden_states_trajectory,
+                        hidden_states,
                         trajectory_hidden_states,
                         emb,
                         image_rotary_emb,
                         **ckpt_kwargs,
                     )
+                    hidden_states = hidden_states_text + trajectory_adapter(hidden_states_trajectory)
                 else:
-                    hidden_states_trajectory, trajectory_hidden_states = block(
-                        hidden_states=hidden_states_trajectory,
+                    hidden_states_text, encoder_hidden_states = block(
+                        hidden_states=hidden_states,
+                        encoder_hidden_states=encoder_hidden_states,
+                        temb=emb,
+                        image_rotary_emb=image_rotary_emb,
+                    )
+                    hidden_states_trajectory, trajectory_hidden_states = trajectory_block(
+                        hidden_states=hidden_states,
                         encoder_hidden_states=trajectory_hidden_states,
                         temb=emb,
                         image_rotary_emb=image_rotary_emb,
                     )
+                    hidden_states = hidden_states_text + trajectory_adapter(hidden_states_trajectory)
+        else:
+            hidden_states = hidden_states_text
+            for i, block in enumerate(self.transformer_blocks):
+                if torch.is_grad_enabled() and self.gradient_checkpointing:
+
+                    def create_custom_forward(module):
+                        def custom_forward(*inputs):
+                            return module(*inputs)
+
+                        return custom_forward
+
+                    ckpt_kwargs: Dict[str, Any] = {"use_reentrant": False} if is_torch_version(">=", "1.11.0") else {}
+                    hidden_states, encoder_hidden_states = torch.utils.checkpoint.checkpoint(
+                        create_custom_forward(block),
+                        hidden_states,
+                        encoder_hidden_states,
+                        emb,
+                        image_rotary_emb,
+                        **ckpt_kwargs,
+                    )
+                else:
+                    hidden_states, encoder_hidden_states = block(
+                        hidden_states=hidden_states,
+                        encoder_hidden_states=encoder_hidden_states,
+                        temb=emb,
+                        image_rotary_emb=image_rotary_emb,
+                    )
+
 
         if not self.config.use_rotary_positional_embeddings:
             # CogVideoX-2B
-            hidden_states_text = self.norm_final(hidden_states_text)
-            if trajectory_hidden_states is not None:
-                hidden_states_trajectory = self.trajectory_norm_final(hidden_states_trajectory)
+            hidden_states = self.norm_final(hidden_states)
         else:
             # CogVideoX-5B
-            hidden_states_text = torch.cat([encoder_hidden_states, hidden_states_text], dim=1)
-            hidden_states_text = self.norm_final(hidden_states_text)
-            hidden_states_text = hidden_states_text[:, text_seq_length:]
-
-            if trajectory_hidden_states is not None:
-                hidden_states_trajectory = torch.cat([trajectory_hidden_states, hidden_states_trajectory], dim=1)
-                hidden_states_trajectory = self.trajectory_norm_final(hidden_states_trajectory)
-                hidden_states_trajectory = hidden_states_trajectory[:, trajectory_seq_length:]
+            hidden_states = torch.cat([encoder_hidden_states, hidden_states], dim=1)
+            hidden_states = self.norm_final(hidden_states)
+            hidden_states = hidden_states[:, text_seq_length:]
 
         # 4. Final block
-        hidden_states_text = self.norm_out(hidden_states_text, temb=emb)
-        hidden_states = self.proj_out(hidden_states_text)
-        if trajectory_hidden_states is not None:
-            hidden_states_trajectory = self.trajectory_norm_out(hidden_states_trajectory, temb=emb)
-            hidden_states_trajectory = self.trajectory_proj_out(hidden_states_trajectory)
-            hidden_states += hidden_states_trajectory
-        
+        hidden_states = self.norm_out(hidden_states, temb=emb)
+        hidden_states = self.proj_out(hidden_states)
+
         # 5. Unpatchify
         p = self.config.patch_size
         p_t = self.config.patch_size_t
@@ -651,7 +649,7 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
         from diffusers.utils import _get_checkpoint_shard_files
         from diffusers.models.modeling_utils import _fetch_index_file, _fetch_index_file_legacy, _determine_device_map
         from huggingface_hub.constants import HF_HUB_CACHE
-        print(f"loading CogVideoXTransformer3DModel's pretrained weights from {pretrained_model_name_or_path} ...")
+        print(f"loading transformer's pretrained weights from {pretrained_model_name_or_path} ...")
 
         cache_dir = kwargs.pop("cache_dir", None)
         ignore_mismatched_sizes = kwargs.pop("ignore_mismatched_sizes", False)
@@ -779,14 +777,6 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
         else:
             trajectory_model = cls.from_config(config, **unused_kwargs)
             missing, unexpected = trajectory_model.load_state_dict(model.state_dict(), strict=False)
-            for name, module in trajectory_model.named_modules():
-                if "trajectory" in name:
-                    trajectory_model._init_weights(module)
-                if "trajectory_proj_out" in name:
-                    torch.nn.init.constant_(module.weight, 0)
-                    if module.bias is not None:
-                        torch.nn.init.constant_(module.bias, 0)
-                        
             model = trajectory_model
 
         params = [p.numel() if "trajectory" in n else 0 for n, p in model.named_parameters()]
@@ -796,9 +786,16 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
 
         return model
 
-    # 自定义权重初始化函数
-    def _init_weights(self, module):
-        if isinstance(module, torch.nn.Linear):
-            torch.nn.init.xavier_uniform_(module.weight)
-            if module.bias is not None:
-                torch.nn.init.zeros_(module.bias)
+    def initialize_weights(self):
+        # Initialize transformer layers:
+        def _basic_init(module):
+            if isinstance(module, nn.Linear):
+                torch.nn.init.xavier_uniform_(module.weight)
+                if module.bias is not None:
+                    nn.init.constant_(module.bias, 0)
+
+        self.apply(_basic_init)
+
+        for layer in self.trajectory_adapters:
+            nn.init.zeros_(layer.weight)  # 将卷积核初始化为0
+            nn.init.zeros_(layer.bias)    # 将偏置初始化为0

@@ -36,20 +36,15 @@ class CogVideoXTrajectoryPatchEmbed(nn.Module):
         self.temporal_interpolation_scale = temporal_interpolation_scale
         self.use_positional_embeddings = use_positional_embeddings
         self.use_learned_positional_embeddings = use_learned_positional_embeddings
-        trajectory_in_channels = in_channels // 2
 
         if patch_size_t is None:
             # CogVideoX 1.0 checkpoints
-            self.proj = nn.Conv2d(
-                in_channels, embed_dim, kernel_size=(patch_size, patch_size), stride=patch_size, bias=bias
-            )
             self.trajectory_proj = nn.Conv2d(
-                trajectory_in_channels, embed_dim, kernel_size=(patch_size, patch_size), stride=patch_size, bias=bias
+                in_channels, embed_dim, kernel_size=(patch_size, patch_size), stride=patch_size, bias=bias
             )
         else:
             # CogVideoX 1.5 checkpoints
-            self.proj = nn.Linear(in_channels * patch_size * patch_size * patch_size_t, embed_dim)
-            self.trajectory_proj = nn.Linear(trajectory_in_channels * patch_size * patch_size * patch_size_t, embed_dim)
+            self.trajectory_proj = nn.Linear(in_channels * patch_size * patch_size * patch_size_t, embed_dim)
 
         if use_positional_embeddings or use_learned_positional_embeddings:
             persistent = use_learned_positional_embeddings
@@ -75,14 +70,13 @@ class CogVideoXTrajectoryPatchEmbed(nn.Module):
         )
         pos_embedding = pos_embedding.flatten(0, 1)
         joint_pos_embedding = pos_embedding.new_zeros(
-            1, num_patches + num_patches, self.embed_dim, requires_grad=False
+            1, num_patches, self.embed_dim, requires_grad=False
         )
         joint_pos_embedding.data[:, : num_patches].copy_(pos_embedding)
-        joint_pos_embedding.data[:, num_patches :].copy_(pos_embedding)
 
         return joint_pos_embedding
 
-    def forward(self, trajectory_embeds: torch.Tensor, image_embeds: torch.Tensor):
+    def forward(self, trajectory_embeds: torch.Tensor):
         r"""
         Args:
             trajectory_embeds (`torch.Tensor`):
@@ -90,17 +84,10 @@ class CogVideoXTrajectoryPatchEmbed(nn.Module):
             image_embeds (`torch.Tensor`):
                 Input image embeddings. Expected shape: (batch_size, num_frames, channels, height, width).
         """
-        batch_size, num_frames, channels, height, width = image_embeds.shape
-        trajectory_channels = trajectory_embeds.shape[2]
+        batch_size, num_frames, channels, height, width = trajectory_embeds.shape
 
         if self.patch_size_t is None:
-            image_embeds = image_embeds.reshape(-1, channels, height, width)
-            image_embeds = self.proj(image_embeds)
-            image_embeds = image_embeds.view(batch_size, num_frames, *image_embeds.shape[1:])
-            image_embeds = image_embeds.flatten(3).transpose(2, 3)  # [batch, num_frames, height x width, channels]
-            image_embeds = image_embeds.flatten(1, 2)  # [batch, num_frames x height x width, channels]
-
-            trajectory_embeds = trajectory_embeds.reshape(-1, trajectory_channels, height, width)
+            trajectory_embeds = trajectory_embeds.reshape(-1, channels, height, width)
             trajectory_embeds = self.trajectory_proj(trajectory_embeds)
             trajectory_embeds = trajectory_embeds.view(batch_size, num_frames, *trajectory_embeds.shape[1:])
             trajectory_embeds = trajectory_embeds.flatten(3).transpose(2, 3)  # [batch, num_frames, height x width, channels]
@@ -109,23 +96,14 @@ class CogVideoXTrajectoryPatchEmbed(nn.Module):
             p = self.patch_size
             p_t = self.patch_size_t
 
-            image_embeds = image_embeds.permute(0, 1, 3, 4, 2)
-            image_embeds = image_embeds.reshape(
-                batch_size, num_frames // p_t, p_t, height // p, p, width // p, p, channels
-            )
-            image_embeds = image_embeds.permute(0, 1, 3, 5, 7, 2, 4, 6).flatten(4, 7).flatten(1, 3)
-            image_embeds = self.proj(image_embeds)
-
             trajectory_embeds = trajectory_embeds.permute(0, 1, 3, 4, 2)
             trajectory_embeds = trajectory_embeds.reshape(
-                batch_size, num_frames // p_t, p_t, height // p, p, width // p, p, trajectory_channels
+                batch_size, num_frames // p_t, p_t, height // p, p, width // p, p, channels
             )
             trajectory_embeds = trajectory_embeds.permute(0, 1, 3, 5, 7, 2, 4, 6).flatten(4, 7).flatten(1, 3)
             trajectory_embeds = self.trajectory_proj(trajectory_embeds)
 
-        embeds = torch.cat(
-            [trajectory_embeds, image_embeds], dim=1
-        ).contiguous()  # [batch, 2 x num_frames x height x width, channels]
+        embeds = trajectory_embeds  # [batch, num_frames x height x width, channels]
 
         if self.use_positional_embeddings or self.use_learned_positional_embeddings:
             if self.use_learned_positional_embeddings and (self.sample_width != width or self.sample_height != height):

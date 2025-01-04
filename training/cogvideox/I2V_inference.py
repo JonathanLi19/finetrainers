@@ -26,12 +26,12 @@ from models.transformer_trajectory import CogVideoXTrajectoryTransformer3DModel
 
 def main(args):
     model_card = "THUDM/CogVideoX-5b-I2V"
-    output_path = "output/inference/rocket_landing_v1.mp4"
+    output_path = "samples/rocket_landing_v1.mp4"
     
     tokenizer    = T5Tokenizer.from_pretrained(model_card, subfolder="tokenizer")
     text_encoder = T5EncoderModel.from_pretrained(model_card, subfolder="text_encoder").cuda()
     vae          = AutoencoderKLCogVideoX.from_pretrained(model_card, subfolder="vae").cuda()
-    transformer  = CogVideoXTrajectoryTransformer3DModel.from_pretrained(args.pretrained_model_name_or_path, subfolder="transformer", torch_dtype=torch.bfloat16)
+    transformer  = CogVideoXTrajectoryTransformer3DModel.from_pretrained(model_card, subfolder="transformer", torch_dtype=torch.bfloat16)
     scheduler    = CogVideoXDPMScheduler.from_pretrained(model_card, subfolder="scheduler")
     pipe         = CogVideoXTrajectoryImageToVideoPipeline(vae=vae, text_encoder=text_encoder, tokenizer=tokenizer, transformer=transformer, scheduler=scheduler).to(torch.bfloat16)
 
@@ -67,12 +67,8 @@ def main(args):
 
             video_generate = pipe(
                 **pipeline_args,
-                num_videos_per_prompt=1,  # Number of videos to generate per prompt
-                num_inference_steps=50,  # Number of inference steps
-                num_frames=num_frames,  # Number of frames to generate
-                generator=torch.Generator().manual_seed(args.seed),  # Set the seed for reproducibility
-                trajectory_maps=torch.zeros(num_frames, 3, args.height, args.width),  # Set the trajectory map to zeros
-                trajectory_guidance_scale=2,
+                generator=torch.Generator(device=pipe.device).manual_seed(args.seed),  # Set the seed for reproducibility
+                output_type="np",
             ).frames[0]
 
             export_to_video(video_generate, output_path, fps=fps)

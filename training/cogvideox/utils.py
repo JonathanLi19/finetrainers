@@ -283,3 +283,36 @@ def load_frames_as_tensor(trajectory_maps_path, num_frames, height, width):
     frames_resized = torch.stack([resize(frame, (height, width)) for frame in frames], dim=0)
 
     return frames_resized
+
+
+def save_hidden_states_as_images(hidden_states_text, save_dir, T, H, W):
+    from sklearn.decomposition import PCA
+    # 确保保存路径存在
+    os.makedirs(save_dir, exist_ok=True)
+
+    # 1. 确保输入是 [B, L, C]，其中 L = T * H * W
+    B, L, C = hidden_states_text.shape
+    assert L == T * H * W, "L 必须等于 T * H * W"
+    
+    # 2. 使用 PCA 将 C 降维到 3
+    for b in range(B):
+        # 将当前 batch 转换为 numpy 数组
+        data = hidden_states_text[b].detach().float().cpu().numpy()  # [L, C]
+        
+        # 应用 PCA 降维到 3
+        pca = PCA(n_components=3)
+        reduced_data = pca.fit_transform(data)  # [L, 3]
+        
+        # 3. 重塑为 [T, H, W, 3]
+        frames = reduced_data.reshape(T, H, W, 3)
+
+        # 4. 归一化到 [0, 255]
+        frames = (frames - frames.min()) / (frames.max() - frames.min() + 1e-8) * 255
+        frames = frames.astype(np.uint8)
+
+        # 5. 保存每一帧图片
+        for t in range(T):
+            frame = frames[t]
+            save_path = os.path.join(save_dir, f"batch_{b}_frame_{t}.png")
+            cv2.imwrite(save_path, cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
+            print(f"Saved: {save_path}")

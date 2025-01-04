@@ -67,12 +67,14 @@ def main(args):
                 "height": args.height,
                 "width": args.width,
                 "max_sequence_length": model_config.max_text_seq_length,
-                "trajectory_maps": load_frames_as_tensor(validation_trajectory_map, num_frames, args.height, args.width),
+                # "trajectory_maps": load_frames_as_tensor(validation_trajectory_map, num_frames, args.height, args.width),
+                "trajectory_maps": torch.zeros(num_frames, 3, args.height, args.width),
                 "trajectory_guidance_scale": 2,
             }
 
             video_generate = pipe(
                 **pipeline_args,
+                num_frames=num_frames,
                 generator=torch.Generator(device=pipe.device).manual_seed(args.seed),  # Set the seed for reproducibility
                 output_type="np",
             ).frames[0]

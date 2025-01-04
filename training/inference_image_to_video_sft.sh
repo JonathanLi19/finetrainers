@@ -5,7 +5,7 @@ export NCCL_P2P_DISABLE=1
 export TORCH_NCCL_ENABLE_MONITORING=0
 export TOKENIZERS_PARALLELISM=False
 export CUDA_VISIBLE_DEVICES=3
-MODEL_PATH="output_trajectory/cogvideox-sft__optimizer_adamw__steps_1000__lr-schedule_cosine_with_restarts__learning-rate_1e-4/checkpoint-700"
+MODEL_PATH="THUDM/CogVideoX-5b-I2V"
 
 python training/cogvideox/I2V_inference.py \
     --pretrained_model_name_or_path  $MODEL_PATH \
