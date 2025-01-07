@@ -37,7 +37,7 @@ from .constants import (
     PRECOMPUTED_DIR_NAME,
     PRECOMPUTED_LATENTS_DIR_NAME,
 )
-from .dataset import BucketSampler, PrecomputedDataset, VideoDatasetWithResizing
+from .dataset import BucketSampler, ImageOrVideoDatasetWithResizing, PrecomputedDataset
 from .models import get_config_from_model_name
 from .state import State
 from .utils.checkpointing import get_intermediate_ckpt_path, get_latest_ckpt_path_to_resume_from
@@ -50,6 +50,7 @@ from .utils.diffusion_utils import (
     prepare_target,
 )
 from .utils.file_utils import string_to_filename
+from .utils.hub_utils import save_model_card
 from .utils.memory_utils import free_memory, get_memory_statistics, make_contiguous
 from .utils.model_utils import resolve_vae_cls_from_ckpt_path
 from .utils.optimizer_utils import get_optimizer
@@ -102,13 +103,14 @@ class Trainer:
         # TODO(aryan): Make a background process for fetching
         logger.info("Initializing dataset and dataloader")
 
-        self.dataset = VideoDatasetWithResizing(
+        self.dataset = ImageOrVideoDatasetWithResizing(
             data_root=self.args.data_root,
             caption_column=self.args.caption_column,
             video_column=self.args.video_column,
             resolution_buckets=self.args.video_resolution_buckets,
             dataset_file=self.args.dataset_file,
             id_token=self.args.id_token,
+            remove_llm_prefixes=self.args.remove_common_llm_caption_prefixes,
         )
         self.dataloader = torch.utils.data.DataLoader(
             self.dataset,
@@ -126,6 +128,7 @@ class Trainer:
             "text_encoder_3_dtype": self.args.text_encoder_3_dtype,
             "transformer_dtype": self.args.transformer_dtype,
             "vae_dtype": self.args.vae_dtype,
+            "shift": self.args.flow_shift,
             "revision": self.args.revision,
             "cache_dir": self.args.cache_dir,
         }
@@ -824,13 +827,13 @@ class Trainer:
                             )
                             accelerator.save_state(save_path)
 
-                # Maybe run validation
-                should_run_validation = (
-                    self.args.validation_every_n_steps is not None
-                    and global_step % self.args.validation_every_n_steps == 0
-                )
-                if should_run_validation:
-                    self.validate(global_step)
+                    # Maybe run validation
+                    should_run_validation = (
+                        self.args.validation_every_n_steps is not None
+                        and global_step % self.args.validation_every_n_steps == 0
+                    )
+                    if should_run_validation:
+                        self.validate(global_step)
 
                 logs["loss"] = loss.detach().item()
                 logs["lr"] = self.lr_scheduler.get_last_lr()[0]
@@ -870,8 +873,7 @@ class Trainer:
                     repo_id=self.state.repo_id, folder_path=self.args.output_dir, ignore_patterns=["checkpoint-*"]
                 )
 
-        del self.tokenizer, self.text_encoder, self.transformer, self.vae, self.scheduler
-        free_memory()
+        self._delete_components()
         memory_statistics = get_memory_statistics()
         logger.info(f"Memory after training end: {json.dumps(memory_statistics, indent=4)}")
 
@@ -923,6 +925,7 @@ class Trainer:
             pipeline.load_lora_weights(self.args.output_dir)
 
         all_processes_artifacts = []
+        prompts_to_filenames = {}
         for i in range(num_validation_samples):
             # Skip current validation on all processes but one
             if i % accelerator.num_processes != accelerator.process_index:
@@ -953,7 +956,9 @@ class Trainer:
                 width=width,
                 num_frames=num_frames,
                 num_videos_per_prompt=self.args.num_validation_videos_per_prompt,
-                generator=self.state.generator,
+                generator=torch.Generator(device=accelerator.device).manual_seed(
+                    self.args.seed if self.args.seed is not None else 0
+                ),
                 # todo support passing `fps` for supported pipelines.
             )
 
@@ -969,14 +974,17 @@ class Trainer:
                 main_process_only=False,
             )
 
-            for key, value in list(artifacts.items()):
+            for index, (key, value) in enumerate(list(artifacts.items())):
                 artifact_type = value["type"]
                 artifact_value = value["value"]
                 if artifact_type not in ["image", "video"] or artifact_value is None:
                     continue
 
                 extension = "png" if artifact_type == "image" else "mp4"
-                filename = f"validation-{step}-{accelerator.process_index}-{prompt_filename}.{extension}"
+                filename = "validation-" if not final_validation else "final-"
+                filename += f"{step}-{accelerator.process_index}-{index}-{prompt_filename}.{extension}"
+                if accelerator.is_main_process and extension == "mp4":
+                    prompts_to_filenames[prompt] = filename
                 filename = os.path.join(self.args.output_dir, filename)
 
                 if artifact_type == "image":
@@ -1005,6 +1013,15 @@ class Trainer:
                         },
                         step=step,
                     )
+            if self.args.push_to_hub and final_validation:
+                video_filenames = list(prompts_to_filenames.values())
+                prompts = list(prompts_to_filenames.keys())
+                save_model_card(
+                    args=self.args,
+                    repo_id=self.state.repo_id,
+                    videos=video_filenames,
+                    validation_prompts=prompts,
+                )
 
         # Remove all hooks that might have been added during pipeline initialization to the models
         pipeline.remove_all_hooks()
