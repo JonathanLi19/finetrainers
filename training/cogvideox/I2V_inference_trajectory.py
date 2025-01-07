@@ -67,9 +67,9 @@ def main(args):
                 "height": args.height,
                 "width": args.width,
                 "max_sequence_length": model_config.max_text_seq_length,
-                # "trajectory_maps": load_frames_as_tensor(validation_trajectory_map, num_frames, args.height, args.width),
-                "trajectory_maps": torch.zeros(num_frames, 3, args.height, args.width),
-                "trajectory_guidance_scale": 2,
+                "trajectory_maps": load_frames_as_tensor(validation_trajectory_map, num_frames, args.height, args.width),
+                # "trajectory_maps": torch.zeros(num_frames, 3, args.height, args.width),
+                "trajectory_guidance_scale": args.trajectory_guidance_scale,
             }
 
             video_generate = pipe(

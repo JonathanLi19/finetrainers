@@ -50,7 +50,7 @@ from huggingface_hub import create_repo, upload_folder
 from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
 from transformers import AutoTokenizer, T5EncoderModel
-
+from utils import save_tensor_as_video
 
 from args import get_args  # isort:skip
 from dataset import BucketSampler, VideoDatasetWithResizing, VideoDatasetWithResizeAndRectangleCrop  # isort:skip
@@ -662,6 +662,8 @@ def main(args):
                 images = batch["images"].to(accelerator.device, non_blocking=True)
                 videos = batch["videos"].to(accelerator.device, non_blocking=True)
                 prompts = batch["prompts"]
+                export_to_video(videos[0].detach().float().cpu().numpy().transpose(0, 2, 3, 1), "visualization/debug/I2V_video_train.mp4")
+                save_tensor_as_video(videos[0], "visualization/debug/I2V_video_train_1.mp4")
                 # print(images.shape, videos.shape, prompts) # torch.Size([1, 1, 3, 480, 720]) torch.Size([1, 49, 3, 480, 720])
 
                 # Encode videos

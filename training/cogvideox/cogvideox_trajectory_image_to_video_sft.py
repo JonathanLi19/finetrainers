@@ -60,6 +60,8 @@ from utils import (
     reset_memory,
     unwrap_model,
     load_frames_as_tensor,
+    save_tensor_as_images_with_pca,
+    save_tensor_as_video
 )
 from models.transformer_trajectory import CogVideoXTrajectoryTransformer3DModel
 from pipelines.pipeline_trajectory import CogVideoXTrajectoryImageToVideoPipeline
@@ -214,7 +216,7 @@ def run_validation(
             "width": args.width,
             "max_sequence_length": model_config.max_text_seq_length,
             "trajectory_maps": load_frames_as_tensor(validation_trajectory_map, args.max_num_frames, args.height, args.width), # [args.max_num_frames, 3, args.height, args.width]
-            "trajectory_guidance_scale": 2,
+            "trajectory_guidance_scale": args.trajectory_guidance_scale,
         }
 
         log_validation(
@@ -669,6 +671,10 @@ def main(args):
                 prompts = batch["prompts"]
                 trajectory_maps = batch["trajectory_maps"].to(accelerator.device, non_blocking=True)
                 assert trajectory_maps.shape == videos.shape
+                export_to_video(videos[0].detach().float().cpu().numpy().transpose(0, 2, 3, 1), "visualization/debug/video_train.mp4")
+                save_tensor_as_video(videos[0], "visualization/debug/video_train_1.mp4")
+                export_to_video(trajectory_maps[0].detach().float().cpu().numpy().transpose(0, 2, 3, 1), "visualization/debug/trajectory_maps_train.mp4")
+                save_tensor_as_video(trajectory_maps[0], "visualization/debug/trajectory_maps_train_1.mp4")
                 # print(images.shape, videos.shape) # torch.Size([1, 1, 3, 480, 720]) torch.Size([1, 49, 3, 480, 720])
 
                 # Encode videos
@@ -700,6 +706,8 @@ def main(args):
                 trajectory_latents = trajectory_latent_dist.sample() * VAE_SCALING_FACTOR
                 trajectory_latents = trajectory_latents.permute(0, 2, 1, 3, 4)  # [B, F, C, H, W]
                 trajectory_latents = trajectory_latents.to(memory_format=torch.contiguous_format, dtype=weight_dtype)
+                save_tensor_as_images_with_pca(trajectory_latents, "visualization/debug/trajectory_latents_train")
+                assert 0
 
                 padding_shape = (video_latents.shape[0], video_latents.shape[1] - 1, *video_latents.shape[2:])
                 latent_padding = image_latents.new_zeros(padding_shape)

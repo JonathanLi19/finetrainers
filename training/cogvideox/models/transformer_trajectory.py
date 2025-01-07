@@ -30,13 +30,13 @@ from diffusers.models.modeling_utils import ModelMixin
 from diffusers.models.normalization import AdaLayerNorm, CogVideoXLayerNormZero
 from diffusers.models.transformers import CogVideoXTransformer3DModel
 from models.embeddings import CogVideoXTrajectoryPatchEmbed
+from models.attention_processor import CogVideoXTrajectoryAttnProcessor2_0
 from utils import save_hidden_states_as_images
 
 if is_accelerate_available():
     import accelerate
 
 logger = logging.get_logger(__name__)  # pylint: disable=invalid-name
-
 
 @maybe_allow_in_graph
 class CogVideoXTrajectoryBlock(nn.Module):
@@ -95,6 +95,7 @@ class CogVideoXTrajectoryBlock(nn.Module):
 
         # 1. Self Attention
         self.norm1 = CogVideoXLayerNormZero(time_embed_dim, dim, norm_elementwise_affine, norm_eps, bias=True)
+        self.trajectory_norm1 = CogVideoXLayerNormZero(time_embed_dim, dim, norm_elementwise_affine, norm_eps, bias=True)
 
         self.attn1 = Attention(
             query_dim=dim,
@@ -106,11 +107,33 @@ class CogVideoXTrajectoryBlock(nn.Module):
             out_bias=attention_out_bias,
             processor=CogVideoXAttnProcessor2_0(),
         )
+        self.trajectory_attn1 = Attention(
+            query_dim=dim,
+            dim_head=attention_head_dim,
+            heads=num_attention_heads,
+            qk_norm="layer_norm" if qk_norm else None,
+            eps=1e-6,
+            bias=attention_bias,
+            out_bias=attention_out_bias,
+            processor=CogVideoXTrajectoryAttnProcessor2_0(),
+        )
+
+        self.register_parameter('alpha_trajectory_attn', nn.Parameter(torch.tensor([0.])) )
+        self.register_parameter('alpha_trajectory_dense', nn.Parameter(torch.tensor([0.])) )
 
         # 2. Feed Forward
         self.norm2 = CogVideoXLayerNormZero(time_embed_dim, dim, norm_elementwise_affine, norm_eps, bias=True)
+        self.trajectory_norm2 = CogVideoXLayerNormZero(time_embed_dim, dim, norm_elementwise_affine, norm_eps, bias=True)
 
         self.ff = FeedForward(
+            dim,
+            dropout=dropout,
+            activation_fn=activation_fn,
+            final_dropout=final_dropout,
+            inner_dim=ff_inner_dim,
+            bias=ff_bias,
+        )
+        self.trajectory_ff = FeedForward(
             dim,
             dropout=dropout,
             activation_fn=activation_fn,
@@ -123,17 +146,26 @@ class CogVideoXTrajectoryBlock(nn.Module):
         self,
         hidden_states: torch.Tensor,
         encoder_hidden_states: torch.Tensor,
+        trajectory_hidden_states: Optional[torch.Tensor],
         temb: torch.Tensor,
         image_rotary_emb: Optional[Tuple[torch.Tensor, torch.Tensor]] = None,
     ) -> torch.Tensor:
+
         text_seq_length = encoder_hidden_states.size(1)
+        if trajectory_hidden_states is not None:
+            trajectory_seq_length = trajectory_hidden_states.size(1)
 
         # norm & modulate
         norm_hidden_states, norm_encoder_hidden_states, gate_msa, enc_gate_msa = self.norm1(
             hidden_states, encoder_hidden_states, temb
         )
+        # trajectory norm & modulate
+        if trajectory_hidden_states is not None:
+            video_norm_hidden_states, norm_trajectory_hidden_states, video_gate_msa, trajectory_gate_msa = self.trajectory_norm1(
+                hidden_states, trajectory_hidden_states, temb
+            )
 
-        # attention
+        # video-text attention
         attn_hidden_states, attn_encoder_hidden_states = self.attn1(
             hidden_states=norm_hidden_states,
             encoder_hidden_states=norm_encoder_hidden_states,
@@ -143,19 +175,42 @@ class CogVideoXTrajectoryBlock(nn.Module):
         hidden_states = hidden_states + gate_msa * attn_hidden_states
         encoder_hidden_states = encoder_hidden_states + enc_gate_msa * attn_encoder_hidden_states
 
+        # video-trajectory attention
+        if trajectory_hidden_states is not None:
+            video_attn_hidden_states, attn_trajectory_hidden_states = self.trajectory_attn1(
+                hidden_states=video_norm_hidden_states,
+                encoder_hidden_states=norm_trajectory_hidden_states,
+                image_rotary_emb=image_rotary_emb,
+            )
+            hidden_states = hidden_states + video_gate_msa * torch.tanh(self.alpha_trajectory_attn) * video_attn_hidden_states
+            trajectory_hidden_states = trajectory_hidden_states + trajectory_gate_msa * attn_trajectory_hidden_states
+
+
         # norm & modulate
         norm_hidden_states, norm_encoder_hidden_states, gate_ff, enc_gate_ff = self.norm2(
             hidden_states, encoder_hidden_states, temb
         )
+        # trajectory norm & modulate
+        if trajectory_hidden_states is not None:
+            video_norm_hidden_states, norm_trajectory_hidden_states, video_gate_ff, trajectory_gate_ff = self.trajectory_norm2(
+                hidden_states, trajectory_hidden_states, temb
+            )
 
         # feed-forward
-        norm_hidden_states = torch.cat([norm_encoder_hidden_states, norm_hidden_states], dim=1)
-        ff_output = self.ff(norm_hidden_states)
+        norm_hidden_states_video_text = torch.cat([norm_encoder_hidden_states, norm_hidden_states], dim=1)
+        ff_output = self.ff(norm_hidden_states_video_text)
 
         hidden_states = hidden_states + gate_ff * ff_output[:, text_seq_length:]
         encoder_hidden_states = encoder_hidden_states + enc_gate_ff * ff_output[:, :text_seq_length]
 
-        return hidden_states, encoder_hidden_states
+        if trajectory_hidden_states is not None:
+            norm_hidden_states_video_trajectory = torch.cat([norm_trajectory_hidden_states, video_norm_hidden_states], dim=1)
+            trajectory_ff_output = self.trajectory_ff(norm_hidden_states_video_trajectory)
+            
+            hidden_states = hidden_states + video_gate_ff * torch.tanh(self.alpha_trajectory_dense) * trajectory_ff_output[:, trajectory_seq_length:]
+            trajectory_hidden_states = trajectory_hidden_states + trajectory_gate_ff * trajectory_ff_output[:, :trajectory_seq_length]
+
+        return hidden_states, encoder_hidden_states, trajectory_hidden_states
 
 
 class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapterMixin):
@@ -325,27 +380,6 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
                 for _ in range(num_layers)
             ]
         )
-        self.trajectory_transformer_blocks = nn.ModuleList(
-            [
-                CogVideoXTrajectoryBlock(
-                    dim=inner_dim,
-                    num_attention_heads=num_attention_heads,
-                    attention_head_dim=attention_head_dim,
-                    time_embed_dim=time_embed_dim,
-                    dropout=dropout,
-                    activation_fn=activation_fn,
-                    attention_bias=attention_bias,
-                    norm_elementwise_affine=norm_elementwise_affine,
-                    norm_eps=norm_eps,
-                )
-                for _ in range(num_layers)
-            ]
-        )
-        self.trajectory_adapters = nn.ModuleList(
-            [
-                nn.Linear(inner_dim, inner_dim) for _ in range(num_layers)
-            ]
-        )
         self.norm_final = nn.LayerNorm(inner_dim, norm_eps, norm_elementwise_affine)
 
         # 4. Output blocks
@@ -367,7 +401,6 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
         self.proj_out = nn.Linear(inner_dim, output_dim)
 
         self.gradient_checkpointing = False
-
 
         self.initialize_weights()
 
@@ -535,79 +568,42 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
         if trajectory_hidden_states is not None:
             trajectory_hidden_states = self.trajectory_patch_embed(trajectory_hidden_states)
             trajectory_hidden_states = self.embedding_dropout(trajectory_hidden_states)
+            # p = self.config.patch_size
+            # p_t = self.config.patch_size_t
+            # if p_t is None:
+            #     p_t = 1
+            # save_hidden_states_as_images(trajectory_hidden_states, "visualization/trajectory_hidden_states_with_posencoding", num_frames // p_t, height // p, width // p)
+            # assert 0
 
         # 3. Transformer blocks
-        if trajectory_hidden_states is not None:
-            for i, (block, trajectory_block, trajectory_adapter) in enumerate(zip(self.transformer_blocks, self.trajectory_transformer_blocks, self.trajectory_adapters)):
-                if torch.is_grad_enabled() and self.gradient_checkpointing:
+        for i, block in enumerate(self.transformer_blocks):
+            if torch.is_grad_enabled() and self.gradient_checkpointing:
 
-                    def create_custom_forward(module):
-                        def custom_forward(*inputs):
-                            return module(*inputs)
+                def create_custom_forward(module):
+                    def custom_forward(*inputs):
+                        return module(*inputs)
 
-                        return custom_forward
+                    return custom_forward
 
-                    ckpt_kwargs: Dict[str, Any] = {"use_reentrant": False} if is_torch_version(">=", "1.11.0") else {}
+                ckpt_kwargs: Dict[str, Any] = {"use_reentrant": False} if is_torch_version(">=", "1.11.0") else {}
 
-                    hidden_states_text, encoder_hidden_states = torch.utils.checkpoint.checkpoint(
-                        create_custom_forward(block),
-                        hidden_states,
-                        encoder_hidden_states,
-                        emb,
-                        image_rotary_emb,
-                        **ckpt_kwargs,
-                    )
-                    hidden_states_trajectory, trajectory_hidden_states = torch.utils.checkpoint.checkpoint(
-                        create_custom_forward(block),
-                        hidden_states,
-                        trajectory_hidden_states,
-                        emb,
-                        image_rotary_emb,
-                        **ckpt_kwargs,
-                    )
-                    hidden_states = hidden_states_text + trajectory_adapter(hidden_states_trajectory)
-                else:
-                    hidden_states_text, encoder_hidden_states = block(
-                        hidden_states=hidden_states,
-                        encoder_hidden_states=encoder_hidden_states,
-                        temb=emb,
-                        image_rotary_emb=image_rotary_emb,
-                    )
-                    hidden_states_trajectory, trajectory_hidden_states = trajectory_block(
-                        hidden_states=hidden_states,
-                        encoder_hidden_states=trajectory_hidden_states,
-                        temb=emb,
-                        image_rotary_emb=image_rotary_emb,
-                    )
-                    hidden_states = hidden_states_text + trajectory_adapter(hidden_states_trajectory)
-        else:
-            hidden_states = hidden_states_text
-            for i, block in enumerate(self.transformer_blocks):
-                if torch.is_grad_enabled() and self.gradient_checkpointing:
-
-                    def create_custom_forward(module):
-                        def custom_forward(*inputs):
-                            return module(*inputs)
-
-                        return custom_forward
-
-                    ckpt_kwargs: Dict[str, Any] = {"use_reentrant": False} if is_torch_version(">=", "1.11.0") else {}
-                    hidden_states, encoder_hidden_states = torch.utils.checkpoint.checkpoint(
-                        create_custom_forward(block),
-                        hidden_states,
-                        encoder_hidden_states,
-                        emb,
-                        image_rotary_emb,
-                        **ckpt_kwargs,
-                    )
-                else:
-                    hidden_states, encoder_hidden_states = block(
-                        hidden_states=hidden_states,
-                        encoder_hidden_states=encoder_hidden_states,
-                        temb=emb,
-                        image_rotary_emb=image_rotary_emb,
-                    )
-
+                hidden_states, encoder_hidden_states, trajectory_hidden_states = torch.utils.checkpoint.checkpoint(
+                    create_custom_forward(block),
+                    hidden_states,
+                    encoder_hidden_states,
+                    trajectory_hidden_states,
+                    emb,
+                    image_rotary_emb,
+                    **ckpt_kwargs,
+                )
+            else:
+                hidden_states, encoder_hidden_states, trajectory_hidden_states = block(
+                    hidden_states=hidden_states,
+                    encoder_hidden_states=encoder_hidden_states,
+                    trajectory_hidden_states=trajectory_hidden_states,
+                    temb=emb,
+                    image_rotary_emb=image_rotary_emb,
+                )
 
         if not self.config.use_rotary_positional_embeddings:
             # CogVideoX-2B
@@ -795,7 +791,3 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
                     nn.init.constant_(module.bias, 0)
 
         self.apply(_basic_init)
-
-        for layer in self.trajectory_adapters:
-            nn.init.zeros_(layer.weight)  # 将卷积核初始化为0
-            nn.init.zeros_(layer.bias)    # 将偏置初始化为0

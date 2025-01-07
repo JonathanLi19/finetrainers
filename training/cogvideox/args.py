@@ -183,6 +183,12 @@ def _get_validation_args(parser: argparse.ArgumentParser) -> None:
         default="output.mp4",
         help="Path to save the generated video.",
     )
+    parser.add_argument(
+        "--trajectory_guidance_scale",
+        type=float,
+        default=2,
+        help="The tajectory guidance scale to use while sampling validation videos.",
+    )
 
 
 def _get_training_args(parser: argparse.ArgumentParser) -> None:

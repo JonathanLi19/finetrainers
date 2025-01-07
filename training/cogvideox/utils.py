@@ -12,6 +12,7 @@ import numpy as np
 import pandas as pd
 import os
 from torchvision.transforms.functional import resize
+from diffusers.utils import export_to_video
 
 logger = get_logger(__name__)
 
@@ -265,9 +266,9 @@ def unwrap_model(accelerator: Accelerator, model):
 
 def load_frames_as_tensor(trajectory_maps_path, num_frames, height, width):
     # 获取所有的帧文件并排序（假设是png或jpg格式）
-    frame_names = sorted([f for f in os.listdir(trajectory_maps_path) if f.endswith(('.png', '.jpg'))])#[:num_frames]
-    indices = np.linspace(0, len(frame_names) - 1, num_frames, dtype=int)
-    frame_names = [frame_names[i] for i in indices]
+    frame_names = sorted([f for f in os.listdir(trajectory_maps_path) if f.endswith(('.png', '.jpg'))])[:num_frames]
+    # indices = np.linspace(0, len(frame_names) - 1, num_frames, dtype=int)
+    # frame_names = [frame_names[i] for i in indices]
     assert len(frame_names) == num_frames
     
     # 读取图像并转换为Tensor，同时提取bounding box坐标
@@ -283,7 +284,6 @@ def load_frames_as_tensor(trajectory_maps_path, num_frames, height, width):
     frames_resized = torch.stack([resize(frame, (height, width)) for frame in frames], dim=0)
 
     return frames_resized
-
 
 def save_hidden_states_as_images(hidden_states_text, save_dir, T, H, W):
     from sklearn.decomposition import PCA
@@ -316,3 +316,76 @@ def save_hidden_states_as_images(hidden_states_text, save_dir, T, H, W):
             save_path = os.path.join(save_dir, f"batch_{b}_frame_{t}.png")
             cv2.imwrite(save_path, cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
             print(f"Saved: {save_path}")
+
+def save_tensor_as_images_with_pca(tensor, save_dir):
+    from sklearn.decomposition import PCA
+    from PIL import Image
+
+    # 确保输出目录存在
+    os.makedirs(save_dir, exist_ok=True)
+
+    # 检查输入形状
+    assert len(tensor.shape) == 5, "输入张量的形状必须为 [B, T, C, H, W]"
+    B, T, C, H, W = tensor.shape
+
+
+    # 展平成 [B * T * H * W, C] 用于 PCA
+    tensor_reshaped = tensor.permute(0, 1, 3, 4, 2).reshape(-1, C)  # [B * T * H * W, C]
+    tensor_reshaped = tensor_reshaped.detach().float().cpu().numpy()
+
+    # 应用 PCA 将 C 降维到 3
+    pca = PCA(n_components=3)
+    reduced = pca.fit_transform(tensor_reshaped)  # [B * T * H * W, 3]
+
+    # 重塑回原始尺寸 [B, T, H, W, 3]
+    reduced = reduced.reshape(B, T, H, W, 3)
+
+    # 遍历批次和时间帧保存图片
+    for b in range(B):
+        for t in range(T):
+            # 提取第 b 批次，第 t 帧
+            img = reduced[b, t]  # [H, W, 3]
+
+            # 将 PCA 值缩放到 0-255 范围并转换为 uint8
+            img = (img - img.min()) / (img.max() - img.min()) * 255.0
+            img = img.astype('uint8')
+
+            # 保存图片
+            img = Image.fromarray(img)
+            img.save(os.path.join(save_dir, f"batch{b}_frame{t}.png"))
+
+def save_tensor_as_video(tensor, output_path, fps=24):
+    """
+    Save a tensor as a video file.
+
+    Args:
+        tensor (torch.Tensor): Input tensor of shape [T, C, H, W] with values normalized between [-1, 1].
+        output_path (str): Path to save the output video.
+        fps (int): Frames per second for the output video.
+    """
+    # Step 1: 反归一化，将 [-1, 1] 转换为 [0, 1]
+    tensor = (tensor * 0.5 + 0.5)  # 反归一化
+
+    # Step 2: 将 [T, C, H, W] 转换为 [T, H, W, C]，并转换为 uint8 格式
+    tensor = (tensor.permute(0, 2, 3, 1) * 255).clamp(0, 255).to(torch.uint8).cpu().numpy()
+
+    # Step 3: 获取视频的高度、宽度和通道
+    T, H, W, C = tensor.shape
+
+    # Step 4: 初始化 VideoWriter
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # 使用 mp4 编码
+    video_writer = cv2.VideoWriter(output_path, fourcc, fps, (W, H))
+
+    # Step 5: 将每一帧写入视频
+    for frame in tensor:
+        frame_bgr = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)  # 将 RGB 转换为 BGR 格式
+        video_writer.write(frame_bgr)
+
+    # Step 6: 释放 VideoWriter
+    video_writer.release()
+    print(f"Video saved at {output_path}")
+
+if __name__ == '__main__':
+    frames = load_frames_as_tensor("/home/qid/quanhao/workspace/Open-Sora/assets/mask_trajectory/boat/moved_mask_right", 49, 480, 720).numpy().transpose(0, 2, 3, 1)
+    print(frames.shape)
+    export_to_video(frames, "visualization/debug/trajectory_maps_1.mp4", fps=8)
