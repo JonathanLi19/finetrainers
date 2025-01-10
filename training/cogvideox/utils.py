@@ -13,6 +13,15 @@ import pandas as pd
 import os
 from torchvision.transforms.functional import resize
 from diffusers.utils import export_to_video
+import os
+import tempfile
+from typing import Any, Callable, List, Optional, Tuple, Union
+from urllib.parse import unquote, urlparse
+
+import PIL.Image
+import PIL.ImageOps
+import requests
+from diffusers.utils.import_utils import BACKENDS_MAPPING, is_imageio_available
 
 logger = get_logger(__name__)
 
@@ -385,7 +394,103 @@ def save_tensor_as_video(tensor, output_path, fps=24):
     video_writer.release()
     print(f"Video saved at {output_path}")
 
-if __name__ == '__main__':
-    frames = load_frames_as_tensor("/home/qid/quanhao/workspace/Open-Sora/assets/mask_trajectory/boat/moved_mask_right", 49, 480, 720).numpy().transpose(0, 2, 3, 1)
-    print(frames.shape)
-    export_to_video(frames, "visualization/debug/trajectory_maps_1.mp4", fps=8)
+def save_images(pil_images, save_dir, prefix='image'):
+    # 创建保存目录
+    os.makedirs(save_dir, exist_ok=True)
+    
+    # 遍历每张图片并保存
+    for idx, img in enumerate(pil_images):
+        # 构建文件名
+        file_path = os.path.join(save_dir, f"{prefix}_{idx:04d}.png")
+        # 保存图片
+        img.save(file_path)
+
+    print(f"Images saved to {save_dir}")
+
+def load_video(
+    video: str,
+    convert_method: Optional[Callable[[List[PIL.Image.Image]], List[PIL.Image.Image]]] = None,
+) -> List[PIL.Image.Image]:
+    """
+    Loads `video` to a list of PIL Image.
+
+    Args:
+        video (`str`):
+            A URL or Path to a video to convert to a list of PIL Image format.
+        convert_method (Callable[[List[PIL.Image.Image]], List[PIL.Image.Image]], *optional*):
+            A conversion method to apply to the video after loading it. When set to `None` the images will be converted
+            to "RGB".
+
+    Returns:
+        `List[PIL.Image.Image]`:
+            The video as a list of PIL images.
+    """
+    is_url = video.startswith("http://") or video.startswith("https://")
+    is_file = os.path.isfile(video)
+    was_tempfile_created = False
+
+    if not (is_url or is_file):
+        raise ValueError(
+            f"Incorrect path or URL. URLs must start with `http://` or `https://`, and {video} is not a valid path."
+        )
+
+    if is_url:
+        response = requests.get(video, stream=True)
+        if response.status_code != 200:
+            raise ValueError(f"Failed to download video. Status code: {response.status_code}")
+
+        parsed_url = urlparse(video)
+        file_name = os.path.basename(unquote(parsed_url.path))
+
+        suffix = os.path.splitext(file_name)[1] or ".mp4"
+        video_path = tempfile.NamedTemporaryFile(suffix=suffix, delete=False).name
+
+        was_tempfile_created = True
+
+        video_data = response.iter_content(chunk_size=8192)
+        with open(video_path, "wb") as f:
+            for chunk in video_data:
+                f.write(chunk)
+
+        video = video_path
+
+    pil_images = []
+    if video.endswith(".gif"):
+        gif = PIL.Image.open(video)
+        try:
+            while True:
+                pil_images.append(gif.copy())
+                gif.seek(gif.tell() + 1)
+        except EOFError:
+            pass
+
+    else:
+        if is_imageio_available():
+            import imageio
+        else:
+            raise ImportError(BACKENDS_MAPPING["imageio"][1].format("load_video"))
+
+        try:
+            imageio.plugins.ffmpeg.get_exe()
+        except AttributeError:
+            raise AttributeError(
+                "`Unable to find an ffmpeg installation on your machine. Please install via `pip install imageio-ffmpeg"
+            )
+
+        with imageio.get_reader(video) as reader:
+            # Read all frames
+            for frame in reader:
+                pil_images.append(PIL.Image.fromarray(frame))
+
+    if was_tempfile_created:
+        os.remove(video_path)
+
+    if convert_method is not None:
+        pil_images = convert_method(pil_images)
+
+    return pil_images
+
+
+if __name__ == "__main__":
+    pil_images = load_video("/home/qid/quanhao/workspace/Open-Sora/assets/mask_trajectory/boat/moved_mask_right/mask.mp4")
+    save_images(pil_images, "visualization/debug/pil_images")

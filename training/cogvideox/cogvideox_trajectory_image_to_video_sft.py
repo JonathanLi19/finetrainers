@@ -25,7 +25,10 @@ from typing import Any, Dict
 
 import diffusers
 import torch
+import torch.nn as nn
+import torch.nn.functional as F
 import transformers
+import matplotlib.pyplot as plt
 import wandb
 from accelerate import Accelerator, DistributedType, init_empty_weights
 from accelerate.logging import get_logger
@@ -42,7 +45,7 @@ from diffusers import (
 from diffusers.models.autoencoders.vae import DiagonalGaussianDistribution
 from diffusers.optimization import get_scheduler
 from diffusers.training_utils import cast_training_params
-from diffusers.utils import convert_unet_state_dict_to_peft, export_to_video, load_image
+from diffusers.utils import convert_unet_state_dict_to_peft, export_to_video, load_image, load_video
 from diffusers.utils.hub_utils import load_or_create_model_card, populate_model_card
 from huggingface_hub import create_repo, upload_folder
 from torch.utils.data import DataLoader
@@ -65,7 +68,7 @@ from utils import (
 )
 from models.transformer_trajectory import CogVideoXTrajectoryTransformer3DModel
 from pipelines.pipeline_trajectory import CogVideoXTrajectoryImageToVideoPipeline
-
+from einops import rearrange
 
 
 logger = get_logger(__name__)
@@ -215,7 +218,7 @@ def run_validation(
             "height": args.height,
             "width": args.width,
             "max_sequence_length": model_config.max_text_seq_length,
-            "trajectory_maps": load_frames_as_tensor(validation_trajectory_map, args.max_num_frames, args.height, args.width), # [args.max_num_frames, 3, args.height, args.width]
+            "trajectory_maps": load_video(validation_trajectory_map),
             "trajectory_guidance_scale": args.trajectory_guidance_scale,
         }
 
@@ -256,11 +259,15 @@ class CollateFunction:
         trajectory_maps = [x["trajectory_maps"] for x in data[0]]
         trajectory_maps = torch.stack(trajectory_maps).to(dtype=self.weight_dtype, non_blocking=True)
 
+        latent_segmentation_gt = [x["latent_segmentation_gt"] for x in data[0]]
+        latent_segmentation_gt = torch.stack(latent_segmentation_gt).to(dtype=self.weight_dtype, non_blocking=True)
+
         return {
             "images": images,
             "videos": videos,
             "prompts": prompts,
             "trajectory_maps": trajectory_maps,
+            "latent_segmentation_gt": latent_segmentation_gt,
         }
 
 
@@ -670,11 +677,10 @@ def main(args):
                 videos = batch["videos"].to(accelerator.device, non_blocking=True)
                 prompts = batch["prompts"]
                 trajectory_maps = batch["trajectory_maps"].to(accelerator.device, non_blocking=True)
+                latent_segmentation_gt = batch["latent_segmentation_gt"].to(accelerator.device, non_blocking=True)
                 assert trajectory_maps.shape == videos.shape
-                export_to_video(videos[0].detach().float().cpu().numpy().transpose(0, 2, 3, 1), "visualization/debug/video_train.mp4")
-                save_tensor_as_video(videos[0], "visualization/debug/video_train_1.mp4")
-                export_to_video(trajectory_maps[0].detach().float().cpu().numpy().transpose(0, 2, 3, 1), "visualization/debug/trajectory_maps_train.mp4")
-                save_tensor_as_video(trajectory_maps[0], "visualization/debug/trajectory_maps_train_1.mp4")
+                # save_tensor_as_video(videos[0], "visualization/debug/video_train.mp4")
+                # save_tensor_as_video(trajectory_maps[0], "visualization/debug/trajectory_maps_train.mp4")
                 # print(images.shape, videos.shape) # torch.Size([1, 1, 3, 480, 720]) torch.Size([1, 49, 3, 480, 720])
 
                 # Encode videos
@@ -706,8 +712,8 @@ def main(args):
                 trajectory_latents = trajectory_latent_dist.sample() * VAE_SCALING_FACTOR
                 trajectory_latents = trajectory_latents.permute(0, 2, 1, 3, 4)  # [B, F, C, H, W]
                 trajectory_latents = trajectory_latents.to(memory_format=torch.contiguous_format, dtype=weight_dtype)
-                save_tensor_as_images_with_pca(trajectory_latents, "visualization/debug/trajectory_latents_train")
-                assert 0
+                # save_tensor_as_images_with_pca(trajectory_latents, "visualization/debug/trajectory_latents_train")
+                # assert 0
 
                 padding_shape = (video_latents.shape[0], video_latents.shape[1] - 1, *video_latents.shape[2:])
                 latent_padding = image_latents.new_zeros(padding_shape)
@@ -735,13 +741,29 @@ def main(args):
                 batch_size, num_frames, num_channels, height, width = video_latents.shape
 
                 # Sample a random timestep for each image
-                timesteps = torch.randint(
-                    0,
-                    scheduler.config.num_train_timesteps,
-                    (batch_size,),
-                    dtype=torch.int64,
-                    device=accelerator.device,
-                )
+                # timesteps = torch.randint(
+                #     0,
+                #     scheduler.config.num_train_timesteps,
+                #     (batch_size,),
+                #     dtype=torch.int64,
+                #     device=accelerator.device,
+                # )
+                if torch.rand(1).item() < 0.7:  # 70% 概率
+                    timesteps = torch.randint(
+                        int(0.7 * scheduler.config.num_train_timesteps),
+                        scheduler.config.num_train_timesteps,
+                        (batch_size,),
+                        dtype=torch.int64,
+                        device=accelerator.device,
+                    )
+                else:  # 30% 概率
+                    timesteps = torch.randint(
+                        0,
+                        scheduler.config.num_train_timesteps,
+                        (batch_size,),
+                        dtype=torch.int64,
+                        device=accelerator.device,
+                    )
 
                 # Prepare rotary embeds
                 image_rotary_emb = (
@@ -770,7 +792,7 @@ def main(args):
                 ofs_embed_dim = model_config.ofs_embed_dim if hasattr(model_config, "ofs_embed_dim") else None,
                 ofs_emb = None if ofs_embed_dim is None else noisy_model_input.new_full((1,), fill_value=2.0)
                 # Predict the noise residual
-                model_output = transformer(
+                model_output, mask_pred = transformer(
                     hidden_states=noisy_model_input,
                     encoder_hidden_states=prompt_embeds,
                     timestep=timesteps,
@@ -778,7 +800,7 @@ def main(args):
                     image_rotary_emb=image_rotary_emb,
                     return_dict=False,
                     trajectory_hidden_states=trajectory_latents,
-                )[0]
+                )
 
                 model_pred = scheduler.get_velocity(model_output, noisy_video_latents, timesteps)
 
@@ -792,6 +814,45 @@ def main(args):
                     (weights * (model_pred - target) ** 2).reshape(batch_size, -1),
                     dim=1,
                 )
+                if accelerator.is_main_process:
+                    print("Diffusion Loss:", loss)
+                # Add Region Loss
+                region_gt = F.interpolate(latent_segmentation_gt, size=(target.shape[-2], target.shape[-1]), mode='bilinear', align_corners=False) # [B T H W]
+                region_gt = region_gt.unsqueeze(2) # [B T 1 H W]
+                region_loss = torch.mean(
+                    (weights * ((model_pred - target) * region_gt) ** 2).reshape(batch_size, -1),
+                    dim=1,
+                )
+                if accelerator.is_main_process:
+                    print("Region Loss:", region_loss)
+                loss += args.lambda_region * region_loss
+
+                # Add Latent Segmentation Loss
+                mask_pred_gt = F.interpolate(latent_segmentation_gt, size=(mask_pred.shape[-2], mask_pred.shape[-1]), mode='bilinear', align_corners=False)
+                T = mask_pred.shape[0] // mask_pred_gt.shape[0]
+                mask_pred = rearrange(mask_pred, "(B T) C H W -> B C T H W", T=T)
+                
+                if accelerator.is_main_process: # Visualize segmentation_gt and mask_pred
+                    binary_mask_pred = mask_pred.argmax(dim=1)  # 结果形状为 [B, T, H, W]
+
+                    output_dir = "visualization/mask_pred_train"
+                    os.makedirs(output_dir, exist_ok=True)
+
+                    first_batch_masks = binary_mask_pred[0]  # 形状为 [T, H, W]
+                    gt_batch = mask_pred_gt[0]
+                    for i in range(first_batch_masks.shape[0]):
+                        frame = first_batch_masks[i].detach().float().cpu().numpy()
+                        frame_gt = gt_batch[i].detach().float().cpu().numpy()
+                        plt.imsave(os.path.join(output_dir, f"frame_{i}.png"), frame, cmap="gray")
+                        plt.imsave(os.path.join(output_dir, f"gt_frame_{i}.png"), frame_gt, cmap="gray")
+
+                mask_pred_gt = mask_pred_gt.to(mask_pred.device).long()
+                criterion = nn.CrossEntropyLoss()
+                latent_segment_loss = criterion(mask_pred, mask_pred_gt)
+                if accelerator.is_main_process:
+                    print("Latent Segmentation Loss:", latent_segment_loss)
+                loss += args.lambda_latent_segmentation * latent_segment_loss
+
                 loss = loss.mean()
                 accelerator.backward(loss)
 
@@ -871,99 +932,6 @@ def main(args):
             if should_run_validation:
                 run_validation(args, accelerator, transformer, scheduler, model_config, weight_dtype)
     accelerator.wait_for_everyone()
-
-    if accelerator.is_main_process:
-        transformer = unwrap_model(accelerator, transformer)
-        dtype = (
-            torch.float16
-            if args.mixed_precision == "fp16"
-            else torch.bfloat16
-            if args.mixed_precision == "bf16"
-            else torch.float32
-        )
-        transformer = transformer.to(dtype)
-
-        transformer.save_pretrained(
-            os.path.join(args.output_dir, "transformer"),
-            safe_serialization=True,
-            max_shard_size="5GB",
-        )
-
-        # Cleanup trained models to save memory
-        if args.load_tensors:
-            del transformer
-        else:
-            del transformer, text_encoder, vae
-
-        gc.collect()
-        torch.cuda.empty_cache()
-        torch.cuda.synchronize(accelerator.device)
-
-        accelerator.print("===== Memory before testing =====")
-        print_memory(accelerator.device)
-        reset_memory(accelerator.device)
-
-        # Final test inference
-        pipe = CogVideoXTrajectoryImageToVideoPipeline.from_pretrained(
-            args.pretrained_model_name_or_path,
-            revision=args.revision,
-            variant=args.variant,
-            torch_dtype=weight_dtype,
-        )
-        pipe.scheduler = CogVideoXDPMScheduler.from_config(pipe.scheduler.config)
-
-        if args.enable_slicing:
-            pipe.vae.enable_slicing()
-        if args.enable_tiling:
-            pipe.vae.enable_tiling()
-        if args.enable_model_cpu_offload:
-            pipe.enable_model_cpu_offload()
-
-        # Run inference
-        validation_outputs = []
-        if args.validation_prompt and args.num_validation_videos > 0:
-            validation_prompts = args.validation_prompt.split(args.validation_prompt_separator)
-            validation_images = args.validation_images.split(args.validation_prompt_separator)
-            for validation_image, validation_prompt in zip(validation_images, validation_prompts):
-                pipeline_args = {
-                    "image": load_image(validation_image),
-                    "prompt": validation_prompt,
-                    "guidance_scale": args.guidance_scale,
-                    "use_dynamic_cfg": args.use_dynamic_cfg,
-                    "height": args.height,
-                    "width": args.width,
-                }
-
-                video = log_validation(
-                    accelerator=accelerator,
-                    pipe=pipe,
-                    args=args,
-                    pipeline_args=pipeline_args,
-                    is_final_validation=True,
-                )
-                validation_outputs.extend(video)
-
-        accelerator.print("===== Memory after testing =====")
-        print_memory(accelerator.device)
-        reset_memory(accelerator.device)
-        torch.cuda.synchronize(accelerator.device)
-
-        if args.push_to_hub:
-            save_model_card(
-                repo_id,
-                videos=validation_outputs,
-                base_model=args.pretrained_model_name_or_path,
-                validation_prompt=args.validation_prompt,
-                repo_folder=args.output_dir,
-                fps=args.fps,
-            )
-            upload_folder(
-                repo_id=repo_id,
-                folder_path=args.output_dir,
-                commit_message="End of training",
-                ignore_patterns=["step_*", "epoch_*"],
-            )
-
     accelerator.end_training()
 
 

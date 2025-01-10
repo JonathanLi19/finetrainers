@@ -18,9 +18,11 @@ import math
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import PIL
+import matplotlib.pyplot as plt
+import os
 import torch
 from transformers import T5EncoderModel, T5Tokenizer
-
+from einops import rearrange
 from diffusers.callbacks import MultiPipelineCallbacks, PipelineCallback
 from diffusers.image_processor import PipelineImageInput
 from diffusers.loaders import CogVideoXLoraLoaderMixin
@@ -446,36 +448,32 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
         device: Optional[torch.device] = None,
         generator: Optional[torch.Generator] = None,
     ):
-        # if isinstance(generator, list) and len(generator) != batch_size:
-        #     raise ValueError(
-        #         f"You have passed a list of generators of length {len(generator)}, but requested an effective batch"
-        #         f" size of {batch_size}. Make sure the batch size matches the length of the generators."
-        #     )
+        if isinstance(generator, list) and len(generator) != batch_size:
+            raise ValueError(
+                f"You have passed a list of generators of length {len(generator)}, but requested an effective batch"
+                f" size of {batch_size}. Make sure the batch size matches the length of the generators."
+            )
 
-        # if isinstance(generator, list):
-        #     trajectory_latents = [
-        #         retrieve_latents(self.vae.encode(trajectory_maps[i].unsqueeze(0)), generator[i]) for i in range(batch_size)
-        #     ]
-        # else:
-        #     trajectory_latents = [retrieve_latents(self.vae.encode(img.unsqueeze(0)), generator) for img in trajectory_maps]
+        if isinstance(generator, list):
+            trajectory_latents = [
+                retrieve_latents(self.vae.encode(trajectory_maps[i].unsqueeze(0)), generator[i]) for i in range(batch_size)
+            ]
+        else:
+            trajectory_latents = [retrieve_latents(self.vae.encode(img.unsqueeze(0)), generator) for img in trajectory_maps]
 
-        # trajectory_latents = torch.cat(trajectory_latents, dim=0).to(dtype).permute(0, 2, 1, 3, 4)  # [B, F, C, H, W]
+        trajectory_latents = torch.cat(trajectory_latents, dim=0).to(dtype).permute(0, 2, 1, 3, 4)  # [B, F, C, H, W]
 
-        # if not self.vae.config.invert_scale_latents:
-        #     trajectory_latents = self.vae_scaling_factor_image * trajectory_latents
-        # else:
-        #     # This is awkward but required because the CogVideoX team forgot to multiply the
-        #     # scaling factor during training :)
-        #     trajectory_latents = 1 / self.vae_scaling_factor_image * trajectory_latents
+        if not self.vae.config.invert_scale_latents:
+            trajectory_latents = self.vae_scaling_factor_image * trajectory_latents
+        else:
+            # This is awkward but required because the CogVideoX team forgot to multiply the
+            # scaling factor during training :)
+            trajectory_latents = 1 / self.vae_scaling_factor_image * trajectory_latents
 
-        # # Select the first frame along the second dimension
-        # if self.transformer.config.patch_size_t is not None:
-        #     first_frame = trajectory_latents[:, : trajectory_latents.size(1) % self.transformer.config.patch_size_t, ...]
-        #     trajectory_latents = torch.cat([first_frame, trajectory_latents], dim=1)
-        trajectory_latent_dist = self.vae.encode(trajectory_maps).latent_dist
-        trajectory_latents = trajectory_latent_dist.sample() * self.vae_scaling_factor_image
-        trajectory_latents = trajectory_latents.permute(0, 2, 1, 3, 4)  # [B, F, C, H, W]
-        trajectory_latents = trajectory_latents.to(memory_format=torch.contiguous_format, dtype=dtype)
+        # Select the first frame along the second dimension
+        if self.transformer.config.patch_size_t is not None:
+            first_frame = trajectory_latents[:, : trajectory_latents.size(1) % self.transformer.config.patch_size_t, ...]
+            trajectory_latents = torch.cat([first_frame, trajectory_latents], dim=1)
 
         return trajectory_latents
 
@@ -685,7 +683,7 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
         ] = None,
         callback_on_step_end_tensor_inputs: List[str] = ["latents"],
         max_sequence_length: int = 226,
-        trajectory_maps: Optional[torch.Tensor] = None,
+        trajectory_maps: Optional[PipelineImageInput] = None,
         trajectory_guidance_scale: float = 2,
     ) -> Union[CogVideoXPipelineOutput, Tuple]:
         """
@@ -825,11 +823,6 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
             max_sequence_length=max_sequence_length,
             device=device,
         )
-        if do_classifier_free_guidance:
-            if do_trajectory_guidance:
-                prompt_embeds = torch.cat([negative_prompt_embeds, negative_prompt_embeds, prompt_embeds], dim=0)
-            else:
-                prompt_embeds = torch.cat([negative_prompt_embeds, prompt_embeds], dim=0)
 
         # 4. Prepare timesteps
         timesteps, num_inference_steps = retrieve_timesteps(self.scheduler, num_inference_steps, device, timesteps)
@@ -849,13 +842,9 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
             device, dtype=prompt_embeds.dtype
         )
         if trajectory_maps is not None:
-            # trajectory_maps = trajectory_maps.to(device, dtype=prompt_embeds.dtype)
-            trajectory_maps = self.video_transforms(trajectory_maps).to(device, dtype=prompt_embeds.dtype)
-            trajectory_maps = trajectory_maps.unsqueeze(0)
-            # print(trajectory_maps.shape) # torch.Size([1, 49, 3, 480, 720])
-            # export_to_video(trajectory_maps[0].detach().float().cpu().numpy().transpose(0, 2, 3, 1), "visualization/debug/trajectory_maps_inference.mp4")
-            # save_tensor_as_video(trajectory_maps[0], "visualization/debug/trajectory_maps_inference_1.mp4")
-            trajectory_maps = trajectory_maps.permute(0, 2, 1, 3, 4)
+            trajectory_maps = self.video_processor.preprocess_video(trajectory_maps, height=height, width=width).to(
+                device, dtype=prompt_embeds.dtype
+            )
 
         latent_channels = self.transformer.config.in_channels // 2
         latents, image_latents = self.prepare_latents(
@@ -883,14 +872,14 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
                 device,
                 generator,
             )
-            # print(trajectory_latents.shape) # torch.Size([1, 13, 16, 60, 90])
-            # save_tensor_as_images_with_pca(trajectory_latents, "visualization/debug/trajectory_latents")
-            # assert 0
-            if do_classifier_free_guidance:
-                if do_trajectory_guidance:
-                    trajectory_latents = torch.cat([torch.zeros_like(trajectory_latents), trajectory_latents, trajectory_latents], dim=0)
-                else:
-                    trajectory_latents = torch.cat([trajectory_latents, trajectory_latents], dim=0)
+        
+        if do_classifier_free_guidance:
+            if do_trajectory_guidance:
+                prompt_embeds = torch.cat([negative_prompt_embeds, negative_prompt_embeds, prompt_embeds], dim=0)
+                trajectory_latents = torch.cat([torch.zeros_like(trajectory_latents), trajectory_latents, trajectory_latents], dim=0)
+            else:
+                prompt_embeds = torch.cat([negative_prompt_embeds, prompt_embeds], dim=0)
+                trajectory_latents = torch.cat([trajectory_latents, trajectory_latents], dim=0)
 
         # 6. Prepare extra step kwargs. TODO: Logic should ideally just be moved out of the pipeline
         extra_step_kwargs = self.prepare_extra_step_kwargs(generator, eta)
@@ -914,6 +903,13 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
             for i, t in enumerate(timesteps):
                 if self.interrupt:
                     continue
+
+                # Only perform trajectory-guided diffusion in the first 30% of inference steps
+                if i > len(timesteps) * 0.3:
+                    trajectory_scale = 0
+                else:
+                    trajectory_scale = 1
+
                 if do_classifier_free_guidance:            
                     if do_trajectory_guidance:
                         latent_model_input = torch.cat([latents] * 3)
@@ -937,7 +933,7 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
                 timestep = t.expand(latent_model_input.shape[0])
 
                 # predict noise model_output
-                noise_pred = self.transformer(
+                noise_pred, mask_pred = self.transformer(
                     hidden_states=latent_model_input,
                     encoder_hidden_states=prompt_embeds,
                     timestep=timestep,
@@ -946,8 +942,21 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
                     attention_kwargs=attention_kwargs,
                     return_dict=False,
                     trajectory_hidden_states=trajectory_latents if trajectory_maps is not None else None,
-                )[0]
+                    trajectory_scale=trajectory_scale,
+                )
                 noise_pred = noise_pred.float()
+
+                # Visualize mask_pred
+                mask_pred = rearrange(mask_pred, "(B T) C H W -> B C T H W", T=13)
+                binary_mask_pred = mask_pred.argmax(dim=1)  # 结果形状为 [B, T, H, W]
+
+                output_dir = "visualization/mask_pred_inference"
+                os.makedirs(output_dir, exist_ok=True)
+
+                first_batch_masks = binary_mask_pred[0]  # 形状为 [T, H, W]
+                for id in range(first_batch_masks.shape[0]):
+                    frame = first_batch_masks[id].detach().float().cpu().numpy()
+                    plt.imsave(os.path.join(output_dir, f"frame_{id}.png"), frame, cmap="gray")
 
                 # perform guidance
                 if use_dynamic_cfg:

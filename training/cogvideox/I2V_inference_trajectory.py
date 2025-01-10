@@ -18,12 +18,28 @@ from transformers import T5EncoderModel, T5Tokenizer
 from diffusers.models import AutoencoderKLCogVideoX
 from diffusers.schedulers import CogVideoXDDIMScheduler, CogVideoXDPMScheduler
 
-from diffusers.utils import export_to_video, load_image
+from diffusers.utils import export_to_video, load_image, load_video
 
 from args import get_args 
 from pipelines.pipeline_trajectory import CogVideoXTrajectoryImageToVideoPipeline
 from models.transformer_trajectory import CogVideoXTrajectoryTransformer3DModel
-from utils import load_frames_as_tensor
+from utils import load_frames_as_tensor, save_tensor_as_video
+from torchvision import transforms
+from diffusers.video_processor import VideoProcessor
+
+def identity_transform(x):
+    return x
+
+def scale_transform(x):
+    return x / 255.0
+
+video_transforms = transforms.Compose(
+            [
+                transforms.Lambda(identity_transform),
+                transforms.Lambda(scale_transform),
+                transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5], inplace=True),
+            ]
+        )
 
 def main(args):
     model_card = "THUDM/CogVideoX-5b-I2V"
@@ -67,8 +83,7 @@ def main(args):
                 "height": args.height,
                 "width": args.width,
                 "max_sequence_length": model_config.max_text_seq_length,
-                "trajectory_maps": load_frames_as_tensor(validation_trajectory_map, num_frames, args.height, args.width),
-                # "trajectory_maps": torch.zeros(num_frames, 3, args.height, args.width),
+                "trajectory_maps": load_video(validation_trajectory_map),
                 "trajectory_guidance_scale": args.trajectory_guidance_scale,
             }
 
