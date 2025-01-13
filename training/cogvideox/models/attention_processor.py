@@ -2,7 +2,6 @@ import torch
 import torch.nn.functional as F
 from typing import Optional
 from diffusers.models.attention_processor import Attention
-from diffusers.models.embeddings import apply_rotary_emb
 
 class CogVideoXTrajectoryAttnProcessor2_0:
     r"""
@@ -19,13 +18,14 @@ class CogVideoXTrajectoryAttnProcessor2_0:
         attn: Attention,
         hidden_states: torch.Tensor,
         encoder_hidden_states: torch.Tensor,
+        trajectory_hidden_states: Optional[torch.Tensor] = None,
         attention_mask: Optional[torch.Tensor] = None,
         image_rotary_emb: Optional[torch.Tensor] = None,
     ) -> torch.Tensor:
-        trajectory_seq_length = encoder_hidden_states.size(1)
-        assert trajectory_seq_length == hidden_states.size(1), "The sequence length of the encoder hidden states and hidden states must be the same."
+        text_seq_length = encoder_hidden_states.size(1)
+        trajectory_seq_length = trajectory_hidden_states.size(1)
 
-        hidden_states = torch.cat([encoder_hidden_states, hidden_states], dim=1)
+        hidden_states = torch.cat([encoder_hidden_states, hidden_states, trajectory_hidden_states], dim=1)
 
         batch_size, sequence_length, _ = (
             hidden_states.shape if encoder_hidden_states is None else encoder_hidden_states.shape
@@ -53,11 +53,14 @@ class CogVideoXTrajectoryAttnProcessor2_0:
 
         # Apply RoPE if needed
         if image_rotary_emb is not None:
-            query[:, :, trajectory_seq_length:] = apply_rotary_emb(query[:, :, trajectory_seq_length:], image_rotary_emb)
-            query[:, :, :trajectory_seq_length] = apply_rotary_emb(query[:, :, :trajectory_seq_length], image_rotary_emb)
+            from diffusers.models.embeddings import apply_rotary_emb
+
+            query[:, :, text_seq_length:-trajectory_seq_length] = apply_rotary_emb(query[:, :, text_seq_length:-trajectory_seq_length], image_rotary_emb)
+            query[:, :, -trajectory_seq_length:] = apply_rotary_emb(query[:, :, -trajectory_seq_length:], image_rotary_emb)
+
             if not attn.is_cross_attention:
-                key[:, :, trajectory_seq_length:] = apply_rotary_emb(key[:, :, trajectory_seq_length:], image_rotary_emb)
-                key[:, :, :trajectory_seq_length] = apply_rotary_emb(key[:, :, :trajectory_seq_length], image_rotary_emb)
+                key[:, :, text_seq_length:-trajectory_seq_length] = apply_rotary_emb(key[:, :, text_seq_length:-trajectory_seq_length], image_rotary_emb)
+                key[:, :, -trajectory_seq_length:] = apply_rotary_emb(key[:, :, -trajectory_seq_length:], image_rotary_emb)
 
         hidden_states = F.scaled_dot_product_attention(
             query, key, value, attn_mask=attention_mask, dropout_p=0.0, is_causal=False
@@ -70,7 +73,7 @@ class CogVideoXTrajectoryAttnProcessor2_0:
         # dropout
         hidden_states = attn.to_out[1](hidden_states)
 
-        encoder_hidden_states, hidden_states = hidden_states.split(
-            [trajectory_seq_length, hidden_states.size(1) - trajectory_seq_length], dim=1
+        encoder_hidden_states, hidden_states, trajectory_hidden_states = hidden_states.split(
+            [text_seq_length, hidden_states.size(1) - text_seq_length - trajectory_seq_length, trajectory_seq_length], dim=1
         )
-        return hidden_states, encoder_hidden_states
+        return hidden_states, encoder_hidden_states, trajectory_hidden_states

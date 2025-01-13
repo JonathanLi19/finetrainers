@@ -905,10 +905,11 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
                     continue
 
                 # Only perform trajectory-guided diffusion in the first 30% of inference steps
-                if i > len(timesteps) * 0.3:
-                    trajectory_scale = 0
-                else:
-                    trajectory_scale = 1
+                # if i > len(timesteps) * 0.3:
+                #     trajectory_scale = 0
+                # else:
+                #     trajectory_scale = 1
+                trajectory_scale = 1
 
                 if do_classifier_free_guidance:            
                     if do_trajectory_guidance:
@@ -933,7 +934,7 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
                 timestep = t.expand(latent_model_input.shape[0])
 
                 # predict noise model_output
-                noise_pred, mask_pred = self.transformer(
+                noise_pred = self.transformer(
                     hidden_states=latent_model_input,
                     encoder_hidden_states=prompt_embeds,
                     timestep=timestep,
@@ -943,20 +944,20 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
                     return_dict=False,
                     trajectory_hidden_states=trajectory_latents if trajectory_maps is not None else None,
                     trajectory_scale=trajectory_scale,
-                )
+                )[0]
                 noise_pred = noise_pred.float()
 
                 # Visualize mask_pred
-                mask_pred = rearrange(mask_pred, "(B T) C H W -> B C T H W", T=13)
-                binary_mask_pred = mask_pred.argmax(dim=1)  # 结果形状为 [B, T, H, W]
+                # mask_pred = rearrange(mask_pred, "(B T) C H W -> B C T H W", T=13)
+                # binary_mask_pred = mask_pred.argmax(dim=1)  # 结果形状为 [B, T, H, W]
 
-                output_dir = "visualization/mask_pred_inference"
-                os.makedirs(output_dir, exist_ok=True)
+                # output_dir = "visualization/mask_pred_inference"
+                # os.makedirs(output_dir, exist_ok=True)
 
-                first_batch_masks = binary_mask_pred[0]  # 形状为 [T, H, W]
-                for id in range(first_batch_masks.shape[0]):
-                    frame = first_batch_masks[id].detach().float().cpu().numpy()
-                    plt.imsave(os.path.join(output_dir, f"frame_{id}.png"), frame, cmap="gray")
+                # first_batch_masks = binary_mask_pred[0]  # 形状为 [T, H, W]
+                # for id in range(first_batch_masks.shape[0]):
+                #     frame = first_batch_masks[id].detach().float().cpu().numpy()
+                #     plt.imsave(os.path.join(output_dir, f"frame_{id}.png"), frame, cmap="gray")
 
                 # perform guidance
                 if use_dynamic_cfg:

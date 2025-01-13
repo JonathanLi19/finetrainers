@@ -25,12 +25,9 @@ from typing import Any, Dict
 
 import diffusers
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
 import transformers
-import matplotlib.pyplot as plt
 import wandb
-from accelerate import Accelerator, DistributedType, init_empty_weights
+from accelerate import Accelerator, DistributedType
 from accelerate.logging import get_logger
 from accelerate.utils import (
     DistributedDataParallelKwargs,
@@ -41,6 +38,8 @@ from accelerate.utils import (
 from diffusers import (
     AutoencoderKLCogVideoX,
     CogVideoXDPMScheduler,
+    CogVideoXTrajectoryImageToVideoPipeline,
+    CogVideoXTransformer3DModel,
 )
 from diffusers.models.autoencoders.vae import DiagonalGaussianDistribution
 from diffusers.optimization import get_scheduler
@@ -48,12 +47,14 @@ from diffusers.training_utils import cast_training_params
 from diffusers.utils import convert_unet_state_dict_to_peft, export_to_video, load_image, load_video
 from diffusers.utils.hub_utils import load_or_create_model_card, populate_model_card
 from huggingface_hub import create_repo, upload_folder
+from peft import LoraConfig, get_peft_model_state_dict, set_peft_model_state_dict
 from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
 from transformers import AutoTokenizer, T5EncoderModel
 
+
 from args import get_args  # isort:skip
-from dataset import BucketSampler, VideoTrajectoryDatasetWithResizing  # isort:skip
+from dataset import BucketSampler, VideoDatasetWithResizing, VideoDatasetWithResizeAndRectangleCrop, VideoTrajectoryDatasetWithResizing  # isort:skip
 from text_encoder import compute_prompt_embeddings  # isort:skip
 from utils import (
     get_gradient_norm,
@@ -62,14 +63,9 @@ from utils import (
     print_memory,
     reset_memory,
     unwrap_model,
-    load_frames_as_tensor,
-    save_tensor_as_images_with_pca,
-    save_tensor_as_video
 )
 from models.transformer_trajectory import CogVideoXTrajectoryTransformer3DModel
 from pipelines.pipeline_trajectory import CogVideoXTrajectoryImageToVideoPipeline
-from einops import rearrange
-
 
 logger = get_logger(__name__)
 
@@ -94,13 +90,44 @@ def save_model_card(
             )
 
     model_description = f"""
-# CogVideoX Full Finetune
+# CogVideoX LoRA Finetune
 
 <Gallery />
 
 ## Model description
 
-This is a full finetune of the CogVideoX model `{base_model}`.
+This is a lora finetune of the CogVideoX model `{base_model}`.
+
+The model was trained using [CogVideoX Factory](https://github.com/a-r-r-o-w/cogvideox-factory) - a repository containing memory-optimized training scripts for the CogVideoX family of models using [TorchAO](https://github.com/pytorch/ao) and [DeepSpeed](https://github.com/microsoft/DeepSpeed). The scripts were adopted from [CogVideoX Diffusers trainer](https://github.com/huggingface/diffusers/blob/main/examples/cogvideo/train_cogvideox_lora.py).
+
+## Download model
+
+[Download LoRA]({repo_id}/tree/main) in the Files & Versions tab.
+
+## Usage
+
+Requires the [🧨 Diffusers library](https://github.com/huggingface/diffusers) installed.
+
+```py
+import torch
+from diffusers import CogVideoXTrajectoryImageToVideoPipeline
+from diffusers.utils import export_to_video, load_image
+
+pipe = CogVideoXTrajectoryImageToVideoPipeline.from_pretrained("THUDM/CogVideoX-5b-I2V", torch_dtype=torch.bfloat16).to("cuda")
+pipe.load_lora_weights("{repo_id}", weight_name="pytorch_lora_weights.safetensors", adapter_name="cogvideox-lora")
+
+# The LoRA adapter weights are determined by what was used for training.
+# In this case, we assume `--lora_alpha` is 32 and `--rank` is 64.
+# It can be made lower or higher from what was used in training to decrease or amplify the effect
+# of the LoRA upto a tolerance, beyond which one might notice no effect at all or overflows.
+pipe.set_adapters(["cogvideox-lora"], [32 / 64])
+
+image = load_image("/path/to/image.png")
+video = pipe(image=image, prompt="{validation_prompt}", guidance_scale=6, use_dynamic_cfg=True).frames[0]
+export_to_video(video, "output.mp4", fps=8)
+```
+
+For more details, including weighting, merging and fusing LoRAs, check the [documentation](https://huggingface.co/docs/diffusers/main/en/using-diffusers/loading_adapters) on loading LoRAs in diffusers.
 
 ## License
 
@@ -120,12 +147,15 @@ Please adhere to the licensing terms as described [here](https://huggingface.co/
         "image-to-video",
         "diffusers-training",
         "diffusers",
+        "lora",
         "cogvideox",
         "cogvideox-diffusers",
+        "template:sd-lora",
     ]
 
     model_card = populate_model_card(model_card, tags=tags)
     model_card.save(os.path.join(repo_folder, "README.md"))
+
 
 def log_validation(
     accelerator: Accelerator,
@@ -346,7 +376,7 @@ def main(args):
     # CogVideoX-2b weights are stored in float16
     # CogVideoX-5b and CogVideoX-5b-I2V weights are stored in bfloat16
     load_dtype = torch.bfloat16 if "5b" in args.pretrained_model_name_or_path.lower() else torch.float16
-    transformer = CogVideoXTrajectoryTransformer3DModel.from_pretrained(
+    transformer = CogVideoXTransformer3DModel.from_pretrained(
         args.pretrained_model_name_or_path,
         subfolder="transformer",
         torch_dtype=load_dtype,
@@ -354,6 +384,7 @@ def main(args):
         variant=args.variant,
     )
 
+    # These changes will also be required when trying to run inference with the trained lora
     if args.ignore_learned_positional_embeddings:
         del transformer.patch_embed.pos_embedding
         transformer.patch_embed.use_learned_positional_embeddings = False
@@ -373,17 +404,13 @@ def main(args):
     if args.enable_tiling:
         vae.enable_tiling()
 
+    # We only train the additional adapter LoRA layers
     text_encoder.requires_grad_(False)
+    transformer.requires_grad_(False)
     vae.requires_grad_(False)
-    transformer.requires_grad_(True)
-    # transformer.requires_grad_(False)
-    # for name, param in transformer.named_parameters():
-    #     if 'trajectory' in name:
-    #         param.requires_grad_(True)
 
     VAE_SCALING_FACTOR = vae.config.scaling_factor
     VAE_SCALE_FACTOR_SPATIAL = 2 ** (len(vae.config.block_out_channels) - 1)
-    # print(VAE_SCALING_FACTOR, VAE_SCALE_FACTOR_SPATIAL) # 0.7 8
     RoPE_BASE_HEIGHT = transformer.config.sample_height * VAE_SCALE_FACTOR_SPATIAL
     RoPE_BASE_WIDTH = transformer.config.sample_width * VAE_SCALE_FACTOR_SPATIAL
 
@@ -421,15 +448,24 @@ def main(args):
     if args.gradient_checkpointing:
         transformer.enable_gradient_checkpointing()
 
+    # now we will add new LoRA weights to the attention layers
+    transformer_lora_config = LoraConfig(
+        r=args.rank,
+        lora_alpha=args.lora_alpha,
+        init_lora_weights=True,
+        target_modules=["to_k", "to_q", "to_v", "to_out.0", "ff.net.2", "norm1.linear", "norm2.linear", "trajectory_patch_embed.trajectory_proj"],
+    )
+    transformer.add_adapter(transformer_lora_config)
+
     # create custom saving & loading hooks so that `accelerator.save_state(...)` serializes in a nice format
     def save_model_hook(models, weights, output_dir):
         if accelerator.is_main_process:
+            transformer_lora_layers_to_save = None
+
             for model in models:
                 if isinstance(unwrap_model(accelerator, model), type(unwrap_model(accelerator, transformer))):
                     model = unwrap_model(accelerator, model)
-                    model.save_pretrained(
-                        os.path.join(output_dir, "transformer"), safe_serialization=True, max_shard_size="5GB"
-                    )
+                    transformer_lora_layers_to_save = get_peft_model_state_dict(model)
                 else:
                     raise ValueError(f"Unexpected save model: {model.__class__}")
 
@@ -437,9 +473,13 @@ def main(args):
                 if weights:
                     weights.pop()
 
+            CogVideoXTrajectoryImageToVideoPipeline.save_lora_weights(
+                output_dir,
+                transformer_lora_layers=transformer_lora_layers_to_save,
+            )
+
     def load_model_hook(models, input_dir):
         transformer_ = None
-        init_under_meta = False
 
         # This is a bit of a hack but I don't know any other solution.
         if not accelerator.distributed_type == DistributedType.DEEPSPEED:
@@ -451,21 +491,32 @@ def main(args):
                 else:
                     raise ValueError(f"Unexpected save model: {unwrap_model(accelerator, model).__class__}")
         else:
-            with init_empty_weights():
-                transformer_ = CogVideoXTrajectoryTransformer3DModel.from_config(
-                    args.pretrained_model_name_or_path, subfolder="transformer"
-                )
-                init_under_meta = True
+            transformer_ = CogVideoXTransformer3DModel.from_pretrained(
+                args.pretrained_model_name_or_path, subfolder="transformer"
+            )
+            transformer_.add_adapter(transformer_lora_config)
 
-        load_model = CogVideoXTrajectoryTransformer3DModel.from_pretrained(os.path.join(input_dir, "transformer"))
-        transformer_.register_to_config(**load_model.config)
-        transformer_.load_state_dict(load_model.state_dict(), assign=init_under_meta)
-        del load_model
+        lora_state_dict = CogVideoXTrajectoryImageToVideoPipeline.lora_state_dict(input_dir)
+
+        transformer_state_dict = {
+            f'{k.replace("transformer.", "")}': v for k, v in lora_state_dict.items() if k.startswith("transformer.")
+        }
+        transformer_state_dict = convert_unet_state_dict_to_peft(transformer_state_dict)
+        incompatible_keys = set_peft_model_state_dict(transformer_, transformer_state_dict, adapter_name="default")
+        if incompatible_keys is not None:
+            # check only for unexpected keys
+            unexpected_keys = getattr(incompatible_keys, "unexpected_keys", None)
+            if unexpected_keys:
+                logger.warning(
+                    f"Loading adapter weights from state_dict led to unexpected keys not found in the model: "
+                    f" {unexpected_keys}. "
+                )
 
         # Make sure the trainable params are in float32. This is again needed since the base models
         # are in `weight_dtype`. More details:
         # https://github.com/huggingface/diffusers/pull/6514#discussion_r1449796804
         if args.mixed_precision == "fp16":
+            # only upcast trainable parameters (LoRA) into fp32
             cast_training_params([transformer_])
 
     accelerator.register_save_state_pre_hook(save_model_hook)
@@ -483,13 +534,14 @@ def main(args):
 
     # Make sure the trainable params are in float32.
     if args.mixed_precision == "fp16":
+        # only upcast trainable parameters (LoRA) into fp32
         cast_training_params([transformer], dtype=torch.float32)
 
-    transformer_parameters = list(filter(lambda p: p.requires_grad, transformer.parameters()))
+    transformer_lora_parameters = list(filter(lambda p: p.requires_grad, transformer.parameters()))
 
     # Optimization parameters
     transformer_parameters_with_lr = {
-        "params": transformer_parameters,
+        "params": transformer_lora_parameters,
         "lr": args.learning_rate,
     }
     params_to_optimize = [transformer_parameters_with_lr]
@@ -526,7 +578,10 @@ def main(args):
 
     # Dataset and DataLoader
     dataset_init_kwargs = {
+        "data_root": args.data_root,
         "dataset_file": args.dataset_file,
+        "caption_column": args.caption_column,
+        "video_column": args.video_column,
         "max_num_frames": args.max_num_frames,
         "id_token": args.id_token,
         "height_buckets": args.height_buckets,
@@ -535,8 +590,6 @@ def main(args):
         "load_tensors": args.load_tensors,
         "random_flip": args.random_flip,
         "image_to_video": True,
-        "trajectory_maps_type": args.trajectory_maps_type,
-        "frame_interval": args.frame_interval,
     }
     train_dataset = VideoTrajectoryDatasetWithResizing(**dataset_init_kwargs)
 
@@ -598,8 +651,8 @@ def main(args):
 
     # We need to initialize the trackers we use, and also store our configuration.
     # The trackers initializes automatically on the main process.
-    if accelerator.is_main_process:
-        tracker_name = args.tracker_name or "cogvideox-sft"
+    if accelerator.distributed_type == DistributedType.DEEPSPEED or accelerator.is_main_process:
+        tracker_name = args.tracker_name or "cogvideox-lora"
         accelerator.init_trackers(tracker_name, config=vars(args))
 
         accelerator.print("===== Memory before training =====")
@@ -669,6 +722,7 @@ def main(args):
 
     for epoch in range(first_epoch, args.num_train_epochs):
         transformer.train()
+
         for step, batch in enumerate(train_dataloader):
             models_to_accumulate = [transformer]
             logs = {}
@@ -744,22 +798,6 @@ def main(args):
                     dtype=torch.int64,
                     device=accelerator.device,
                 )
-                # if torch.rand(1).item() < 0.7:  # 70% 概率
-                #     timesteps = torch.randint(
-                #         int(0.7 * scheduler.config.num_train_timesteps),
-                #         scheduler.config.num_train_timesteps,
-                #         (batch_size,),
-                #         dtype=torch.int64,
-                #         device=accelerator.device,
-                #     )
-                # else:  # 30% 概率
-                #     timesteps = torch.randint(
-                #         0,
-                #         scheduler.config.num_train_timesteps,
-                #         (batch_size,),
-                #         dtype=torch.int64,
-                #         device=accelerator.device,
-                #     )
 
                 # Prepare rotary embeds
                 image_rotary_emb = (
@@ -783,7 +821,7 @@ def main(args):
                 # (this is the forward diffusion process)
                 noisy_video_latents = scheduler.add_noise(video_latents, noise, timesteps)
                 noisy_model_input = torch.cat([noisy_video_latents, image_latents], dim=2)
-                model_config.patch_size_t if hasattr(model_config, "patch_size_t") else None,
+
                 ofs_embed_dim = model_config.ofs_embed_dim if hasattr(model_config, "ofs_embed_dim") else None,
                 ofs_emb = None if ofs_embed_dim is None else noisy_model_input.new_full((1,), fill_value=2.0)
                 # Predict the noise residual
@@ -809,43 +847,10 @@ def main(args):
                     (weights * (model_pred - target) ** 2).reshape(batch_size, -1),
                     dim=1,
                 )
-                # Add Region Loss
-                # region_gt = F.interpolate(latent_segmentation_gt, size=(target.shape[-2], target.shape[-1]), mode='bilinear', align_corners=False) # [B T H W]
-                # region_gt = region_gt.unsqueeze(2) # [B T 1 H W]
-                # region_loss = torch.mean(
-                #     (weights * ((model_pred - target) * region_gt) ** 2).reshape(batch_size, -1),
-                #     dim=1,
-                # )
-                # loss += args.lambda_region * region_loss
-
-                # Add Latent Segmentation Loss
-                # mask_pred_gt = F.interpolate(latent_segmentation_gt, size=(mask_pred.shape[-2], mask_pred.shape[-1]), mode='bilinear', align_corners=False)
-                # T = mask_pred.shape[0] // mask_pred_gt.shape[0]
-                # mask_pred = rearrange(mask_pred, "(B T) C H W -> B C T H W", T=T)
-                
-                # if accelerator.is_main_process: # Visualize segmentation_gt and mask_pred
-                #     binary_mask_pred = mask_pred.argmax(dim=1)  # 结果形状为 [B, T, H, W]
-
-                #     output_dir = "visualization/mask_pred_train"
-                #     os.makedirs(output_dir, exist_ok=True)
-
-                #     first_batch_masks = binary_mask_pred[0]  # 形状为 [T, H, W]
-                #     gt_batch = mask_pred_gt[0]
-                #     for i in range(first_batch_masks.shape[0]):
-                #         frame = first_batch_masks[i].detach().float().cpu().numpy()
-                #         frame_gt = gt_batch[i].detach().float().cpu().numpy()
-                #         plt.imsave(os.path.join(output_dir, f"frame_{i}.png"), frame, cmap="gray")
-                #         plt.imsave(os.path.join(output_dir, f"gt_frame_{i}.png"), frame_gt, cmap="gray")
-
-                # mask_pred_gt = mask_pred_gt.to(mask_pred.device).long()
-                # criterion = nn.CrossEntropyLoss()
-                # latent_segment_loss = criterion(mask_pred, mask_pred_gt)
-                # loss += args.lambda_latent_segmentation * latent_segment_loss
-
                 loss = loss.mean()
                 accelerator.backward(loss)
 
-                if accelerator.sync_gradients:
+                if accelerator.sync_gradients and accelerator.distributed_type != DistributedType.DEEPSPEED:
                     gradient_norm_before_clip = get_gradient_norm(transformer.parameters())
                     accelerator.clip_grad_norm_(transformer.parameters(), args.max_grad_norm)
                     gradient_norm_after_clip = get_gradient_norm(transformer.parameters())
@@ -855,6 +860,7 @@ def main(args):
                             "gradient_norm_after_clip": gradient_norm_after_clip,
                         }
                     )
+
                 if accelerator.state.deepspeed_plugin is None:
                     optimizer.step()
                     optimizer.zero_grad()
@@ -906,8 +912,6 @@ def main(args):
                 {
                     "loss": loss.detach().item(),
                     "lr": last_lr,
-                    # "region_loss": region_loss.detach().item(),
-                    # "latent_segment_loss": latent_segment_loss.detach().item(),
                 }
             )
             progress_bar.set_postfix(**logs)
@@ -915,13 +919,7 @@ def main(args):
 
             if global_step >= args.max_train_steps:
                 break
-
-        if accelerator.is_main_process:
-            should_run_validation = args.validation_prompt is not None and (
-                args.validation_epochs is not None and (epoch + 1) % args.validation_epochs == 0
-            )
-            if should_run_validation:
-                run_validation(args, accelerator, transformer, scheduler, model_config, weight_dtype)
+            
     accelerator.wait_for_everyone()
     accelerator.end_training()
 

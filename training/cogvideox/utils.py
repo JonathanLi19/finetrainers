@@ -492,5 +492,10 @@ def load_video(
 
 
 if __name__ == "__main__":
-    pil_images = load_video("/home/qid/quanhao/workspace/Open-Sora/assets/mask_trajectory/boat/moved_mask_right/mask.mp4")
-    save_images(pil_images, "visualization/debug/pil_images")
+    image_rotary_emb = (
+        prepare_rotary_positional_embeddings(
+            height=480,
+            width=720,
+            num_frames=49,
+        )
+    )

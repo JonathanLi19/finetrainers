@@ -39,12 +39,12 @@ class CogVideoXTrajectoryPatchEmbed(nn.Module):
 
         if patch_size_t is None:
             # CogVideoX 1.0 checkpoints
-            self.trajectory_proj = nn.Conv2d(
+            self.proj = nn.Conv2d(
                 in_channels, embed_dim, kernel_size=(patch_size, patch_size), stride=patch_size, bias=bias
             )
         else:
             # CogVideoX 1.5 checkpoints
-            self.trajectory_proj = nn.Linear(in_channels * patch_size * patch_size * patch_size_t, embed_dim)
+            self.proj = nn.Linear(in_channels * patch_size * patch_size * patch_size_t, embed_dim)
 
         if use_positional_embeddings or use_learned_positional_embeddings:
             persistent = use_learned_positional_embeddings
@@ -72,7 +72,7 @@ class CogVideoXTrajectoryPatchEmbed(nn.Module):
         joint_pos_embedding = pos_embedding.new_zeros(
             1, num_patches, self.embed_dim, requires_grad=False
         )
-        joint_pos_embedding.data[:, : num_patches].copy_(pos_embedding)
+        joint_pos_embedding.data.copy_(pos_embedding)
 
         return joint_pos_embedding
 
@@ -88,7 +88,7 @@ class CogVideoXTrajectoryPatchEmbed(nn.Module):
 
         if self.patch_size_t is None:
             trajectory_embeds = trajectory_embeds.reshape(-1, channels, height, width)
-            trajectory_embeds = self.trajectory_proj(trajectory_embeds)
+            trajectory_embeds = self.proj(trajectory_embeds)
             trajectory_embeds = trajectory_embeds.view(batch_size, num_frames, *trajectory_embeds.shape[1:])
             trajectory_embeds = trajectory_embeds.flatten(3).transpose(2, 3)  # [batch, num_frames, height x width, channels]
             trajectory_embeds = trajectory_embeds.flatten(1, 2)  # [batch, num_frames x height x width, channels]
@@ -101,7 +101,7 @@ class CogVideoXTrajectoryPatchEmbed(nn.Module):
                 batch_size, num_frames // p_t, p_t, height // p, p, width // p, p, channels
             )
             trajectory_embeds = trajectory_embeds.permute(0, 1, 3, 5, 7, 2, 4, 6).flatten(4, 7).flatten(1, 3)
-            trajectory_embeds = self.trajectory_proj(trajectory_embeds)
+            trajectory_embeds = self.proj(trajectory_embeds)
 
         embeds = trajectory_embeds  # [batch, num_frames x height x width, channels]
 

@@ -32,7 +32,7 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
   for lr_schedule in "${LR_SCHEDULES[@]}"; do
     for optimizer in "${OPTIMIZERS[@]}"; do
       for steps in "${MAX_TRAIN_STEPS[@]}"; do
-        output_dir="/datadrive2/cogvideox/cpu_offload_optimizer/mask/Siamese_Transformer_with_region_loss_with_latent_segmentation/cogvideox-sft__optimizer_${optimizer}__steps_${steps}__lr-schedule_${lr_schedule}__learning-rate_${learning_rate}/"
+        output_dir="/datadrive2/cogvideox/mask/DAVIS/M3_Attention/cogvideox-sft__optimizer_${optimizer}__steps_${steps}__lr-schedule_${lr_schedule}__learning-rate_${learning_rate}/"
 
         cmd="accelerate launch --config_file $ACCELERATE_CONFIG_FILE\
           --gpu_ids $GPU_IDS \
@@ -50,7 +50,7 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --validation_images \"/home/qid/quanhao/workspace/Open-Sora/assets/images/condition/boat.png\" \
           --validation_prompt_separator ::: \
           --num_validation_videos 1 \
-          --validation_steps 100 \
+          --validation_steps 50 \
           --validation_trajectory_maps \"/home/qid/quanhao/workspace/Open-Sora/assets/mask_trajectory/boat/moved_mask_right/mask.mp4\" \
           --trajectory_guidance_scale 2 \
           --seed 42 \
@@ -59,7 +59,7 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --max_num_frames 49 \
           --train_batch_size 1 \
           --max_train_steps $steps \
-          --checkpointing_steps 100 \
+          --checkpointing_steps 200 \
           --gradient_accumulation_steps 1 \
           --gradient_checkpointing \
           --learning_rate $learning_rate \
@@ -77,10 +77,9 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --allow_tf32 \
           --report_to wandb \
           --nccl_timeout 1800 \
-          --use_cpu_offload_optimizer \
           --resume_from_checkpoint \"latest\" \
-          --lambda_region 1.0 \
-          --lambda_latent_segmentation 1.0"
+          --lambda_region 2.0 \
+          --lambda_latent_segmentation 0.5"
         
         echo "Running command: $cmd"
         eval $cmd
