@@ -20,6 +20,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 import PIL
 import matplotlib.pyplot as plt
 import os
+import numpy as np
 import torch
 from transformers import T5EncoderModel, T5Tokenizer
 from einops import rearrange
@@ -42,6 +43,8 @@ from diffusers.pipelines.cogvideo.pipeline_output import CogVideoXPipelineOutput
 from models.transformer_trajectory import CogVideoXTrajectoryTransformer3DModel
 from utils import save_tensor_as_images_with_pca, save_tensor_as_video
 from torchvision import transforms
+from models.transformer_controlnet import CogVideoXControlnetTransformer3DModel
+from models.controlnet import CogVideoXControlnet
 
 logger = logging.get_logger(__name__)  # pylint: disable=invalid-name
 
@@ -159,7 +162,7 @@ def retrieve_latents(
         raise AttributeError("Could not access latents of provided encoder_output")
 
 
-class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLoaderMixin):
+class CogVideoXImageToVideoControlnetPipeline(DiffusionPipeline, CogVideoXLoraLoaderMixin):
     r"""
     Pipeline for image-to-video generation using CogVideoX.
 
@@ -176,8 +179,8 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
         tokenizer (`T5Tokenizer`):
             Tokenizer of class
             [T5Tokenizer](https://huggingface.co/docs/transformers/model_doc/t5#transformers.T5Tokenizer).
-        transformer ([`CogVideoXTrajectoryTransformer3DModel`]):
-            A text conditioned `CogVideoXTrajectoryTransformer3DModel` to denoise the encoded video latents.
+        transformer ([`CogVideoXTransformer3DModel`]):
+            A text conditioned `CogVideoXTransformer3DModel` to denoise the encoded video latents.
         scheduler ([`SchedulerMixin`]):
             A scheduler to be used in combination with `transformer` to denoise the encoded video latents.
     """
@@ -196,7 +199,8 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
         tokenizer: T5Tokenizer,
         text_encoder: T5EncoderModel,
         vae: AutoencoderKLCogVideoX,
-        transformer: CogVideoXTrajectoryTransformer3DModel,
+        transformer: CogVideoXControlnetTransformer3DModel,
+        controlnet: CogVideoXControlnet,
         scheduler: Union[CogVideoXDDIMScheduler, CogVideoXDPMScheduler],
     ):
         super().__init__()
@@ -206,9 +210,9 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
             text_encoder=text_encoder,
             vae=vae,
             transformer=transformer,
+            controlnet=controlnet,
             scheduler=scheduler,
         )
-
         self.vae_scale_factor_spatial = (
             2 ** (len(self.vae.config.block_out_channels) - 1) if hasattr(self, "vae") and self.vae is not None else 8
         )
@@ -221,19 +225,6 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
 
         self.video_processor = VideoProcessor(vae_scale_factor=self.vae_scale_factor_spatial)
 
-        self.video_transforms = transforms.Compose(
-            [
-                transforms.Lambda(self.identity_transform),
-                transforms.Lambda(self.scale_transform),
-                transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5], inplace=True),
-            ]
-        )
-    @staticmethod
-    def identity_transform(x):
-        return x
-    @staticmethod
-    def scale_transform(x):
-        return x / 255.0
     # Copied from diffusers.pipelines.cogvideo.pipeline_cogvideox.CogVideoXPipeline._get_t5_prompt_embeds
     def _get_t5_prompt_embeds(
         self,
@@ -392,7 +383,6 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
             shape = shape[:1] + (shape[1] + shape[1] % self.transformer.config.patch_size_t,) + shape[2:]
 
         image = image.unsqueeze(2)  # [B, C, F, H, W]
-        # print(image.shape) # torch.Size([1, 3, 1, 768, 1024])
 
         if isinstance(generator, list):
             image_latents = [
@@ -402,7 +392,6 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
             image_latents = [retrieve_latents(self.vae.encode(img.unsqueeze(0)), generator) for img in image]
 
         image_latents = torch.cat(image_latents, dim=0).to(dtype).permute(0, 2, 1, 3, 4)  # [B, F, C, H, W]
-        # print(image_latents.shape) # torch.Size([1, 1, 16, 96, 128])
 
         if not self.vae.config.invert_scale_latents:
             image_latents = self.vae_scaling_factor_image * image_latents
@@ -440,35 +429,9 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
         self,
         trajectory_maps: torch.Tensor,
         batch_size: int = 1,
-        num_channels_latents: int = 16,
-        num_frames: int = 13,
-        height: int = 60,
-        width: int = 90,
         dtype: Optional[torch.dtype] = None,
-        device: Optional[torch.device] = None,
         generator: Optional[torch.Generator] = None,
     ):
-        image = trajectory_maps[:,:,0,:,:].unsqueeze(2)  # [B, C, F, H, W]
-        if isinstance(generator, list):
-            image_latents = [
-                retrieve_latents(self.vae.encode(image[i].unsqueeze(0)), generator[i]) for i in range(batch_size)
-            ]
-        else:
-            image_latents = [retrieve_latents(self.vae.encode(img.unsqueeze(0)), generator) for img in image]
-
-        image_latents = torch.cat(image_latents, dim=0).to(dtype).permute(0, 2, 1, 3, 4)  # [B, F, C, H, W]
-
-        if not self.vae.config.invert_scale_latents:
-            image_latents = self.vae_scaling_factor_image * image_latents
-        else:
-            # This is awkward but required because the CogVideoX team forgot to multiply the
-            # scaling factor during training :)
-            image_latents = 1 / self.vae_scaling_factor_image * image_latents
-
-        # Select the first frame along the second dimension
-        if self.transformer.config.patch_size_t is not None:
-            first_frame = image_latents[:, : image_latents.size(1) % self.transformer.config.patch_size_t, ...]
-            image_latents = torch.cat([first_frame, image_latents], dim=1)
 
         if isinstance(generator, list):
             trajectory_latents = [
@@ -490,11 +453,6 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
         if self.transformer.config.patch_size_t is not None:
             first_frame = trajectory_latents[:, : trajectory_latents.size(1) % self.transformer.config.patch_size_t, ...]
             trajectory_latents = torch.cat([first_frame, trajectory_latents], dim=1)
-
-        padding_shape = (trajectory_latents.shape[0], trajectory_latents.shape[1] - 1, *trajectory_latents.shape[2:])
-        latent_padding = torch.zeros(padding_shape, device=device, dtype=dtype)
-        image_latents = torch.cat([image_latents, latent_padding], dim=1)
-        trajectory_latents = torch.cat([trajectory_latents, image_latents], dim=2)
 
         return trajectory_latents
 
@@ -660,9 +618,6 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
     @property
     def guidance_scale(self):
         return self._guidance_scale
-    @property
-    def trajectory_guidance_scale(self):
-        return self._trajectory_guidance_scale
 
     @property
     def num_timesteps(self):
@@ -705,7 +660,7 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
         callback_on_step_end_tensor_inputs: List[str] = ["latents"],
         max_sequence_length: int = 226,
         trajectory_maps: Optional[PipelineImageInput] = None,
-        trajectory_guidance_scale: float = 2,
+        controlnet_weights: Optional[Union[float, list, np.ndarray, torch.FloatTensor]] = 1.0,
     ) -> Union[CogVideoXPipelineOutput, Tuple]:
         """
         Function invoked when calling the pipeline for generation.
@@ -811,7 +766,6 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
             negative_prompt_embeds=negative_prompt_embeds,
         )
         self._guidance_scale = guidance_scale
-        self._trajectory_guidance_scale = trajectory_guidance_scale
         self._attention_kwargs = attention_kwargs
         self._interrupt = False
 
@@ -829,9 +783,6 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
         # of the Imagen paper: https://arxiv.org/pdf/2205.11487.pdf . `guidance_scale = 1`
         # corresponds to doing no classifier free guidance.
         do_classifier_free_guidance = guidance_scale > 1.0
-        do_trajectory_guidance = False
-        if trajectory_maps is not None:
-            do_trajectory_guidance = trajectory_guidance_scale > 1.0
 
         # 3. Encode input prompt
         prompt_embeds, negative_prompt_embeds = self.encode_prompt(
@@ -844,6 +795,8 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
             max_sequence_length=max_sequence_length,
             device=device,
         )
+        if do_classifier_free_guidance:
+            prompt_embeds = torch.cat([negative_prompt_embeds, prompt_embeds], dim=0)
 
         # 4. Prepare timesteps
         timesteps, num_inference_steps = retrieve_timesteps(self.scheduler, num_inference_steps, device, timesteps)
@@ -881,26 +834,15 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
             latents,
         )
 
-        if trajectory_maps is not None:
-            trajectory_latents = self.prepare_trajectory_latents(
-                trajectory_maps,
-                batch_size * num_videos_per_prompt,
-                latent_channels,
-                num_frames,
-                height,
-                width,
-                prompt_embeds.dtype,
-                device,
-                generator,
-            )
-        
+        # Encode controlnet frames
+        controlnet_latents = self.prepare_trajectory_latents(
+            trajectory_maps,
+            batch_size * num_videos_per_prompt,
+            prompt_embeds.dtype,
+            generator,
+        )
         if do_classifier_free_guidance:
-            if do_trajectory_guidance:
-                prompt_embeds = torch.cat([negative_prompt_embeds, negative_prompt_embeds, prompt_embeds], dim=0)
-                trajectory_latents = torch.cat([torch.zeros_like(trajectory_latents), trajectory_latents, trajectory_latents], dim=0)
-            else:
-                prompt_embeds = torch.cat([negative_prompt_embeds, prompt_embeds], dim=0)
-                trajectory_latents = torch.cat([trajectory_latents, trajectory_latents], dim=0)
+            controlnet_latents = torch.cat([controlnet_latents, controlnet_latents], dim=0)
 
         # 6. Prepare extra step kwargs. TODO: Logic should ideally just be moved out of the pipeline
         extra_step_kwargs = self.prepare_extra_step_kwargs(generator, eta)
@@ -925,33 +867,27 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
                 if self.interrupt:
                     continue
 
-                # Only perform trajectory-guided diffusion in the first 30% of inference steps
-                # if i > len(timesteps) * 0.3:
-                #     trajectory_scale = 0
-                # else:
-                #     trajectory_scale = 1
-
-                if do_classifier_free_guidance:            
-                    if do_trajectory_guidance:
-                        latent_model_input = torch.cat([latents] * 3)
-                    else:    
-                        latent_model_input = torch.cat([latents] * 2)  
-                else:
-                    latent_model_input = latents
+                latent_model_input = torch.cat([latents] * 2) if do_classifier_free_guidance else latents
                 latent_model_input = self.scheduler.scale_model_input(latent_model_input, t)
-                # print("Before concat image", latent_model_input.shape) # Before concat image torch.Size([2, 22, 16, 96, 128])
-                if do_classifier_free_guidance:
-                    if do_trajectory_guidance:
-                        latent_image_input = torch.cat([image_latents] * 3)
-                    else:
-                        latent_image_input = torch.cat([image_latents] * 2)  
-                else:
-                    latent_image_input = image_latents
+
+                latent_image_input = torch.cat([image_latents] * 2) if do_classifier_free_guidance else image_latents
                 latent_model_input = torch.cat([latent_model_input, latent_image_input], dim=2)
-                # print("After concat image", latent_model_input.shape) # After concat image torch.Size([2, 22, 32, 96, 128])
 
                 # broadcast to batch dimension in a way that's compatible with ONNX/Core ML
                 timestep = t.expand(latent_model_input.shape[0])
+
+                controlnet_states = self.controlnet(
+                        hidden_states=latent_model_input[:, :, :latent_model_input.shape[2]//2, :, :],
+                        encoder_hidden_states=prompt_embeds,
+                        image_rotary_emb=image_rotary_emb,
+                        trajectory_hidden_states=controlnet_latents,
+                        timestep=timestep,
+                        return_dict=False,
+                )[0]
+                if isinstance(controlnet_states, (tuple, list)):
+                    controlnet_states = [x.to(dtype=self.transformer.dtype) for x in controlnet_states]
+                else:
+                    controlnet_states = controlnet_states.to(dtype=self.transformer.dtype)
 
                 # predict noise model_output
                 noise_pred = self.transformer(
@@ -961,22 +897,11 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
                     ofs=ofs_emb,
                     image_rotary_emb=image_rotary_emb,
                     attention_kwargs=attention_kwargs,
+                    controlnet_states=controlnet_states,
+                    controlnet_weights=controlnet_weights,
                     return_dict=False,
-                    trajectory_hidden_states=trajectory_latents if trajectory_maps is not None else None,
                 )[0]
                 noise_pred = noise_pred.float()
-
-                # Visualize mask_pred
-                # mask_pred = rearrange(mask_pred, "(B T) C H W -> B C T H W", T=13)
-                # binary_mask_pred = mask_pred.argmax(dim=1)  # 结果形状为 [B, T, H, W]
-
-                # output_dir = "visualization/mask_pred_inference"
-                # os.makedirs(output_dir, exist_ok=True)
-
-                # first_batch_masks = binary_mask_pred[0]  # 形状为 [T, H, W]
-                # for id in range(first_batch_masks.shape[0]):
-                #     frame = first_batch_masks[id].detach().float().cpu().numpy()
-                #     plt.imsave(os.path.join(output_dir, f"frame_{id}.png"), frame, cmap="gray")
 
                 # perform guidance
                 if use_dynamic_cfg:
@@ -984,12 +909,8 @@ class CogVideoXTrajectoryImageToVideoPipeline(DiffusionPipeline, CogVideoXLoraLo
                         (1 - math.cos(math.pi * ((num_inference_steps - t.item()) / num_inference_steps) ** 5.0)) / 2
                     )
                 if do_classifier_free_guidance:
-                    if do_trajectory_guidance:
-                        noise_pred_uncond, noise_pred_trajectory,  noise_pred_text_trajectory = noise_pred.chunk(3)
-                        noise_pred = noise_pred_uncond + self.trajectory_guidance_scale * (noise_pred_trajectory - noise_pred_uncond) + self.guidance_scale * (noise_pred_text_trajectory - noise_pred_trajectory)
-                    else:
-                        noise_pred_uncond, noise_pred_text = noise_pred.chunk(2)
-                        noise_pred = noise_pred_uncond + self.guidance_scale * (noise_pred_text - noise_pred_uncond)
+                    noise_pred_uncond, noise_pred_text = noise_pred.chunk(2)
+                    noise_pred = noise_pred_uncond + self.guidance_scale * (noise_pred_text - noise_pred_uncond)
 
                 # compute the previous noisy sample x_t -> x_t-1
                 if not isinstance(self.scheduler, CogVideoXDPMScheduler):

@@ -324,7 +324,7 @@ def save_hidden_states_as_images(hidden_states_text, save_dir, T, H, W):
             frame = frames[t]
             save_path = os.path.join(save_dir, f"batch_{b}_frame_{t}.png")
             cv2.imwrite(save_path, cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
-            print(f"Saved: {save_path}")
+            # print(f"Saved: {save_path}")
 
 def save_tensor_as_images_with_pca(tensor, save_dir):
     from sklearn.decomposition import PCA
@@ -490,12 +490,33 @@ def load_video(
 
     return pil_images
 
+def generate_gaussian_noise(height, width, mean=0, std_dev=1):
+    """
+    生成一个 H x W 的从高斯分布采样得到的噪声矩阵，并输出其均值和方差。
+    
+    Args:
+        height (int): 矩阵的高度 H。
+        width (int): 矩阵的宽度 W。
+        mean (float): 高斯分布的均值，默认为 0。
+        std_dev (float): 高斯分布的标准差，默认为 1。
+    
+    Returns:
+        np.ndarray: 生成的 H x W 噪声矩阵。
+        float: 噪声矩阵的均值。
+        float: 噪声矩阵的方差。
+    """
+    # 从高斯分布采样生成噪声矩阵
+    noise = np.random.normal(loc=mean, scale=std_dev, size=(height, width))
+    
+    # 计算均值和方差
+    noise_mean = np.mean(noise)
+    noise_variance = np.var(noise)
+    
+    return noise, noise_mean, noise_variance
 
 if __name__ == "__main__":
-    image_rotary_emb = (
-        prepare_rotary_positional_embeddings(
-            height=480,
-            width=720,
-            num_frames=49,
-        )
-    )
+    H, W = 100, 100
+    noise, mean, variance = generate_gaussian_noise(H, W, mean=0, std_dev=1)
+
+    print(f"Generated noise shape: {noise.shape}")
+    print(f"Mean: {mean}, Variance: {variance}")

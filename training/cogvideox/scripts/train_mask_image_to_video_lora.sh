@@ -1,15 +1,14 @@
 export TORCH_LOGS="+dynamo,recompiles,graph_breaks"
 export TORCHDYNAMO_VERBOSE=1
-export WANDB_MODE="online"
-# export NCCL_P2P_DISABLE=1
+export WANDB_MODE="offline"
+export NCCL_P2P_DISABLE=1
 export TORCH_NCCL_ENABLE_MONITORING=0
-export TOKENIZERS_PARALLELISM=true
-export OMP_NUM_THREADS=16
-GPU_IDS="0,1,2"
+export TOKENIZERS_PARALLELISM=false
+GPU_IDS="0,1,2,3"
 
 # Training Configurations
 # Experiment with as many hyperparameters as you want!
-LEARNING_RATES=("1e-5")
+LEARNING_RATES=("1e-4")
 LR_SCHEDULES=("cosine_with_restarts")
 OPTIMIZERS=("adamw")
 MAX_TRAIN_STEPS=("10000")
@@ -25,14 +24,12 @@ MODEL_PATH="THUDM/CogVideoX-5b-I2V"
 TRAJECTORY_MAPS_TYPE="mask"
 frame_interval=1
 
-# Set ` --load_tensors ` to load tensors from disk instead of recomputing the encoder process.
 # Launch experiments with different hyperparameters
-
 for learning_rate in "${LEARNING_RATES[@]}"; do
   for lr_schedule in "${LR_SCHEDULES[@]}"; do
     for optimizer in "${OPTIMIZERS[@]}"; do
       for steps in "${MAX_TRAIN_STEPS[@]}"; do
-        output_dir="/datadrive2/cogvideox/mask/DAVIS/Trajectory_DiT/cogvideox-sft__optimizer_${optimizer}__steps_${steps}__lr-schedule_${lr_schedule}__learning-rate_${learning_rate}/"
+        output_dir="/datadrive2/cogvideox/mask/DAVIS/M3_Attention/cogvideox-lora__optimizer_${optimizer}__steps_${steps}__lr-schedule_${lr_schedule}__learning-rate_${learning_rate}/"
 
         cmd="accelerate launch --config_file $ACCELERATE_CONFIG_FILE\
           --gpu_ids $GPU_IDS \
@@ -59,12 +56,12 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --max_num_frames 49 \
           --train_batch_size 1 \
           --max_train_steps $steps \
-          --checkpointing_steps 100 \
+          --checkpointing_steps 200 \
           --gradient_accumulation_steps 1 \
           --gradient_checkpointing \
           --learning_rate $learning_rate \
           --lr_scheduler $lr_schedule \
-          --lr_warmup_steps 50 \
+          --lr_warmup_steps 200 \
           --lr_num_cycles 1 \
           --enable_slicing \
           --enable_tiling \
@@ -79,8 +76,7 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --nccl_timeout 1800 \
           --resume_from_checkpoint \"latest\" \
           --lambda_region 2.0 \
-          --lambda_latent_segmentation 0.5 \
-          --use_cpu_offload_optimizer"
+          --lambda_latent_segmentation 0.5"
         
         echo "Running command: $cmd"
         eval $cmd

@@ -120,12 +120,14 @@ def _get_validation_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--validation_prompt",
         type=str,
+        nargs='+',
         default=None,
-        help="One or more prompt(s) that is used during validation to verify that the model is learning. Multiple validation prompts should be separated by the '--validation_prompt_seperator' string.",
+        help="One or more prompts used during validation to verify that the model is learning. Provide multiple prompts separated by spaces.",
     )
     parser.add_argument(
         "--validation_images",
         type=str,
+        nargs='+',
         default=None,
         help="One or more image path(s)/URLs that is used during validation to verify that the model is learning. Multiple validation paths should be separated by the '--validation_prompt_seperator' string. These should correspond to the order of the validation prompts.",
     )
@@ -174,12 +176,14 @@ def _get_validation_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--validation_trajectory_maps",
         type=str,
+        nargs='+',
         default=None,
         help="Path to the trajectory maps for the validation videos.",
     )
     parser.add_argument(
         "--output_path",
         type=str,
+        nargs='+',
         default="output.mp4",
         help="Path to save the generated video.",
     )
@@ -188,6 +192,12 @@ def _get_validation_args(parser: argparse.ArgumentParser) -> None:
         type=float,
         default=2,
         help="The tajectory guidance scale to use while sampling validation videos.",
+    )
+    parser.add_argument(
+        "--validation_args_csv",
+        type=str,
+        default=None,
+        help="Path to a csv file containing validation arguments.",
     )
 
 
@@ -381,6 +391,23 @@ def _get_training_args(parser: argparse.ArgumentParser) -> None:
         type=float,
         default=1.0,
         help="The weight of the latent segmentation loss in the total loss.",
+    )
+    parser.add_argument(
+        "--controlnet_weights",
+        type=float,
+        default=1.0,
+        help="The weight of the controlnet.",
+    )
+    parser.add_argument(
+        "--init_from_transformer",
+        action="store_true",
+        help="Whether or not to initialize the Controlnet from the transformer.",
+    )
+    parser.add_argument(
+        "--pretrained_controlnet_path",
+        type=str,
+        default=None,
+        help="Path to the pretrained controlnet.",
     )
 
 

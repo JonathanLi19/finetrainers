@@ -1,5 +1,6 @@
 import random
 import os
+import traceback
 import cv2
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -416,6 +417,7 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
         ]
 
         self.data = pd.read_csv(self.dataset_file)
+        self.data["text"] = self.data["text"].fillna("")
 
         self.video_transforms = transforms.Compose(
             [
@@ -463,8 +465,11 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
                 frame_interval *= 2
 
             if path.endswith(".mp4") or path.endswith(".mkv"):
+                path = Path(path)
                 video_reader = decord.VideoReader(uri=path.as_posix())
                 video_num_frames = len(video_reader)
+                assert mask_end_index < video_num_frames, "path: {}, mask_end_index: {}, mask_start_index: {}, video_num_frames: {}".format(path, mask_end_index, mask_start_index, video_num_frames)
+                assert mask_end_index - mask_start_index + 1 >= num_frames, "path: {}, mask_end_index: {}, mask_start_index: {}, video_num_frames: {}".format(path, mask_end_index, mask_start_index, video_num_frames)
                 nearest_frame_bucket = min(
                     self.frame_buckets, key=lambda x: abs(x - min(video_num_frames, self.max_num_frames))
                 )
@@ -499,6 +504,7 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
             image = frames[:1].clone() if self.image_to_video else None
 
             trajectory_maps = self.read_mask(trajectory_maps_path, mask_start_index, mask_end_index, frame_indices, nearest_res)
+            trajectory_image = trajectory_maps[:1].clone() if self.image_to_video else None
 
             assert frames.shape == trajectory_maps.shape
 
@@ -521,7 +527,7 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
 
             latent_segmentation_gt = (latent_segmentation_gt > 0).any(dim=1) 
 
-            return image, frames, trajectory_maps, latent_segmentation_gt
+            return image, frames, trajectory_image, trajectory_maps, latent_segmentation_gt
         
     def read_mask(self, trajectory_maps_path, mask_start_index, mask_end_index, frame_indices, nearest_res):
         assert not trajectory_maps_path.endswith(".mp4")
@@ -563,19 +569,28 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
             raise NotImplementedError
         else:
             sample = self.data.iloc[index]
-            image, video, trajectory_maps, latent_segmentation_gt = self._preprocess_video(sample)
-            return {
-                "prompt": self.id_token + sample["text"],
-                "image": image,
-                "video": video,
-                "trajectory_maps": trajectory_maps,
-                "video_metadata": {
-                    "num_frames": video.shape[0],
-                    "height": video.shape[2],
-                    "width": video.shape[3],
-                },
-                "latent_segmentation_gt": latent_segmentation_gt,
-            }
+            try:
+                image, video, trajectory_image, trajectory_maps, latent_segmentation_gt = self._preprocess_video(sample)
+                return {
+                    "prompt": self.id_token + sample["text"],
+                    "image": image,
+                    "video": video,
+                    "trajectory_image": trajectory_image,
+                    "trajectory_maps": trajectory_maps,
+                    "video_metadata": {
+                        "num_frames": video.shape[0],
+                        "height": video.shape[2],
+                        "width": video.shape[3],
+                    },
+                    "latent_segmentation_gt": latent_segmentation_gt,
+                }
+            except Exception as e:
+                print("发生错误！详细信息如下：")
+                # 打印错误类型和信息
+                print(f"错误类型: {type(e).__name__}")
+                print(f"错误信息: {e}")
+                # 打印完整的堆栈跟踪
+                traceback.print_exc()
 
 class BucketSampler(Sampler):
     r"""

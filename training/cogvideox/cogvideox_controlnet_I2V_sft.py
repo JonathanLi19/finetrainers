@@ -66,10 +66,11 @@ from utils import (
     save_tensor_as_images_with_pca,
     save_tensor_as_video
 )
-from models.transformer_trajectory import CogVideoXTrajectoryTransformer3DModel
-from pipelines.pipeline_trajectory import CogVideoXTrajectoryImageToVideoPipeline
+from models.transformer_controlnet import CogVideoXControlnetTransformer3DModel
+from pipelines.pipeline_controlnet import CogVideoXImageToVideoControlnetPipeline
+from models.controlnet import CogVideoXControlnet
 from einops import rearrange
-
+import traceback
 
 logger = get_logger(__name__)
 
@@ -129,7 +130,7 @@ Please adhere to the licensing terms as described [here](https://huggingface.co/
 
 def log_validation(
     accelerator: Accelerator,
-    pipe: CogVideoXTrajectoryImageToVideoPipeline,
+    pipe: CogVideoXImageToVideoControlnetPipeline,
     args: Dict[str, Any],
     pipeline_args: Dict[str, Any],
     is_final_validation: bool = False,
@@ -181,6 +182,7 @@ def run_validation(
     args: Dict[str, Any],
     accelerator: Accelerator,
     transformer,
+    controlnet,
     scheduler,
     model_config: Dict[str, Any],
     weight_dtype: torch.dtype,
@@ -189,9 +191,10 @@ def run_validation(
     print_memory(accelerator.device)
     torch.cuda.synchronize(accelerator.device)
 
-    pipe = CogVideoXTrajectoryImageToVideoPipeline.from_pretrained(
+    pipe = CogVideoXImageToVideoControlnetPipeline.from_pretrained(
         args.pretrained_model_name_or_path,
         transformer=unwrap_model(accelerator, transformer),
+        controlnet=unwrap_model(accelerator, controlnet),
         scheduler=scheduler,
         revision=args.revision,
         variant=args.variant,
@@ -219,7 +222,7 @@ def run_validation(
             "width": args.width,
             "max_sequence_length": model_config.max_text_seq_length,
             "trajectory_maps": load_video(validation_trajectory_map),
-            "trajectory_guidance_scale": args.trajectory_guidance_scale,
+            "controlnet_weights": args.controlnet_weights,
         }
 
         log_validation(
@@ -350,13 +353,14 @@ def main(args):
     # CogVideoX-2b weights are stored in float16
     # CogVideoX-5b and CogVideoX-5b-I2V weights are stored in bfloat16
     load_dtype = torch.bfloat16 if "5b" in args.pretrained_model_name_or_path.lower() else torch.float16
-    transformer = CogVideoXTrajectoryTransformer3DModel.from_pretrained(
+    transformer = CogVideoXControlnetTransformer3DModel.from_pretrained(
         args.pretrained_model_name_or_path,
         subfolder="transformer",
         torch_dtype=load_dtype,
         revision=args.revision,
         variant=args.variant,
     )
+    model_config = transformer.module.config if hasattr(transformer, "module") else transformer.config
 
     if args.ignore_learned_positional_embeddings:
         del transformer.patch_embed.pos_embedding
@@ -370,6 +374,27 @@ def main(args):
         variant=args.variant,
     )
 
+    controlnet = CogVideoXControlnet(
+        **model_config,
+    )
+    if args.init_from_transformer:
+        controlnet_state_dict = {}
+        for name, params in transformer.state_dict().items():
+            controlnet_state_dict[name] = params
+        m, u = controlnet.load_state_dict(controlnet_state_dict, strict=False)
+        print(f'[ Weights from transformer was loaded into controlnet ] [M: {len(m)} | U: {len(u)}]')
+
+    elif args.pretrained_controlnet_path:
+        ckpt = torch.load(args.pretrained_controlnet_path, map_location='cpu', weights_only=False)
+        controlnet_state_dict = {}
+        for name, params in ckpt['state_dict'].items():
+            controlnet_state_dict[name] = params
+        m, u = controlnet.load_state_dict(controlnet_state_dict, strict=False)
+        print(f'[ Weights from pretrained controlnet was loaded into controlnet ] [M: {len(m)} | U: {len(u)}]')
+
+    params = [p.numel() for n, p in controlnet.named_parameters()]
+    print(f"### Whole Controlnet Parameters: {sum(params) / 1e9} B")
+
     scheduler = CogVideoXDPMScheduler.from_pretrained(args.pretrained_model_name_or_path, subfolder="scheduler")
 
     if args.enable_slicing:
@@ -380,9 +405,7 @@ def main(args):
     text_encoder.requires_grad_(False)
     vae.requires_grad_(False)
     transformer.requires_grad_(False)
-    for name, param in transformer.named_parameters():
-        if 'trajectory' in name:
-            param.requires_grad_(True)
+    controlnet.requires_grad_(True)
 
     VAE_SCALING_FACTOR = vae.config.scaling_factor
     VAE_SCALE_FACTOR_SPATIAL = 2 ** (len(vae.config.block_out_channels) - 1)
@@ -420,59 +443,11 @@ def main(args):
     text_encoder.to(accelerator.device, dtype=weight_dtype)
     transformer.to(accelerator.device, dtype=weight_dtype)
     vae.to(accelerator.device, dtype=weight_dtype)
+    controlnet.to(accelerator.device, dtype=weight_dtype)
 
     if args.gradient_checkpointing:
         transformer.enable_gradient_checkpointing()
-
-    # create custom saving & loading hooks so that `accelerator.save_state(...)` serializes in a nice format
-    def save_model_hook(models, weights, output_dir):
-        if accelerator.is_main_process:
-            for model in models:
-                if isinstance(unwrap_model(accelerator, model), type(unwrap_model(accelerator, transformer))):
-                    model = unwrap_model(accelerator, model)
-                    model.save_pretrained(
-                        os.path.join(output_dir, "transformer"), safe_serialization=True, max_shard_size="5GB"
-                    )
-                else:
-                    raise ValueError(f"Unexpected save model: {model.__class__}")
-
-                # make sure to pop weight so that corresponding model is not saved again
-                if weights:
-                    weights.pop()
-
-    def load_model_hook(models, input_dir):
-        transformer_ = None
-        init_under_meta = False
-
-        # This is a bit of a hack but I don't know any other solution.
-        if not accelerator.distributed_type == DistributedType.DEEPSPEED:
-            while len(models) > 0:
-                model = models.pop()
-
-                if isinstance(unwrap_model(accelerator, model), type(unwrap_model(accelerator, transformer))):
-                    transformer_ = unwrap_model(accelerator, model)
-                else:
-                    raise ValueError(f"Unexpected save model: {unwrap_model(accelerator, model).__class__}")
-        else:
-            with init_empty_weights():
-                transformer_ = CogVideoXTrajectoryTransformer3DModel.from_config(
-                    args.pretrained_model_name_or_path, subfolder="transformer"
-                )
-                init_under_meta = True
-
-        load_model = CogVideoXTrajectoryTransformer3DModel.from_pretrained(os.path.join(input_dir, "transformer"))
-        transformer_.register_to_config(**load_model.config)
-        transformer_.load_state_dict(load_model.state_dict(), assign=init_under_meta)
-        del load_model
-
-        # Make sure the trainable params are in float32. This is again needed since the base models
-        # are in `weight_dtype`. More details:
-        # https://github.com/huggingface/diffusers/pull/6514#discussion_r1449796804
-        if args.mixed_precision == "fp16":
-            cast_training_params([transformer_])
-
-    accelerator.register_save_state_pre_hook(save_model_hook)
-    accelerator.register_load_state_pre_hook(load_model_hook)
+        controlnet.enable_gradient_checkpointing()
 
     # Enable TF32 for faster training on Ampere GPUs,
     # cf https://pytorch.org/docs/stable/notes/cuda.html#tensorfloat-32-tf32-on-ampere-devices
@@ -486,16 +461,16 @@ def main(args):
 
     # Make sure the trainable params are in float32.
     if args.mixed_precision == "fp16":
-        cast_training_params([transformer], dtype=torch.float32)
+        cast_training_params([controlnet], dtype=torch.float32)
 
-    transformer_parameters = list(filter(lambda p: p.requires_grad, transformer.parameters()))
+    trainable_parameters = list(filter(lambda p: p.requires_grad, controlnet.parameters()))
 
     # Optimization parameters
-    transformer_parameters_with_lr = {
-        "params": transformer_parameters,
+    trainable_parameters_with_lr = {
+        "params": trainable_parameters,
         "lr": args.learning_rate,
     }
-    params_to_optimize = [transformer_parameters_with_lr]
+    params_to_optimize = [trainable_parameters_with_lr]
     num_trainable_parameters = sum(param.numel() for model in params_to_optimize for param in model["params"])
 
     use_deepspeed_optimizer = (
@@ -588,8 +563,8 @@ def main(args):
             )
 
     # Prepare everything with our `accelerator`.
-    transformer, optimizer, train_dataloader, lr_scheduler = accelerator.prepare(
-        transformer, optimizer, train_dataloader, lr_scheduler
+    controlnet, optimizer, train_dataloader, lr_scheduler = accelerator.prepare(
+        controlnet, optimizer, train_dataloader, lr_scheduler
     )
 
     # We need to recalculate our total training steps as the size of the training dataloader may have changed.
@@ -659,9 +634,6 @@ def main(args):
         disable=not accelerator.is_local_main_process,
     )
 
-    # For DeepSpeed training
-    model_config = transformer.module.config if hasattr(transformer, "module") else transformer.config
-
     if args.load_tensors:
         del vae, text_encoder
         gc.collect()
@@ -671,16 +643,15 @@ def main(args):
     alphas_cumprod = scheduler.alphas_cumprod.to(accelerator.device, dtype=torch.float32)
 
     for epoch in range(first_epoch, args.num_train_epochs):
-        transformer.train()
+        controlnet.train()
         for step, batch in enumerate(train_dataloader):
-            models_to_accumulate = [transformer]
+            models_to_accumulate = [controlnet]
             logs = {}
 
             with accelerator.accumulate(models_to_accumulate):
                 images = batch["images"].to(accelerator.device, non_blocking=True)
                 videos = batch["videos"].to(accelerator.device, non_blocking=True)
                 prompts = batch["prompts"]
-                trajectory_images = batch["trajectory_images"].to(accelerator.device, non_blocking=True)
                 trajectory_maps = batch["trajectory_maps"].to(accelerator.device, non_blocking=True)
                 latent_segmentation_gt = batch["latent_segmentation_gt"].to(accelerator.device, non_blocking=True)
                 assert trajectory_maps.shape == videos.shape
@@ -694,9 +665,6 @@ def main(args):
                     image_noise_sigma = torch.exp(image_noise_sigma)
                     noisy_images = images + torch.randn_like(images) * image_noise_sigma[:, None, None, None, None]
                     image_latent_dist = vae.encode(noisy_images).latent_dist
-
-                    trajectory_images = trajectory_images.permute(0, 2, 1, 3, 4)  # [B, C, F, H, W]
-                    trajectory_image_latent_dist = vae.encode(trajectory_images).latent_dist
 
                     videos = videos.permute(0, 2, 1, 3, 4)  # [B, C, F, H, W]
                     latent_dist = vae.encode(videos).latent_dist
@@ -714,10 +682,6 @@ def main(args):
                 video_latents = video_latents.permute(0, 2, 1, 3, 4)  # [B, F, C, H, W]
                 video_latents = video_latents.to(memory_format=torch.contiguous_format, dtype=weight_dtype)
 
-                trajectory_image_latents = trajectory_image_latent_dist.sample() * VAE_SCALING_FACTOR
-                trajectory_image_latents = trajectory_image_latents.permute(0, 2, 1, 3, 4)  # [B, F, C, H, W]
-                trajectory_image_latents = trajectory_image_latents.to(memory_format=torch.contiguous_format, dtype=weight_dtype)
-
                 trajectory_latents = trajectory_latent_dist.sample() * VAE_SCALING_FACTOR
                 trajectory_latents = trajectory_latents.permute(0, 2, 1, 3, 4)  # [B, F, C, H, W]
                 trajectory_latents = trajectory_latents.to(memory_format=torch.contiguous_format, dtype=weight_dtype)
@@ -725,10 +689,6 @@ def main(args):
                 padding_shape = (video_latents.shape[0], video_latents.shape[1] - 1, *video_latents.shape[2:])
                 latent_padding = image_latents.new_zeros(padding_shape)
                 image_latents = torch.cat([image_latents, latent_padding], dim=1)
-
-                padding_shape = (trajectory_latents.shape[0], trajectory_latents.shape[1] - 1, *trajectory_latents.shape[2:])
-                latent_padding = trajectory_image_latents.new_zeros(padding_shape)
-                trajectory_image_latents = torch.cat([trajectory_image_latents, latent_padding], dim=1)
 
                 if random.random() < args.noised_image_dropout:
                     image_latents = torch.zeros_like(image_latents)
@@ -759,22 +719,6 @@ def main(args):
                     dtype=torch.int64,
                     device=accelerator.device,
                 )
-                # if torch.rand(1).item() < 0.7:  # 70% 概率
-                #     timesteps = torch.randint(
-                #         int(0.7 * scheduler.config.num_train_timesteps),
-                #         scheduler.config.num_train_timesteps,
-                #         (batch_size,),
-                #         dtype=torch.int64,
-                #         device=accelerator.device,
-                #     )
-                # else:  # 30% 概率
-                #     timesteps = torch.randint(
-                #         0,
-                #         scheduler.config.num_train_timesteps,
-                #         (batch_size,),
-                #         dtype=torch.int64,
-                #         device=accelerator.device,
-                #     )
 
                 # Prepare rotary embeds
                 image_rotary_emb = (
@@ -798,10 +742,24 @@ def main(args):
                 # (this is the forward diffusion process)
                 noisy_video_latents = scheduler.add_noise(video_latents, noise, timesteps)
                 noisy_model_input = torch.cat([noisy_video_latents, image_latents], dim=2)
-                trajectory_latents = torch.cat([trajectory_latents, trajectory_image_latents], dim=2)
                 model_config.patch_size_t if hasattr(model_config, "patch_size_t") else None,
                 ofs_embed_dim = model_config.ofs_embed_dim if hasattr(model_config, "ofs_embed_dim") else None,
                 ofs_emb = None if ofs_embed_dim is None else noisy_model_input.new_full((1,), fill_value=2.0)
+
+                controlnet_states = controlnet(
+                    hidden_states=noisy_video_latents,
+                    encoder_hidden_states=prompt_embeds,
+                    timestep=timesteps,
+                    ofs=ofs_emb,
+                    image_rotary_emb=image_rotary_emb,
+                    return_dict=False,
+                    trajectory_hidden_states=trajectory_latents,
+                )[0]
+                if isinstance(controlnet_states, (tuple, list)):
+                    controlnet_states = [x.to(dtype=weight_dtype) for x in controlnet_states]
+                else:
+                    controlnet_states = controlnet_states.to(dtype=weight_dtype)
+
                 # Predict the noise residual
                 model_output = transformer(
                     hidden_states=noisy_model_input,
@@ -810,7 +768,8 @@ def main(args):
                     ofs=ofs_emb,
                     image_rotary_emb=image_rotary_emb,
                     return_dict=False,
-                    trajectory_hidden_states=trajectory_latents,
+                    controlnet_states=controlnet_states,
+                    controlnet_weights=args.controlnet_weights,
                 )[0]
 
                 model_pred = scheduler.get_velocity(model_output, noisy_video_latents, timesteps)
@@ -825,46 +784,14 @@ def main(args):
                     (weights * (model_pred - target) ** 2).reshape(batch_size, -1),
                     dim=1,
                 )
-                # Add Region Loss
-                # region_gt = F.interpolate(latent_segmentation_gt, size=(target.shape[-2], target.shape[-1]), mode='bilinear', align_corners=False) # [B T H W]
-                # region_gt = region_gt.unsqueeze(2) # [B T 1 H W]
-                # region_loss = torch.mean(
-                #     (weights * ((model_pred - target) * region_gt) ** 2).reshape(batch_size, -1),
-                #     dim=1,
-                # )
-                # loss += args.lambda_region * region_loss
-
-                # Add Latent Segmentation Loss
-                # mask_pred_gt = F.interpolate(latent_segmentation_gt, size=(mask_pred.shape[-2], mask_pred.shape[-1]), mode='bilinear', align_corners=False)
-                # T = mask_pred.shape[0] // mask_pred_gt.shape[0]
-                # mask_pred = rearrange(mask_pred, "(B T) C H W -> B C T H W", T=T)
-                
-                # if accelerator.is_main_process: # Visualize segmentation_gt and mask_pred
-                #     binary_mask_pred = mask_pred.argmax(dim=1)  # 结果形状为 [B, T, H, W]
-
-                #     output_dir = "visualization/mask_pred_train"
-                #     os.makedirs(output_dir, exist_ok=True)
-
-                #     first_batch_masks = binary_mask_pred[0]  # 形状为 [T, H, W]
-                #     gt_batch = mask_pred_gt[0]
-                #     for i in range(first_batch_masks.shape[0]):
-                #         frame = first_batch_masks[i].detach().float().cpu().numpy()
-                #         frame_gt = gt_batch[i].detach().float().cpu().numpy()
-                #         plt.imsave(os.path.join(output_dir, f"frame_{i}.png"), frame, cmap="gray")
-                #         plt.imsave(os.path.join(output_dir, f"gt_frame_{i}.png"), frame_gt, cmap="gray")
-
-                # mask_pred_gt = mask_pred_gt.to(mask_pred.device).long()
-                # criterion = nn.CrossEntropyLoss()
-                # latent_segment_loss = criterion(mask_pred, mask_pred_gt)
-                # loss += args.lambda_latent_segmentation * latent_segment_loss
 
                 loss = loss.mean()
                 accelerator.backward(loss)
 
                 if accelerator.sync_gradients:
-                    gradient_norm_before_clip = get_gradient_norm(transformer.parameters())
-                    accelerator.clip_grad_norm_(transformer.parameters(), args.max_grad_norm)
-                    gradient_norm_after_clip = get_gradient_norm(transformer.parameters())
+                    gradient_norm_before_clip = get_gradient_norm(controlnet.parameters())
+                    accelerator.clip_grad_norm_(controlnet.parameters(), args.max_grad_norm)
+                    gradient_norm_after_clip = get_gradient_norm(controlnet.parameters())
                     logs.update(
                         {
                             "gradient_norm_before_clip": gradient_norm_before_clip,
@@ -886,28 +813,8 @@ def main(args):
                 # Checkpointing
                 if accelerator.is_main_process or accelerator.distributed_type == DistributedType.DEEPSPEED:
                     if global_step % args.checkpointing_steps == 0:
-                        # _before_ saving state, check if this save would set us over the `checkpoints_total_limit`
-                        if args.checkpoints_total_limit is not None:
-                            checkpoints = os.listdir(args.output_dir)
-                            checkpoints = [d for d in checkpoints if d.startswith("checkpoint")]
-                            checkpoints = sorted(checkpoints, key=lambda x: int(x.split("-")[1]))
-
-                            # before we save the new checkpoint, we need to have at _most_ `checkpoints_total_limit - 1` checkpoints
-                            if len(checkpoints) >= args.checkpoints_total_limit:
-                                num_to_remove = len(checkpoints) - args.checkpoints_total_limit + 1
-                                removing_checkpoints = checkpoints[0:num_to_remove]
-
-                                logger.info(
-                                    f"{len(checkpoints)} checkpoints already exist, removing {len(removing_checkpoints)} checkpoints"
-                                )
-                                logger.info(f"Removing checkpoints: {', '.join(removing_checkpoints)}")
-
-                                for removing_checkpoint in removing_checkpoints:
-                                    removing_checkpoint = os.path.join(args.output_dir, removing_checkpoint)
-                                    shutil.rmtree(removing_checkpoint)
-
-                        save_path = os.path.join(args.output_dir, f"checkpoint-{global_step}")
-                        accelerator.save_state(save_path)
+                        save_path = os.path.join(args.output_dir, f"checkpoint-{global_step}.pt")
+                        torch.save({'state_dict': unwrap_model(accelerator, controlnet).state_dict()}, save_path)
                         logger.info(f"Saved state to {save_path}")
 
                 # Validation
@@ -915,29 +822,27 @@ def main(args):
                     args.validation_steps is not None and global_step % args.validation_steps == 0
                 )
                 if should_run_validation:
-                    run_validation(args, accelerator, transformer, scheduler, model_config, weight_dtype)
+                    run_validation(args, accelerator, transformer, controlnet, scheduler, model_config, weight_dtype)
 
             last_lr = lr_scheduler.get_last_lr()[0] if lr_scheduler is not None else args.learning_rate
             logs.update(
                 {
                     "loss": loss.detach().item(),
                     "lr": last_lr,
-                    # "region_loss": region_loss.detach().item(),
-                    # "latent_segment_loss": latent_segment_loss.detach().item(),
                 }
             )
             progress_bar.set_postfix(**logs)
             accelerator.log(logs, step=global_step)
 
             if global_step >= args.max_train_steps:
-                break
-
+                break        
         if accelerator.is_main_process:
             should_run_validation = args.validation_prompt is not None and (
                 args.validation_epochs is not None and (epoch + 1) % args.validation_epochs == 0
             )
             if should_run_validation:
-                run_validation(args, accelerator, transformer, scheduler, model_config, weight_dtype)
+                run_validation(args, accelerator, transformer, controlnet, scheduler, model_config, weight_dtype)
+        
     accelerator.wait_for_everyone()
     accelerator.end_training()
 

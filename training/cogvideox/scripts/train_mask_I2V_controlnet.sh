@@ -12,15 +12,15 @@ GPU_IDS="0,1,2"
 LEARNING_RATES=("1e-5")
 LR_SCHEDULES=("cosine_with_restarts")
 OPTIMIZERS=("adamw")
-MAX_TRAIN_STEPS=("10000")
+EPOCHS=("1")
 
 # Single GPU uncompiled training
-ACCELERATE_CONFIG_FILE="accelerate_configs/my_config.yaml"
+ACCELERATE_CONFIG_FILE="accelerate_configs/deepspeed.yaml"
 
 # Absolute path to where the data is located. Make sure to have read the README for how to prepare data.
 # This example assumes you downloaded an already prepared dataset from HF CLI as follows:
 #   huggingface-cli download --repo-type dataset Wild-Heart/Disney-VideoGeneration-Dataset --local-dir /path/to/my/datasets/disney-dataset
-DATA_ROOT="/home/qid/quanhao/workspace/Open-Sora/data/DAVIS/DAVIS_data.csv"
+DATA_ROOT="/home/qid/quanhao/workspace/Open-Sora/data/Pexels/Pexels_MeViS_MOSE_DAVIS.csv"
 MODEL_PATH="THUDM/CogVideoX-5b-I2V"
 TRAJECTORY_MAPS_TYPE="mask"
 frame_interval=1
@@ -31,12 +31,12 @@ frame_interval=1
 for learning_rate in "${LEARNING_RATES[@]}"; do
   for lr_schedule in "${LR_SCHEDULES[@]}"; do
     for optimizer in "${OPTIMIZERS[@]}"; do
-      for steps in "${MAX_TRAIN_STEPS[@]}"; do
-        output_dir="/datadrive2/cogvideox/mask/DAVIS/Trajectory_DiT/cogvideox-sft__optimizer_${optimizer}__steps_${steps}__lr-schedule_${lr_schedule}__learning-rate_${learning_rate}/"
+      for epoch in "${EPOCHS[@]}"; do
+        output_dir="/datadrive2/cogvideox/mask/Pexels_MeViS_MOSE_DAVIS/Controlnet"
 
         cmd="accelerate launch --config_file $ACCELERATE_CONFIG_FILE\
           --gpu_ids $GPU_IDS \
-          training/cogvideox/cogvideox_trajectory_image_to_video_sft.py \
+          training/cogvideox/cogvideox_controlnet_I2V_sft.py \
           --pretrained_model_name_or_path  $MODEL_PATH \
           --dataset_file $DATA_ROOT \
           --trajectory_maps_type $TRAJECTORY_MAPS_TYPE \
@@ -50,7 +50,7 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --validation_images \"/home/qid/quanhao/workspace/Open-Sora/assets/images/condition/boat.png\" \
           --validation_prompt_separator ::: \
           --num_validation_videos 1 \
-          --validation_steps 50 \
+          --validation_steps 100 \
           --validation_trajectory_maps \"/home/qid/quanhao/workspace/Open-Sora/assets/mask_trajectory/boat/moved_mask_right/mask.mp4\" \
           --trajectory_guidance_scale 2 \
           --seed 42 \
@@ -58,13 +58,13 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --output_dir $output_dir \
           --max_num_frames 49 \
           --train_batch_size 1 \
-          --max_train_steps $steps \
+          --num_train_epochs $epoch \
           --checkpointing_steps 100 \
           --gradient_accumulation_steps 1 \
           --gradient_checkpointing \
           --learning_rate $learning_rate \
           --lr_scheduler $lr_schedule \
-          --lr_warmup_steps 50 \
+          --lr_warmup_steps 200 \
           --lr_num_cycles 1 \
           --enable_slicing \
           --enable_tiling \
@@ -77,10 +77,8 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --allow_tf32 \
           --report_to wandb \
           --nccl_timeout 1800 \
-          --resume_from_checkpoint \"latest\" \
-          --lambda_region 2.0 \
-          --lambda_latent_segmentation 0.5 \
-          --use_cpu_offload_optimizer"
+          --controlnet_weights 1.0 \
+          --init_from_transformer"
         
         echo "Running command: $cmd"
         eval $cmd

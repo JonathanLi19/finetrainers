@@ -29,6 +29,7 @@ from diffusers.models.modeling_outputs import Transformer2DModelOutput
 from diffusers.models.modeling_utils import ModelMixin
 from diffusers.models.normalization import AdaLayerNorm, CogVideoXLayerNormZero
 from diffusers.models.transformers import CogVideoXTransformer3DModel
+from diffusers.models.transformers.cogvideox_transformer_3d import CogVideoXBlock
 from models.embeddings import CogVideoXTrajectoryPatchEmbed
 from models.latent_segmentation import SemanticFPNHead
 from models.trajectory_fuser import TrajectoryFuser
@@ -42,201 +43,167 @@ if is_accelerate_available():
 
 logger = logging.get_logger(__name__)  # pylint: disable=invalid-name
 
-@maybe_allow_in_graph
-class CogVideoXTrajectoryBlock(nn.Module):
-    r"""
-    Transformer block used in [CogVideoX](https://github.com/THUDM/CogVideo) model.
+def zero_module(module):
+    for p in module.parameters():
+        nn.init.zeros_(p)
+    return module
 
-    Parameters:
-        dim (`int`):
-            The number of channels in the input and output.
-        num_attention_heads (`int`):
-            The number of heads to use for multi-head attention.
-        attention_head_dim (`int`):
-            The number of channels in each head.
-        time_embed_dim (`int`):
-            The number of channels in timestep embedding.
-        dropout (`float`, defaults to `0.0`):
-            The dropout probability to use.
-        activation_fn (`str`, defaults to `"gelu-approximate"`):
-            Activation function to be used in feed-forward.
-        attention_bias (`bool`, defaults to `False`):
-            Whether or not to use bias in attention projection layers.
-        qk_norm (`bool`, defaults to `True`):
-            Whether or not to use normalization after query and key projections in Attention.
-        norm_elementwise_affine (`bool`, defaults to `True`):
-            Whether to use learnable elementwise affine parameters for normalization.
-        norm_eps (`float`, defaults to `1e-5`):
-            Epsilon value for normalization layers.
-        final_dropout (`bool` defaults to `False`):
-            Whether to apply a final dropout after the last feed-forward layer.
-        ff_inner_dim (`int`, *optional*, defaults to `None`):
-            Custom hidden dimension of Feed-forward layer. If not provided, `4 * dim` is used.
-        ff_bias (`bool`, defaults to `True`):
-            Whether or not to use bias in Feed-forward layer.
-        attention_out_bias (`bool`, defaults to `True`):
-            Whether or not to use bias in Attention output projection layer.
-    """
+class InflatedConv3d(nn.Conv2d):
+    def forward(self, x, T, H, W):
 
-    def __init__(
-        self,
-        dim: int,
-        num_attention_heads: int,
-        attention_head_dim: int,
-        time_embed_dim: int,
-        dropout: float = 0.0,
-        activation_fn: str = "gelu-approximate",
-        attention_bias: bool = False,
-        qk_norm: bool = True,
-        norm_elementwise_affine: bool = True,
-        norm_eps: float = 1e-5,
-        final_dropout: bool = True,
-        ff_inner_dim: Optional[int] = None,
-        ff_bias: bool = True,
-        attention_out_bias: bool = True,
-    ):
-        super().__init__()
+        x = rearrange(x, "b (f h w) c -> (b f) c h w", f=T, h=H, w=W)
+        x = super().forward(x)
+        x = rearrange(x, "(b f) c h w -> b (f h w) c", f=T, h=H, w=W)
 
-        # 1. Self Attention
-        self.norm1 = CogVideoXLayerNormZero(time_embed_dim, dim, norm_elementwise_affine, norm_eps, bias=True)
+        return x
+    
+# @maybe_allow_in_graph
+# class CogVideoXTrajectoryBlock(nn.Module):
+#     r"""
+#     Transformer block used in [CogVideoX](https://github.com/THUDM/CogVideo) model.
 
-        self.attn1 = Attention(
-            query_dim=dim,
-            dim_head=attention_head_dim,
-            heads=num_attention_heads,
-            qk_norm="layer_norm" if qk_norm else None,
-            eps=1e-6,
-            bias=attention_bias,
-            out_bias=attention_out_bias,
-            processor=CogVideoXTrajectoryAttnProcessor2_0(),
-        )
+#     Parameters:
+#         dim (`int`):
+#             The number of channels in the input and output.
+#         num_attention_heads (`int`):
+#             The number of heads to use for multi-head attention.
+#         attention_head_dim (`int`):
+#             The number of channels in each head.
+#         time_embed_dim (`int`):
+#             The number of channels in timestep embedding.
+#         dropout (`float`, defaults to `0.0`):
+#             The dropout probability to use.
+#         activation_fn (`str`, defaults to `"gelu-approximate"`):
+#             Activation function to be used in feed-forward.
+#         attention_bias (`bool`, defaults to `False`):
+#             Whether or not to use bias in attention projection layers.
+#         qk_norm (`bool`, defaults to `True`):
+#             Whether or not to use normalization after query and key projections in Attention.
+#         norm_elementwise_affine (`bool`, defaults to `True`):
+#             Whether to use learnable elementwise affine parameters for normalization.
+#         norm_eps (`float`, defaults to `1e-5`):
+#             Epsilon value for normalization layers.
+#         final_dropout (`bool` defaults to `False`):
+#             Whether to apply a final dropout after the last feed-forward layer.
+#         ff_inner_dim (`int`, *optional*, defaults to `None`):
+#             Custom hidden dimension of Feed-forward layer. If not provided, `4 * dim` is used.
+#         ff_bias (`bool`, defaults to `True`):
+#             Whether or not to use bias in Feed-forward layer.
+#         attention_out_bias (`bool`, defaults to `True`):
+#             Whether or not to use bias in Attention output projection layer.
+#     """
 
-        # 2. Feed Forward
-        self.norm2 = CogVideoXLayerNormZero(time_embed_dim, dim, norm_elementwise_affine, norm_eps, bias=True)
+#     def __init__(
+#         self,
+#         dim: int,
+#         num_attention_heads: int,
+#         attention_head_dim: int,
+#         time_embed_dim: int,
+#         dropout: float = 0.0,
+#         activation_fn: str = "gelu-approximate",
+#         attention_bias: bool = False,
+#         qk_norm: bool = True,
+#         norm_elementwise_affine: bool = True,
+#         norm_eps: float = 1e-5,
+#         final_dropout: bool = True,
+#         ff_inner_dim: Optional[int] = None,
+#         ff_bias: bool = True,
+#         attention_out_bias: bool = True,
+#     ):
+#         super().__init__()
 
-        self.ff = FeedForward(
-            dim,
-            dropout=dropout,
-            activation_fn=activation_fn,
-            final_dropout=final_dropout,
-            inner_dim=ff_inner_dim,
-            bias=ff_bias,
-        )
+#         # 1. Self Attention
+#         self.norm1 = CogVideoXLayerNormZero(time_embed_dim, dim, norm_elementwise_affine, norm_eps, bias=True)
 
-        # self.trajectory_fuser = TrajectoryFuser(dim, dim)
+#         self.attn1 = Attention(
+#             query_dim=dim,
+#             dim_head=attention_head_dim,
+#             heads=num_attention_heads,
+#             qk_norm="layer_norm" if qk_norm else None,
+#             eps=1e-6,
+#             bias=attention_bias,
+#             out_bias=attention_out_bias,
+#             processor=CogVideoXAttnProcessor2_0(),
+#         )
 
-        # self.trajectory_video_joint_attn = JointAttention(
-        #     dim,
-        #     num_heads=num_attention_heads,
-        #     qkv_bias=True,
-        #     qk_norm=qk_norm,
-        #     rope=None,
-        #     enable_flash_attn=True,
-        # )
+#         # 2. Feed Forward
+#         self.norm2 = CogVideoXLayerNormZero(time_embed_dim, dim, norm_elementwise_affine, norm_eps, bias=True)
 
-    def forward(
-        self,
-        hidden_states: torch.Tensor,
-        encoder_hidden_states: torch.Tensor,
-        trajectory_hidden_states: Optional[torch.Tensor],
-        temb: torch.Tensor,
-        image_rotary_emb: Optional[Tuple[torch.Tensor, torch.Tensor]] = None,
-        T: Optional[int] = None,
-        H: Optional[int] = None,
-        W: Optional[int] = None,
-        trajectory_scale: int = 1,
-        trajectory_temb: Optional[torch.Tensor] = None,
-    ) -> torch.Tensor:
-        text_seq_length = encoder_hidden_states.size(1)
-        trajectory_seq_length = trajectory_hidden_states.size(1)
+#         self.ff = FeedForward(
+#             dim,
+#             dropout=dropout,
+#             activation_fn=activation_fn,
+#             final_dropout=final_dropout,
+#             inner_dim=ff_inner_dim,
+#             bias=ff_bias,
+#         )
 
-        # norm & modulate
-        norm_hidden_states, norm_encoder_hidden_states, gate_msa, enc_gate_msa = self.norm1(
-            hidden_states, encoder_hidden_states, temb
-        )
+#         # self.trajectory_fuser = TrajectoryFuser(dim, dim)
 
-        norm_trajectory_hidden_states, _, trajectory_gate_msa, _ = self.norm1(
-            trajectory_hidden_states, encoder_hidden_states, trajectory_temb
-        )
+#         # self.trajectory_video_joint_attn = JointAttention(
+#         #     dim,
+#         #     num_heads=num_attention_heads,
+#         #     qkv_bias=True,
+#         #     qk_norm=qk_norm,
+#         #     rope=None,
+#         #     enable_flash_attn=True,
+#         # )
 
-        # attention
-        attn_hidden_states, attn_encoder_hidden_states, attn_trajectory_hidden_states = self.attn1(
-            hidden_states=norm_hidden_states,
-            encoder_hidden_states=norm_encoder_hidden_states,
-            trajectory_hidden_states=norm_trajectory_hidden_states,
-            image_rotary_emb=image_rotary_emb,
-        )
+#     def forward(
+#         self,
+#         hidden_states: torch.Tensor,
+#         encoder_hidden_states: torch.Tensor,
+#         trajectory_hidden_states: Optional[torch.Tensor],
+#         temb: torch.Tensor,
+#         image_rotary_emb: Optional[Tuple[torch.Tensor, torch.Tensor]] = None,
+#         trajectory_scale: int = 1,
+#     ) -> torch.Tensor:
+#         text_seq_length = encoder_hidden_states.size(1)
 
-        hidden_states = hidden_states + gate_msa * attn_hidden_states
-        encoder_hidden_states = encoder_hidden_states + enc_gate_msa * attn_encoder_hidden_states
-        trajectory_hidden_states = trajectory_hidden_states + trajectory_gate_msa * attn_trajectory_hidden_states
+#         # norm & modulate
+#         norm_hidden_states, norm_encoder_hidden_states, gate_msa, enc_gate_msa = self.norm1(
+#             hidden_states, encoder_hidden_states, temb
+#         )
 
+#         # Backup: Trajectory Fuser by Tora
+#         # if trajectory_hidden_states is not None and trajectory_scale > 0:
+#         #     self.trajectory_fuser = trajectory_scale
+#         #     trajectory_hidden_states = rearrange(trajectory_hidden_states, "B (T H W) C -> (B T) C H W", T=T, H=H, W=W)
+#         #     norm_hidden_states = rearrange(norm_hidden_states, "B (T H W) C -> (B T) C H W", T=T, H=H, W=W)
+#         #     norm_hidden_states = self.trajectory_fuser(norm_hidden_states, trajectory_hidden_states, T)
+#         #     norm_hidden_states = rearrange(norm_hidden_states, "(B T) C H W -> B (T H W) C", T=T, H=H, W=W)
 
-        # norm & modulate
-        norm_hidden_states, norm_encoder_hidden_states, gate_ff, enc_gate_ff = self.norm2(
-            hidden_states, encoder_hidden_states, temb
-        )
-        norm_trajectory_hidden_states, _, trajectory_gate_ff, _ = self.norm2(
-            trajectory_hidden_states, encoder_hidden_states, trajectory_temb
-        )
+#         # attention
+#         attn_hidden_states, attn_encoder_hidden_states = self.attn1(
+#             hidden_states=norm_hidden_states,
+#             encoder_hidden_states=norm_encoder_hidden_states,
+#             image_rotary_emb=image_rotary_emb,
+#         )
 
-        # feed-forward
-        norm_hidden_states = torch.cat([norm_encoder_hidden_states, norm_hidden_states, norm_trajectory_hidden_states], dim=1)
-        ff_output = self.ff(norm_hidden_states)
+#         hidden_states = hidden_states + gate_msa * attn_hidden_states
+#         encoder_hidden_states = encoder_hidden_states + enc_gate_msa * attn_encoder_hidden_states
 
-        hidden_states = hidden_states + gate_ff * ff_output[:, text_seq_length:-trajectory_seq_length]
-        encoder_hidden_states = encoder_hidden_states + enc_gate_ff * ff_output[:, :text_seq_length]
-        trajectory_hidden_states = trajectory_hidden_states + trajectory_gate_ff * ff_output[:, -trajectory_seq_length:]
+#         # Joint Attention
+#         if trajectory_hidden_states is not None:
+#             self.trajectory_video_joint_attn.scale = trajectory_scale
+#             # hidden_states = rearrange(hidden_states, "B (T S) C -> (B T) S C", T=T, S=H*W)
+#             # trajectory_hidden_states = rearrange(trajectory_hidden_states, "B (T S) C -> (B T) S C", T=T, S=H*W)
+#             hidden_states = self.trajectory_video_joint_attn(hidden_states, trajectory_hidden_states)
+#             # hidden_states = rearrange(hidden_states, "(B T) S C -> B (T S) C", T=T, S=H*W)
 
-        return hidden_states, encoder_hidden_states, trajectory_hidden_states
+#         # norm & modulate
+#         norm_hidden_states, norm_encoder_hidden_states, gate_ff, enc_gate_ff = self.norm2(
+#             hidden_states, encoder_hidden_states, temb
+#         )
 
-        # text_seq_length = encoder_hidden_states.size(1)
+#         # feed-forward
+#         norm_hidden_states = torch.cat([norm_encoder_hidden_states, norm_hidden_states], dim=1)
+#         ff_output = self.ff(norm_hidden_states)
 
-        # # norm & modulate
-        # norm_hidden_states, norm_encoder_hidden_states, gate_msa, enc_gate_msa = self.norm1(
-        #     hidden_states, encoder_hidden_states, temb
-        # )
+#         hidden_states = hidden_states + gate_ff * ff_output[:, text_seq_length:]
+#         encoder_hidden_states = encoder_hidden_states + enc_gate_ff * ff_output[:, :text_seq_length]
 
-        # # Backup: Trajectory Fuser by Tora
-        # # if trajectory_hidden_states is not None and trajectory_scale > 0:
-        # #     self.trajectory_fuser = trajectory_scale
-        # #     trajectory_hidden_states = rearrange(trajectory_hidden_states, "B (T H W) C -> (B T) C H W", T=T, H=H, W=W)
-        # #     norm_hidden_states = rearrange(norm_hidden_states, "B (T H W) C -> (B T) C H W", T=T, H=H, W=W)
-        # #     norm_hidden_states = self.trajectory_fuser(norm_hidden_states, trajectory_hidden_states, T)
-        # #     norm_hidden_states = rearrange(norm_hidden_states, "(B T) C H W -> B (T H W) C", T=T, H=H, W=W)
-
-        # # attention
-        # attn_hidden_states, attn_encoder_hidden_states = self.attn1(
-        #     hidden_states=norm_hidden_states,
-        #     encoder_hidden_states=norm_encoder_hidden_states,
-        #     image_rotary_emb=image_rotary_emb,
-        # )
-
-        # hidden_states = hidden_states + gate_msa * attn_hidden_states
-        # encoder_hidden_states = encoder_hidden_states + enc_gate_msa * attn_encoder_hidden_states
-
-        # # Joint Attention
-        # if trajectory_hidden_states is not None:
-        #     self.trajectory_video_joint_attn.scale = trajectory_scale
-        #     # hidden_states = rearrange(hidden_states, "B (T S) C -> (B T) S C", T=T, S=H*W)
-        #     # trajectory_hidden_states = rearrange(trajectory_hidden_states, "B (T S) C -> (B T) S C", T=T, S=H*W)
-        #     hidden_states = self.trajectory_video_joint_attn(hidden_states, trajectory_hidden_states)
-        #     # hidden_states = rearrange(hidden_states, "(B T) S C -> B (T S) C", T=T, S=H*W)
-
-        # # norm & modulate
-        # norm_hidden_states, norm_encoder_hidden_states, gate_ff, enc_gate_ff = self.norm2(
-        #     hidden_states, encoder_hidden_states, temb
-        # )
-
-        # # feed-forward
-        # norm_hidden_states = torch.cat([norm_encoder_hidden_states, norm_hidden_states], dim=1)
-        # ff_output = self.ff(norm_hidden_states)
-
-        # hidden_states = hidden_states + gate_ff * ff_output[:, text_seq_length:]
-        # encoder_hidden_states = encoder_hidden_states + enc_gate_ff * ff_output[:, :text_seq_length]
-
-        # return hidden_states, encoder_hidden_states
-
+#         return hidden_states, encoder_hidden_states
 
 class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapterMixin):
     """
@@ -356,10 +323,10 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
             use_positional_embeddings=not use_rotary_positional_embeddings,
             use_learned_positional_embeddings=use_learned_positional_embeddings,
         )
-        self.trajectory_patch_embed = CogVideoXTrajectoryPatchEmbed(
+        self.trajectory_patch_embed = CogVideoXPatchEmbed(
             patch_size=patch_size,
             patch_size_t=patch_size_t,
-            in_channels=in_channels // 2,
+            in_channels=in_channels,
             embed_dim=inner_dim,
             text_embed_dim=text_embed_dim,
             bias=patch_bias,
@@ -391,7 +358,7 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
         # 3. Define spatio-temporal transformers blocks
         self.transformer_blocks = nn.ModuleList(
             [
-                CogVideoXTrajectoryBlock(
+                CogVideoXBlock(
                     dim=inner_dim,
                     num_attention_heads=num_attention_heads,
                     attention_head_dim=attention_head_dim,
@@ -402,6 +369,28 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
                     norm_elementwise_affine=norm_elementwise_affine,
                     norm_eps=norm_eps,
                 )
+                for _ in range(num_layers)
+            ]
+        )
+        self.trajectory_transformer_blocks = nn.ModuleList(
+            [
+                CogVideoXBlock(
+                    dim=inner_dim,
+                    num_attention_heads=num_attention_heads,
+                    attention_head_dim=attention_head_dim,
+                    time_embed_dim=time_embed_dim,
+                    dropout=dropout,
+                    activation_fn=activation_fn,
+                    attention_bias=attention_bias,
+                    norm_elementwise_affine=norm_elementwise_affine,
+                    norm_eps=norm_eps,
+                )
+                for _ in range(num_layers)
+            ]
+        )
+        self.trajectory_conv_out = nn.ModuleList(
+            [
+                zero_module(InflatedConv3d(inner_dim, inner_dim, kernel_size=1))
                 for _ in range(num_layers)
             ]
         )
@@ -565,29 +554,29 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
                 )
 
         batch_size, num_frames, channels, height, width = hidden_states.shape
-        # print(hidden_states.shape) # torch.Size([1, 13, 32, 60, 90])  
+        p = self.config.patch_size
+        p_t = self.config.patch_size_t
+        if p_t is None:
+            p_t = 1
 
         # 1. Time embedding
         timesteps = timestep
         t_emb = self.time_proj(timesteps)
-        trajectory_temb = self.time_proj(torch.zeros_like(timesteps))
 
         # timesteps does not contain any weights and will always return f32 tensors
         # but time_embedding might actually be running in fp16. so we need to cast here.
         # there might be better ways to encapsulate this.
         t_emb = t_emb.to(dtype=hidden_states.dtype)
-        trajectory_temb = trajectory_temb.to(dtype=hidden_states.dtype)
         emb = self.time_embedding(t_emb, timestep_cond)
-        trajectory_emb = self.time_embedding(trajectory_temb, timestep_cond)
 
         if self.ofs_embedding is not None:
             ofs_emb = self.ofs_proj(ofs)
             ofs_emb = ofs_emb.to(dtype=hidden_states.dtype)
             ofs_emb = self.ofs_embedding(ofs_emb)
             emb = emb + ofs_emb
-            trajectory_emb = trajectory_emb + ofs_emb
 
         # 2. Patch embedding
+        encoder_hidden_states_copy = copy.deepcopy(encoder_hidden_states)
         hidden_states = self.patch_embed(encoder_hidden_states, hidden_states)
         hidden_states = self.embedding_dropout(hidden_states)
 
@@ -597,17 +586,14 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
 
         # Trajectory Patch Embedding
         if trajectory_hidden_states is not None:
-            trajectory_hidden_states = self.trajectory_patch_embed(trajectory_hidden_states)
+            trajectory_hidden_states = self.trajectory_patch_embed(encoder_hidden_states_copy, trajectory_hidden_states)
             trajectory_hidden_states = self.embedding_dropout(trajectory_hidden_states)
-
+            trajectory_hidden_states = trajectory_hidden_states[:, text_seq_length:]
+            save_hidden_states_as_images(trajectory_hidden_states, "visualization/trajectory_hidden_states_before", T=num_frames // p_t, H=height // p, W=width // p)
+            save_hidden_states_as_images(hidden_states, "visualization/hidden_states_before", T=num_frames // p_t, H=height // p, W=width // p)
         # 3. Transformer blocks
-        p = self.config.patch_size
-        p_t = self.config.patch_size_t
-        if p_t is None:
-            p_t = 1
-
-        # diffusion_features = []
-        for i, block in enumerate(self.transformer_blocks):
+        hidden_states_trajectory = hidden_states
+        for block, trajectory_block, conv in zip(self.transformer_blocks, self.trajectory_transformer_blocks, self.trajectory_conv_out):
             if torch.is_grad_enabled() and self.gradient_checkpointing:
 
                 def create_custom_forward(module):
@@ -618,39 +604,43 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
 
                 ckpt_kwargs: Dict[str, Any] = {"use_reentrant": False} if is_torch_version(">=", "1.11.0") else {}
 
-                hidden_states, encoder_hidden_states, trajectory_hidden_states = torch.utils.checkpoint.checkpoint(
+                hidden_states, encoder_hidden_states = torch.utils.checkpoint.checkpoint(
                     create_custom_forward(block),
                     hidden_states,
                     encoder_hidden_states,
+                    emb,
+                    image_rotary_emb,
+                    **ckpt_kwargs,
+                )
+                hidden_states_trajectory, trajectory_hidden_states = torch.utils.checkpoint.checkpoint(
+                    create_custom_forward(trajectory_block),
+                    hidden_states_trajectory,
                     trajectory_hidden_states,
                     emb,
                     image_rotary_emb,
-                    num_frames // p_t, 
-                    height // p, 
-                    width // p,
-                    trajectory_scale,
-                    trajectory_emb,
                     **ckpt_kwargs,
                 )
+                hidden_states = hidden_states + conv(hidden_states_trajectory, T=num_frames // p_t, H=height // p, W=width // p)
             else:
-                hidden_states, encoder_hidden_states, trajectory_hidden_states = block(
+                hidden_states, encoder_hidden_states = block(
                     hidden_states=hidden_states,
                     encoder_hidden_states=encoder_hidden_states,
-                    trajectory_hidden_states=trajectory_hidden_states,
                     temb=emb,
                     image_rotary_emb=image_rotary_emb,
-                    T = num_frames // p_t, 
-                    H = height // p, 
-                    W = width // p,
-                    trajectory_scale=trajectory_scale,
-                    trajectory_temb=trajectory_emb,
                 )
-            # if 20 <= i <= 37:
-            #     feature = rearrange(hidden_states, "B (T H W) C -> (B T) C H W", T=num_frames // p_t, H=height // p, W=width // p)
-            #     diffusion_features.append(feature)
+                hidden_states_trajectory, trajectory_hidden_states = trajectory_block(
+                    hidden_states=hidden_states_trajectory,
+                    encoder_hidden_states=trajectory_hidden_states,
+                    temb=emb,
+                    image_rotary_emb=image_rotary_emb,
+                )
+                hidden_states = hidden_states + conv(hidden_states_trajectory, T=num_frames // p_t, H=height // p, W=width // p)
 
         # Do Latent Segmentation
         # latent_segmentation = self.trajectory_perception_head(diffusion_features)
+        save_hidden_states_as_images(trajectory_hidden_states, "visualization/trajectory_hidden_states_after", T=num_frames // p_t, H=height // p, W=width // p)
+        save_hidden_states_as_images(hidden_states, "visualization/hidden_states_after", T=num_frames // p_t, H=height // p, W=width // p)
+        save_hidden_states_as_images(hidden_states_trajectory, "visualization/hidden_states_trajectory_after", T=num_frames // p_t, H=height // p, W=width // p)
 
         if not self.config.use_rotary_positional_embeddings:
             # CogVideoX-2B
@@ -823,7 +813,7 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
         else:
             trajectory_model = cls.from_config(config, **unused_kwargs)
             missing, unexpected = trajectory_model.load_state_dict(model.state_dict(), strict=False)
-            trajectory_model.load_patch_embed_weights()
+            trajectory_model.load_trajectory_weights()
             model = trajectory_model
 
         params = [p.numel() for n, p in model.named_parameters()]
@@ -841,20 +831,9 @@ class CogVideoXTrajectoryTransformer3DModel(ModelMixin, ConfigMixin, PeftAdapter
         self.apply(_basic_init)
     
     def load_trajectory_weights(self):
+        self.trajectory_patch_embed.load_state_dict(self.patch_embed.state_dict())
         num_blocks = len(self.transformer_blocks)
         for i in range(num_blocks): 
             block = self.transformer_blocks[i]
-            if hasattr(block, 'trajectory_norm1') and hasattr(block, 'norm1'):
-                block.trajectory_norm1.load_state_dict(block.norm1.state_dict())
-            if hasattr(block, 'trajectory_attn1') and hasattr(block, 'attn1'):
-                block.trajectory_attn1.load_state_dict(block.attn1.state_dict())
-            if hasattr(block, 'trajectory_norm2') and hasattr(block, 'norm2'):
-                block.trajectory_norm2.load_state_dict(block.norm2.state_dict())
-            if hasattr(block, 'trajectory_ff') and hasattr(block, 'ff'):
-                block.trajectory_ff.load_state_dict(block.ff.state_dict())
-            if hasattr(block, 'trajectory_video_joint_attn') and hasattr(block, 'attn1') and hasattr(block, 'ff'):
-                block.trajectory_video_joint_attn.attn.load_state_dict(block.attn1.state_dict())
-                block.trajectory_video_joint_attn.ff.load_state_dict(block.ff.state_dict())
-
-    def load_patch_embed_weights(self):
-        self.trajectory_patch_embed.load_state_dict(self.patch_embed.state_dict(), strict=False)
+            trajectory_block = self.trajectory_transformer_blocks[i]
+            trajectory_block.load_state_dict(block.state_dict())
