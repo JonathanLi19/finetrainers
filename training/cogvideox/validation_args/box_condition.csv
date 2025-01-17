@@ -1,0 +1,2 @@
+validation_prompt,validation_images,validation_trajectory_maps,output_path,controlnet_weights
+A boat sailing in the river.,/home/qid/quanhao/workspace/Open-Sora/assets/images/condition/boat.png,/home/qid/quanhao/workspace/Open-Sora/assets/boxs_trajectory/boat/moved_boxes/box.mp4,samples/box_condition/checkpoint-600/boat_right_weight1.mp4,1.0

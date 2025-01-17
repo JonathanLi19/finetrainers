@@ -2,7 +2,6 @@ from typing import Any, Dict, Optional, Tuple, Union
 import os
 import torch
 from torch import nn
-import copy
 from diffusers.configuration_utils import ConfigMixin, register_to_config
 from diffusers.loaders import PeftAdapterMixin
 from diffusers.utils import USE_PEFT_BACKEND, is_torch_version, logging, scale_lora_layers, unscale_lora_layers, is_accelerate_available
@@ -20,8 +19,8 @@ from models.latent_segmentation import SemanticFPNHead
 from models.trajectory_fuser import TrajectoryFuser
 from models.joint_attention import JointAttention
 from models.attention_processor import CogVideoXTrajectoryAttnProcessor2_0
-from utils import save_hidden_states_as_images
 from einops import rearrange
+from utils import save_hidden_states_as_images, save_tensor_as_images_with_pca
 
 if is_accelerate_available():
     import accelerate
@@ -296,4 +295,4 @@ class CogVideoXControlnet(ModelMixin, ConfigMixin, PeftAdapterMixin):
             
         if not return_dict:
             return (controlnet_hidden_states,)
-        return Transformer2DModelOutput(sample=controlnet_hidden_states)
+        return Transformer2DModelOutput(sample=controlnet_hidden_states,)

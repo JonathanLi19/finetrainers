@@ -33,7 +33,10 @@ def main(args):
     vae          = AutoencoderKLCogVideoX.from_pretrained(model_card, subfolder="vae").cuda()
     transformer  = CogVideoXControlnetTransformer3DModel.from_pretrained(args.pretrained_model_name_or_path, subfolder="transformer", torch_dtype=torch.bfloat16)
     model_config = transformer.module.config if hasattr(transformer, "module") else transformer.config
-    controlnet   = CogVideoXControlnet(**model_config,)
+    if args.use_perception_head:
+        controlnet = CogVideoXControlnet(use_perception_head=True, **model_config,)
+    else:
+        controlnet = CogVideoXControlnet(**model_config,)
     if args.init_from_transformer:
         controlnet_state_dict = {}
         for name, params in transformer.state_dict().items():

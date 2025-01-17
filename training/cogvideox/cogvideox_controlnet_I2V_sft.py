@@ -70,7 +70,7 @@ from models.transformer_controlnet import CogVideoXControlnetTransformer3DModel
 from pipelines.pipeline_controlnet import CogVideoXImageToVideoControlnetPipeline
 from models.controlnet import CogVideoXControlnet
 from einops import rearrange
-import traceback
+from models.combined_model import CombinedModel
 
 logger = get_logger(__name__)
 
@@ -259,9 +259,6 @@ class CollateFunction:
         videos = [x["video"] for x in data[0]]
         videos = torch.stack(videos).to(dtype=self.weight_dtype, non_blocking=True)
 
-        trajectory_images = [x["trajectory_image"] for x in data[0]]
-        trajectory_images = torch.stack(trajectory_images).to(dtype=self.weight_dtype, non_blocking=True)
-
         trajectory_maps = [x["trajectory_maps"] for x in data[0]]
         trajectory_maps = torch.stack(trajectory_maps).to(dtype=self.weight_dtype, non_blocking=True)
 
@@ -272,7 +269,6 @@ class CollateFunction:
             "images": images,
             "videos": videos,
             "prompts": prompts,
-            "trajectory_images": trajectory_images,
             "trajectory_maps": trajectory_maps,
             "latent_segmentation_gt": latent_segmentation_gt,
         }
@@ -353,14 +349,27 @@ def main(args):
     # CogVideoX-2b weights are stored in float16
     # CogVideoX-5b and CogVideoX-5b-I2V weights are stored in bfloat16
     load_dtype = torch.bfloat16 if "5b" in args.pretrained_model_name_or_path.lower() else torch.float16
-    transformer = CogVideoXControlnetTransformer3DModel.from_pretrained(
-        args.pretrained_model_name_or_path,
-        subfolder="transformer",
-        torch_dtype=load_dtype,
-        revision=args.revision,
-        variant=args.variant,
-    )
+    if os.path.exists(args.pretrained_model_name_or_path):
+        ckpt = torch.load(args.pretrained_model_name_or_path, map_location='cpu', weights_only=False)
+        transformer_state_dict = {}
+        for name, params in ckpt['state_dict'].items():
+            transformer_state_dict[name] = params
+        m, u = transformer.load_state_dict(transformer_state_dict, strict=False)
+        print(f'[ Weights from pretrained transformer was loaded into transformer ] [M: {len(m)} | U: {len(u)}]')
+    else:
+        transformer = CogVideoXControlnetTransformer3DModel.from_pretrained(
+            args.pretrained_model_name_or_path,
+            subfolder="transformer",
+            torch_dtype=load_dtype,
+            revision=args.revision,
+            variant=args.variant,
+            use_perception_head=args.use_perception_head,
+        )
     model_config = transformer.module.config if hasattr(transformer, "module") else transformer.config
+    controlnet_config = {}  
+    for k, v in model_config.items():
+        if "use_perception_head" not in k:
+            controlnet_config[k] = v
 
     if args.ignore_learned_positional_embeddings:
         del transformer.patch_embed.pos_embedding
@@ -373,9 +382,8 @@ def main(args):
         revision=args.revision,
         variant=args.variant,
     )
-
     controlnet = CogVideoXControlnet(
-        **model_config,
+        **controlnet_config,
     )
     if args.init_from_transformer:
         controlnet_state_dict = {}
@@ -394,6 +402,10 @@ def main(args):
 
     params = [p.numel() for n, p in controlnet.named_parameters()]
     print(f"### Whole Controlnet Parameters: {sum(params) / 1e9} B")
+    params = [p.numel() for n, p in transformer.named_parameters()]
+    print(f"### Whole Transformer Parameters: {sum(params) / 1e9} B")
+
+    combined_model = CombinedModel(transformer, controlnet)
 
     scheduler = CogVideoXDPMScheduler.from_pretrained(args.pretrained_model_name_or_path, subfolder="scheduler")
 
@@ -404,8 +416,17 @@ def main(args):
 
     text_encoder.requires_grad_(False)
     vae.requires_grad_(False)
-    transformer.requires_grad_(False)
-    controlnet.requires_grad_(True)
+    # transformer.requires_grad_(False)
+    # for name, param in transformer.named_parameters():
+    #     if 'perception_head' in name:
+    #         param.requires_grad_(True)
+    # controlnet.requires_grad_(True)
+    combined_model.requires_grad_(False)
+    for name, param in combined_model.named_parameters():
+        if 'perception_head' in name:
+            param.requires_grad_(True)
+        if 'controlnet' in name:
+            param.requires_grad_(True)
 
     VAE_SCALING_FACTOR = vae.config.scaling_factor
     VAE_SCALE_FACTOR_SPATIAL = 2 ** (len(vae.config.block_out_channels) - 1)
@@ -444,6 +465,7 @@ def main(args):
     transformer.to(accelerator.device, dtype=weight_dtype)
     vae.to(accelerator.device, dtype=weight_dtype)
     controlnet.to(accelerator.device, dtype=weight_dtype)
+    combined_model.to(accelerator.device, dtype=weight_dtype)
 
     if args.gradient_checkpointing:
         transformer.enable_gradient_checkpointing()
@@ -462,8 +484,12 @@ def main(args):
     # Make sure the trainable params are in float32.
     if args.mixed_precision == "fp16":
         cast_training_params([controlnet], dtype=torch.float32)
+        cast_training_params([transformer], dtype=torch.float32)
 
-    trainable_parameters = list(filter(lambda p: p.requires_grad, controlnet.parameters()))
+    trainable_parameters = list(filter(lambda p: p.requires_grad, combined_model.parameters()))
+    # controlnet_trainable_params = list(filter(lambda p: p.requires_grad, controlnet.parameters()))
+    # transformer_trainable_params = list(filter(lambda p: p.requires_grad, transformer.parameters()))
+    # trainable_parameters = controlnet_trainable_params + transformer_trainable_params
 
     # Optimization parameters
     trainable_parameters_with_lr = {
@@ -515,6 +541,7 @@ def main(args):
         "image_to_video": True,
         "trajectory_maps_type": args.trajectory_maps_type,
         "frame_interval": args.frame_interval,
+        "random_masked_condition": args.random_masked_condition,
     }
     train_dataset = VideoTrajectoryDatasetWithResizing(**dataset_init_kwargs)
 
@@ -563,8 +590,8 @@ def main(args):
             )
 
     # Prepare everything with our `accelerator`.
-    controlnet, optimizer, train_dataloader, lr_scheduler = accelerator.prepare(
-        controlnet, optimizer, train_dataloader, lr_scheduler
+    combined_model, optimizer, train_dataloader, lr_scheduler = accelerator.prepare(
+        combined_model, optimizer, train_dataloader, lr_scheduler
     )
 
     # We need to recalculate our total training steps as the size of the training dataloader may have changed.
@@ -598,33 +625,7 @@ def main(args):
     accelerator.print(f"  Total optimization steps = {args.max_train_steps}")
     global_step = 0
     first_epoch = 0
-
-    # Potentially load in the weights and states from a previous save
-    if not args.resume_from_checkpoint:
-        initial_global_step = 0
-    else:
-        if args.resume_from_checkpoint != "latest":
-            path = os.path.basename(args.resume_from_checkpoint)
-        else:
-            # Get the most recent checkpoint
-            dirs = os.listdir(args.output_dir)
-            dirs = [d for d in dirs if d.startswith("checkpoint")]
-            dirs = sorted(dirs, key=lambda x: int(x.split("-")[1]))
-            path = dirs[-1] if len(dirs) > 0 else None
-
-        if path is None:
-            accelerator.print(
-                f"Checkpoint '{args.resume_from_checkpoint}' does not exist. Starting a new training run."
-            )
-            args.resume_from_checkpoint = None
-            initial_global_step = 0
-        else:
-            accelerator.print(f"Resuming from checkpoint {path}")
-            accelerator.load_state(os.path.join(args.output_dir, path))
-            global_step = int(path.split("-")[1])
-
-            initial_global_step = global_step
-            first_epoch = global_step // num_update_steps_per_epoch
+    initial_global_step = 0
 
     progress_bar = tqdm(
         range(0, args.max_train_steps),
@@ -644,8 +645,10 @@ def main(args):
 
     for epoch in range(first_epoch, args.num_train_epochs):
         controlnet.train()
+        transformer.train()
+        combined_model.train()
         for step, batch in enumerate(train_dataloader):
-            models_to_accumulate = [controlnet]
+            models_to_accumulate = [combined_model]
             logs = {}
 
             with accelerator.accumulate(models_to_accumulate):
@@ -671,6 +674,9 @@ def main(args):
 
                     trajectory_maps = trajectory_maps.permute(0, 2, 1, 3, 4)  # [B, C, F, H, W]
                     trajectory_latent_dist = vae.encode(trajectory_maps).latent_dist
+
+                    latent_segmentation_gt = latent_segmentation_gt.permute(0, 2, 1, 3, 4)  # [B, C, F, H, W]
+                    latent_segmentation_gt_dist = vae.encode(latent_segmentation_gt).latent_dist
                 else:
                     raise NotImplementedError("Loading tensors is not supported in trajectory training.")
 
@@ -685,6 +691,10 @@ def main(args):
                 trajectory_latents = trajectory_latent_dist.sample() * VAE_SCALING_FACTOR
                 trajectory_latents = trajectory_latents.permute(0, 2, 1, 3, 4)  # [B, F, C, H, W]
                 trajectory_latents = trajectory_latents.to(memory_format=torch.contiguous_format, dtype=weight_dtype)
+
+                latent_segmentation_gt = latent_segmentation_gt_dist.sample() * VAE_SCALING_FACTOR
+                latent_segmentation_gt = latent_segmentation_gt.permute(0, 2, 1, 3, 4)  # [B, F, C, H, W]
+                latent_segmentation_gt = latent_segmentation_gt.to(memory_format=torch.contiguous_format, dtype=weight_dtype)
 
                 padding_shape = (video_latents.shape[0], video_latents.shape[1] - 1, *video_latents.shape[2:])
                 latent_padding = image_latents.new_zeros(padding_shape)
@@ -746,7 +756,7 @@ def main(args):
                 ofs_embed_dim = model_config.ofs_embed_dim if hasattr(model_config, "ofs_embed_dim") else None,
                 ofs_emb = None if ofs_embed_dim is None else noisy_model_input.new_full((1,), fill_value=2.0)
 
-                controlnet_states = controlnet(
+                controlnet_states = combined_model.controlnet(
                     hidden_states=noisy_video_latents,
                     encoder_hidden_states=prompt_embeds,
                     timestep=timesteps,
@@ -761,7 +771,7 @@ def main(args):
                     controlnet_states = controlnet_states.to(dtype=weight_dtype)
 
                 # Predict the noise residual
-                model_output = transformer(
+                model_output, mask_pred = combined_model.transformer(
                     hidden_states=noisy_model_input,
                     encoder_hidden_states=prompt_embeds,
                     timestep=timesteps,
@@ -770,7 +780,7 @@ def main(args):
                     return_dict=False,
                     controlnet_states=controlnet_states,
                     controlnet_weights=args.controlnet_weights,
-                )[0]
+                )
 
                 model_pred = scheduler.get_velocity(model_output, noisy_video_latents, timesteps)
 
@@ -785,13 +795,18 @@ def main(args):
                     dim=1,
                 )
 
+                # Add Latent Segmentation Loss                
+                criterion = nn.MSELoss()
+                latent_segment_loss = criterion(mask_pred, latent_segmentation_gt)
+                loss += args.lambda_latent_segmentation * latent_segment_loss
+
                 loss = loss.mean()
                 accelerator.backward(loss)
 
                 if accelerator.sync_gradients:
-                    gradient_norm_before_clip = get_gradient_norm(controlnet.parameters())
-                    accelerator.clip_grad_norm_(controlnet.parameters(), args.max_grad_norm)
-                    gradient_norm_after_clip = get_gradient_norm(controlnet.parameters())
+                    gradient_norm_before_clip = get_gradient_norm(combined_model.parameters())
+                    accelerator.clip_grad_norm_(combined_model.parameters(), args.max_grad_norm)
+                    gradient_norm_after_clip = get_gradient_norm(combined_model.parameters())
                     logs.update(
                         {
                             "gradient_norm_before_clip": gradient_norm_before_clip,
@@ -813,22 +828,28 @@ def main(args):
                 # Checkpointing
                 if accelerator.is_main_process or accelerator.distributed_type == DistributedType.DEEPSPEED:
                     if global_step % args.checkpointing_steps == 0:
-                        save_path = os.path.join(args.output_dir, f"checkpoint-{global_step}.pt")
-                        torch.save({'state_dict': unwrap_model(accelerator, controlnet).state_dict()}, save_path)
-                        logger.info(f"Saved state to {save_path}")
+                        save_path = os.path.join(args.output_dir, f"checkpoint-{global_step}")
+                        os.makedirs(save_path, exist_ok=True)
+                        controlnet_save_path = os.path.join(save_path, f"controlnet-checkpoint-{global_step}.pt")
+                        torch.save({'state_dict': unwrap_model(accelerator, combined_model.controlnet).state_dict()}, controlnet_save_path)
+                        logger.info(f"Saved Controlnet state to {save_path}")
+                        transformer_save_path = os.path.join(save_path, f"transformer-checkpoint-{global_step}.pt")
+                        torch.save({'state_dict': unwrap_model(accelerator, combined_model.transformer).state_dict()}, transformer_save_path)
+                        logger.info(f"Saved Transformer state to {save_path}")
 
                 # Validation
                 should_run_validation = args.validation_prompt is not None and (
                     args.validation_steps is not None and global_step % args.validation_steps == 0
                 )
                 if should_run_validation:
-                    run_validation(args, accelerator, transformer, controlnet, scheduler, model_config, weight_dtype)
+                    run_validation(args, accelerator, combined_model.transformer, combined_model.controlnet, scheduler, model_config, weight_dtype)
 
             last_lr = lr_scheduler.get_last_lr()[0] if lr_scheduler is not None else args.learning_rate
             logs.update(
                 {
                     "loss": loss.detach().item(),
                     "lr": last_lr,
+                    "latent_segment_loss": latent_segment_loss.detach().item(),
                 }
             )
             progress_bar.set_postfix(**logs)
@@ -841,7 +862,7 @@ def main(args):
                 args.validation_epochs is not None and (epoch + 1) % args.validation_epochs == 0
             )
             if should_run_validation:
-                run_validation(args, accelerator, transformer, controlnet, scheduler, model_config, weight_dtype)
+                run_validation(args, accelerator, combined_model.transformer, combined_model.controlnet, scheduler, model_config, weight_dtype)
         
     accelerator.wait_for_everyone()
     accelerator.end_training()

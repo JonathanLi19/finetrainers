@@ -396,6 +396,7 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
         image_to_video: bool = False,
         trajectory_maps_type: str = "mask",
         frame_interval: int = 1,
+        random_masked_condition: bool = False,
     ) -> None:
         super().__init__()
 
@@ -411,6 +412,7 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
         self.random_flip = random_flip
         self.image_to_video = image_to_video
         self.frame_interval = frame_interval
+        self.random_masked_condition = random_masked_condition
 
         self.resolutions = [
             (f, h, w) for h in self.height_buckets for w in self.width_buckets for f in self.frame_buckets
@@ -449,12 +451,9 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
             path = sample["path"]
             num_frames = sample["num_frames"]
 
-            trajectory_maps_path = None
-            if self.trajectory_maps_type == "mask":
-                trajectory_maps_path = sample["trajectory_maps_path"]  # trajectory maps for each frame of this video
-            else:
-                trajectory_maps_path = sample["box_path"]
-            assert not trajectory_maps_path.endswith(".mp4")
+            mask_path = sample["trajectory_maps_path"]  # trajectory maps for each frame of this video
+            box_path = sample["box_path"]
+            assert not mask_path.endswith(".mp4") and not box_path.endswith(".mp4")
 
             mask_start_index, mask_end_index = sample["mask_start_index"], sample["mask_end_index"]
             if mask_start_index == -1 or mask_end_index == -1:
@@ -503,33 +502,41 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
 
             image = frames[:1].clone() if self.image_to_video else None
 
-            trajectory_maps = self.read_mask(trajectory_maps_path, mask_start_index, mask_end_index, frame_indices, nearest_res)
-            trajectory_image = trajectory_maps[:1].clone() if self.image_to_video else None
+            masks = self.read_mask(mask_path, mask_start_index, mask_end_index, frame_indices, nearest_res, trajectory_type="mask")
+            boxes = self.read_mask(box_path, mask_start_index, mask_end_index, frame_indices, nearest_res, trajectory_type="box", random_masked_condition=self.random_masked_condition)
+            if self.trajectory_maps_type == "mask":
+                trajectory_maps = masks
+            else:
+                trajectory_maps = boxes
+                trajectory_maps[:1] = masks[:1] # use mask for the first frame
 
             assert frames.shape == trajectory_maps.shape
 
-            # Read latent segmentation ground truth
-            T, C, H, W = trajectory_maps.shape  # T=49
-            assert T == 49, "This method assumes T=49 for trajectory_maps."
-            first_9_indices = torch.linspace(0, 8, 3).round().long()
-            remaining_indices = torch.cat([
-                (torch.linspace(i, i + 7, 2).round().long())
-                for i in range(9, 49, 8)
-            ])
-            sampled_indices = torch.cat([first_9_indices, remaining_indices])
+            # Binary Latent Segmentation Ground Truth
+            # T, C, H, W = trajectory_maps.shape  # T=49
+            # assert T == 49, "This method assumes T=49 for trajectory_maps."
+            # first_9_indices = torch.linspace(0, 8, 3).round().long()
+            # remaining_indices = torch.cat([
+            #     (torch.linspace(i, i + 7, 2).round().long())
+            #     for i in range(9, 49, 8)
+            # ])
+            # sampled_indices = torch.cat([first_9_indices, remaining_indices])
 
-            if self.trajectory_maps_type == "mask":
-                latent_segmentation_gt = trajectory_maps[sampled_indices, :, :, :]
-            else:
-                mask_path = sample["trajectory_maps_path"]
-                trajectory_maps = self.read_mask(mask_path, mask_start_index, mask_end_index, frame_indices, nearest_res)
-                latent_segmentation_gt = trajectory_maps[sampled_indices, :, :, :]
+            # if self.trajectory_maps_type == "mask":
+            #     latent_segmentation_gt = trajectory_maps[sampled_indices, :, :, :]
+            # else:
+            #     mask_path = sample["trajectory_maps_path"]
+            #     trajectory_maps = self.read_mask(mask_path, mask_start_index, mask_end_index, frame_indices, nearest_res)
+            #     latent_segmentation_gt = trajectory_maps[sampled_indices, :, :, :]
 
-            latent_segmentation_gt = (latent_segmentation_gt > 0).any(dim=1) 
+            # latent_segmentation_gt = (latent_segmentation_gt > 0).any(dim=1) 
 
-            return image, frames, trajectory_image, trajectory_maps, latent_segmentation_gt
+            # Colorful Latent Segmentation Ground Truth
+            latent_segmentation_gt = masks
+
+            return image, frames, trajectory_maps, latent_segmentation_gt
         
-    def read_mask(self, trajectory_maps_path, mask_start_index, mask_end_index, frame_indices, nearest_res):
+    def read_mask(self, trajectory_maps_path, mask_start_index, mask_end_index, frame_indices, nearest_res, trajectory_type="mask", random_masked_condition=False):
         assert not trajectory_maps_path.endswith(".mp4")
         assert mask_start_index != -1 and mask_end_index != -1
 
@@ -543,6 +550,15 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
         trajectory_maps = np.stack(trajectory_maps)
         trajectory_maps = torch.from_numpy(trajectory_maps).float() 
         trajectory_maps = trajectory_maps.permute(0, 3, 1, 2).contiguous()  # [T, C, H, W]
+        if trajectory_type == "box" and random_masked_condition:
+            F, C, H, W = trajectory_maps.shape
+            k = random.randint(1, F-1)
+            indices = torch.randperm(F-1)[:k] + 1  # 随机生成 k 个索引，加 1 保证范围是 [1, F-1]
+            mask = torch.zeros(F, dtype=torch.bool, device=trajectory_maps.device)
+            mask[indices] = True
+            mask[0] = True
+            mask = mask.unsqueeze(-1).unsqueeze(-1).unsqueeze(-1) # 扩展到 [F, 1, 1, 1]
+            trajectory_maps = trajectory_maps * mask
 
         trajectory_maps_resized = torch.stack([resize(frame, nearest_res) for frame in trajectory_maps], dim=0)
         trajectory_maps = torch.stack([self.video_transforms(frame) for frame in trajectory_maps_resized], dim=0)
@@ -570,12 +586,11 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
         else:
             sample = self.data.iloc[index]
             try:
-                image, video, trajectory_image, trajectory_maps, latent_segmentation_gt = self._preprocess_video(sample)
+                image, video, trajectory_maps, latent_segmentation_gt = self._preprocess_video(sample)
                 return {
                     "prompt": self.id_token + sample["text"],
                     "image": image,
                     "video": video,
-                    "trajectory_image": trajectory_image,
                     "trajectory_maps": trajectory_maps,
                     "video_metadata": {
                         "num_frames": video.shape[0],

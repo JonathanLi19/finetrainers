@@ -324,7 +324,7 @@ def save_hidden_states_as_images(hidden_states_text, save_dir, T, H, W):
             frame = frames[t]
             save_path = os.path.join(save_dir, f"batch_{b}_frame_{t}.png")
             cv2.imwrite(save_path, cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
-            # print(f"Saved: {save_path}")
+            print(f"Saved: {save_path}")
 
 def save_tensor_as_images_with_pca(tensor, save_dir):
     from sklearn.decomposition import PCA

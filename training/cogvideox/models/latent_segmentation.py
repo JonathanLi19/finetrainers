@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class SemanticFPNHead(nn.Module):
-    def __init__(self, in_channels, out_channels=2, num_groups=32, num_tensors=18):
+    def __init__(self, in_channels, out_channels=2, num_groups=16, num_tensors=18, patch_size=2):
         """
         Args:
             in_channels (int): Number of input channels for each tensor in the list.
@@ -10,7 +10,7 @@ class SemanticFPNHead(nn.Module):
             out_channels (int): Number of output channels for the final tensor. Default is 2.
         """
         super(SemanticFPNHead, self).__init__()
-        hidden_dim = in_channels // 2    
+        hidden_dim = 64
         self.convs = nn.ModuleList(
             [
                 nn.Sequential(
@@ -22,7 +22,7 @@ class SemanticFPNHead(nn.Module):
             ]
         )
         self.conv_out = nn.Conv2d(hidden_dim, out_channels, kernel_size=1)
-        self.upsample = nn.Upsample(scale_factor=4, mode='bilinear', align_corners=False)
+        self.upsample = nn.Upsample(scale_factor=patch_size, mode='bilinear', align_corners=False)
 
     def forward(self, tensor_list):
         """
@@ -30,7 +30,7 @@ class SemanticFPNHead(nn.Module):
             tensor_list (list of torch.Tensor): List of tensors with shape [B, C, H, W].
         
         Returns:
-            torch.Tensor: A tensor with shape [B, 2, H, W].
+            torch.Tensor: A tensor with shape [B, C_out, H, W].
         """
         if len(tensor_list) != len(self.convs):
             raise ValueError(f"Number of input tensors ({len(tensor_list)}) must match the number of conv layers ({len(self.convs)}).")
