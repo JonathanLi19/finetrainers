@@ -51,7 +51,7 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --validation_prompt_separator ::: \
           --num_validation_videos 1 \
           --validation_steps 100 \
-          --validation_trajectory_maps \"/home/qid/quanhao/workspace/Open-Sora/assets/boxs_trajectory/boat/moved_boxes/box.mp4\" \
+          --validation_trajectory_maps \"/home/qid/quanhao/workspace/Open-Sora/assets/boxs_trajectory/boat/moved_mask_boxes/box.mp4\" \
           --seed 42 \
           --mixed_precision bf16 \
           --output_dir $output_dir \
@@ -77,7 +77,7 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --report_to wandb \
           --nccl_timeout 1800 \
           --controlnet_weights 1.0 \
-          --pretrained_controlnet_path \"/datadrive2/cogvideox/mask/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-4400.pt\" \
+          --pretrained_controlnet_path \"/datadrive2/cogvideox/mask/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-5000.pt\" \
           --use_perception_head \
           --lambda_latent_segmentation 0.5"
         

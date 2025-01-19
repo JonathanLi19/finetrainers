@@ -397,6 +397,7 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
         trajectory_maps_type: str = "mask",
         frame_interval: int = 1,
         random_masked_condition: bool = False,
+        initial_step: int = 0,
     ) -> None:
         super().__init__()
 
@@ -432,6 +433,8 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
         )
 
         self.trajectory_maps_type=trajectory_maps_type # box / mask
+        self.log_file = "log/datasets_error_log.txt"
+        self.initial_step = initial_step
 
     @staticmethod
     def identity_transform(x):
@@ -584,28 +587,31 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
         if self.load_tensors:
             raise NotImplementedError
         else:
-            sample = self.data.iloc[index]
-            try:
-                image, video, trajectory_maps, latent_segmentation_gt = self._preprocess_video(sample)
-                return {
-                    "prompt": self.id_token + sample["text"],
-                    "image": image,
-                    "video": video,
-                    "trajectory_maps": trajectory_maps,
-                    "video_metadata": {
-                        "num_frames": video.shape[0],
-                        "height": video.shape[2],
-                        "width": video.shape[3],
-                    },
-                    "latent_segmentation_gt": latent_segmentation_gt,
-                }
-            except Exception as e:
-                print("发生错误！详细信息如下：")
-                # 打印错误类型和信息
-                print(f"错误类型: {type(e).__name__}")
-                print(f"错误信息: {e}")
-                # 打印完整的堆栈跟踪
-                traceback.print_exc()
+            index = index + self.initial_step
+            while True:
+                sample = self.data.iloc[index]
+                try:
+                    image, video, trajectory_maps, latent_segmentation_gt = self._preprocess_video(sample)
+
+                    return {
+                        "prompt": self.id_token + sample["text"],
+                        "image": image,
+                        "video": video,
+                        "trajectory_maps": trajectory_maps,
+                        "video_metadata": {
+                            "num_frames": video.shape[0],
+                            "height": video.shape[2],
+                            "width": video.shape[3],
+                        },
+                        "latent_segmentation_gt": latent_segmentation_gt,
+                    }
+                except Exception as e:
+                    with open(self.log_file, "a") as f:
+                        f.write(f"Error at index {index}: {str(e)}\n")
+                    print(f"Error at index {index}: {e}. Trying next index.")
+                    index += 1
+                    if index >= len(self.data):
+                        raise IndexError("Reached the end of the dataset while handling errors.")
 
 class BucketSampler(Sampler):
     r"""

@@ -542,9 +542,9 @@ def main(args):
         "trajectory_maps_type": args.trajectory_maps_type,
         "frame_interval": args.frame_interval,
         "random_masked_condition": args.random_masked_condition,
+        "initial_step": args.initial_global_step,
     }
     train_dataset = VideoTrajectoryDatasetWithResizing(**dataset_init_kwargs)
-
     collate_fn = CollateFunction(weight_dtype, args.load_tensors)
 
     train_dataloader = DataLoader(
@@ -570,21 +570,24 @@ def main(args):
             "you are training with those settings, they will be ignored."
         )
     else:
+        initial_global_step = args.initial_global_step if args.initial_global_step is not None else 0
+        remaining_steps = args.max_train_steps * accelerator.num_processes - initial_global_step
+        num_warmup_steps = max(0, args.lr_warmup_steps * accelerator.num_processes - initial_global_step)
         if use_deepspeed_scheduler:
             from accelerate.utils import DummyScheduler
 
             lr_scheduler = DummyScheduler(
                 name=args.lr_scheduler,
                 optimizer=optimizer,
-                total_num_steps=args.max_train_steps * accelerator.num_processes,
-                num_warmup_steps=args.lr_warmup_steps * accelerator.num_processes,
+                total_num_steps=remaining_steps,
+                num_warmup_steps=num_warmup_steps,
             )
         else:
             lr_scheduler = get_scheduler(
                 args.lr_scheduler,
                 optimizer=optimizer,
-                num_warmup_steps=args.lr_warmup_steps * accelerator.num_processes,
-                num_training_steps=args.max_train_steps * accelerator.num_processes,
+                num_warmup_steps=num_warmup_steps,
+                num_training_steps=remaining_steps,
                 num_cycles=args.lr_num_cycles,
                 power=args.lr_power,
             )
@@ -623,9 +626,9 @@ def main(args):
     accelerator.print(f"  Total train batch size (w. parallel, distributed & accumulation) = {total_batch_size}")
     accelerator.print(f"  Gradient accumulation steps = {args.gradient_accumulation_steps}")
     accelerator.print(f"  Total optimization steps = {args.max_train_steps}")
-    global_step = 0
+    global_step = args.global_step if args.global_step is not None else 0
     first_epoch = 0
-    initial_global_step = 0
+    initial_global_step = args.initial_global_step if args.initial_global_step is not None else 0
 
     progress_bar = tqdm(
         range(0, args.max_train_steps),
@@ -647,7 +650,7 @@ def main(args):
         controlnet.train()
         transformer.train()
         combined_model.train()
-        for step, batch in enumerate(train_dataloader):
+        for step, batch in enumerate(train_dataloader, start=initial_global_step):
             models_to_accumulate = [combined_model]
             logs = {}
 
@@ -795,24 +798,15 @@ def main(args):
                     dim=1,
                 )
 
-                # Add Latent Segmentation Loss                
-                criterion = nn.MSELoss()
-                latent_segment_loss = criterion(mask_pred, latent_segmentation_gt)
-                loss += args.lambda_latent_segmentation * latent_segment_loss
+                # Add Latent Segmentation Loss      
+                if args.use_perception_head:          
+                    criterion = nn.MSELoss()
+                    latent_segment_loss = criterion(mask_pred, latent_segmentation_gt)
+                    loss += args.lambda_latent_segmentation * latent_segment_loss
 
                 loss = loss.mean()
                 accelerator.backward(loss)
 
-                if accelerator.sync_gradients:
-                    gradient_norm_before_clip = get_gradient_norm(combined_model.parameters())
-                    accelerator.clip_grad_norm_(combined_model.parameters(), args.max_grad_norm)
-                    gradient_norm_after_clip = get_gradient_norm(combined_model.parameters())
-                    logs.update(
-                        {
-                            "gradient_norm_before_clip": gradient_norm_before_clip,
-                            "gradient_norm_after_clip": gradient_norm_after_clip,
-                        }
-                    )
                 if accelerator.state.deepspeed_plugin is None:
                     optimizer.step()
                     optimizer.zero_grad()
@@ -828,14 +822,19 @@ def main(args):
                 # Checkpointing
                 if accelerator.is_main_process or accelerator.distributed_type == DistributedType.DEEPSPEED:
                     if global_step % args.checkpointing_steps == 0:
-                        save_path = os.path.join(args.output_dir, f"checkpoint-{global_step}")
-                        os.makedirs(save_path, exist_ok=True)
-                        controlnet_save_path = os.path.join(save_path, f"controlnet-checkpoint-{global_step}.pt")
-                        torch.save({'state_dict': unwrap_model(accelerator, combined_model.controlnet).state_dict()}, controlnet_save_path)
-                        logger.info(f"Saved Controlnet state to {save_path}")
-                        transformer_save_path = os.path.join(save_path, f"transformer-checkpoint-{global_step}.pt")
-                        torch.save({'state_dict': unwrap_model(accelerator, combined_model.transformer).state_dict()}, transformer_save_path)
-                        logger.info(f"Saved Transformer state to {save_path}")
+                        if args.use_perception_head:
+                            save_path = os.path.join(args.output_dir, f"checkpoint-{global_step}")
+                            os.makedirs(save_path, exist_ok=True)
+                            controlnet_save_path = os.path.join(save_path, f"controlnet-checkpoint-{global_step}.pt")
+                            torch.save({'state_dict': unwrap_model(accelerator, combined_model.controlnet).state_dict()}, controlnet_save_path)
+                            logger.info(f"Saved Controlnet state to {save_path}")
+                            transformer_save_path = os.path.join(save_path, f"transformer-checkpoint-{global_step}.pt")
+                            torch.save({'state_dict': unwrap_model(accelerator, combined_model.transformer).state_dict()}, transformer_save_path)
+                            logger.info(f"Saved Transformer state to {save_path}")
+                        else:
+                            save_path = os.path.join(args.output_dir, f"checkpoint-{global_step}.pt")
+                            torch.save({'state_dict': unwrap_model(accelerator, controlnet).state_dict()}, save_path)
+                            logger.info(f"Saved state to {save_path}")
 
                 # Validation
                 should_run_validation = args.validation_prompt is not None and (
@@ -849,7 +848,7 @@ def main(args):
                 {
                     "loss": loss.detach().item(),
                     "lr": last_lr,
-                    "latent_segment_loss": latent_segment_loss.detach().item(),
+                    "latent_segment_loss": latent_segment_loss.detach().item() if args.use_perception_head else 0,
                 }
             )
             progress_bar.set_postfix(**logs)

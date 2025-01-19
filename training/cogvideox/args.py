@@ -415,6 +415,18 @@ def _get_training_args(parser: argparse.ArgumentParser) -> None:
         action="store_true",
         help="Whether or not to use random mask condition for the controlnet.",
     )
+    parser.add_argument(
+        "--global_step",
+        type=int,
+        default=0,
+        help="The global step to start training from.",
+    )
+    parser.add_argument(
+        "--initial_global_step",
+        type=int,
+        default=0,
+        help="The initial global step to start training from.",
+    )
 
 
 def _get_optimizer_args(parser: argparse.ArgumentParser) -> None:

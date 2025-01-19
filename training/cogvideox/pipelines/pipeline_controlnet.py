@@ -890,7 +890,7 @@ class CogVideoXImageToVideoControlnetPipeline(DiffusionPipeline, CogVideoXLoraLo
                     controlnet_states = controlnet_states.to(dtype=self.transformer.dtype)
 
                 # predict noise model_output
-                noise_pred, mask_pred = self.transformer(
+                noise_pred, _ = self.transformer(
                     hidden_states=latent_model_input,
                     encoder_hidden_states=prompt_embeds,
                     timestep=timestep,

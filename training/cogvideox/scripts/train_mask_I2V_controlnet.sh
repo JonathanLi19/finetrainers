@@ -59,7 +59,7 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --max_num_frames 49 \
           --train_batch_size 1 \
           --num_train_epochs $epoch \
-          --checkpointing_steps 100 \
+          --checkpointing_steps 200 \
           --gradient_accumulation_steps 1 \
           --gradient_checkpointing \
           --learning_rate $learning_rate \
@@ -78,7 +78,9 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --report_to wandb \
           --nccl_timeout 1800 \
           --controlnet_weights 1.0 \
-          --init_from_transformer"
+          --pretrained_controlnet_path \"/datadrive2/cogvideox/mask/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-5000.pt\" \
+          --initial_global_step 5000 \
+          --global_step 5000"
         
         echo "Running command: $cmd"
         eval $cmd
