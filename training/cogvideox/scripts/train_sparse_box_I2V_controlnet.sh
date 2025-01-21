@@ -13,9 +13,10 @@ GPU_IDS="0,1,2"
 LEARNING_RATES=("1e-5")
 LR_SCHEDULES=("cosine_with_restarts")
 OPTIMIZERS=("adamw")
-EPOCHS=("1")
+EPOCHS=("2")
 
 # Single GPU uncompiled training
+# ACCELERATE_CONFIG_FILE="accelerate_configs/single_machine.yaml"
 ACCELERATE_CONFIG_FILE="accelerate_configs/deepspeed.yaml"
 
 # Absolute path to where the data is located. Make sure to have read the README for how to prepare data.
@@ -23,8 +24,11 @@ ACCELERATE_CONFIG_FILE="accelerate_configs/deepspeed.yaml"
 #   huggingface-cli download --repo-type dataset Wild-Heart/Disney-VideoGeneration-Dataset --local-dir /path/to/my/datasets/disney-dataset
 DATA_ROOT="/home/qid/quanhao/workspace/Open-Sora/data/Pexels/Pexels_MeViS_MOSE_DAVIS.csv"
 MODEL_PATH="THUDM/CogVideoX-5b-I2V"
-controlnet_path="/datadrive2/cogvideox/mask/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-7400.pt"
-TRAJECTORY_MAPS_TYPE="mask"
+# perception_head_path="/datadrive2/cogvideox/box/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-2000/perception_head-checkpoint-2000.pt"
+# controlnet_path="/datadrive2/cogvideox/box/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-2000/controlnet-checkpoint-2000.pt"
+perception_head_path="/datadrive2/cogvideox/sparse_box/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-1400/perception_head-checkpoint-1400.pt"
+controlnet_path="/datadrive2/cogvideox/sparse_box/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-1400/controlnet-checkpoint-1400.pt"
+TRAJECTORY_MAPS_TYPE="box"
 frame_interval=1
 
 # Set ` --load_tensors ` to load tensors from disk instead of recomputing the encoder process.
@@ -34,13 +38,14 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
   for lr_schedule in "${LR_SCHEDULES[@]}"; do
     for optimizer in "${OPTIMIZERS[@]}"; do
       for epoch in "${EPOCHS[@]}"; do
-        output_dir="/datadrive2/cogvideox/mask/Pexels_MeViS_MOSE_DAVIS/Controlnet"
+        output_dir="/datadrive2/cogvideox/sparse_box/Pexels_MeViS_MOSE_DAVIS/Controlnet"
 
         cmd="accelerate launch --config_file $ACCELERATE_CONFIG_FILE\
           --gpu_ids $GPU_IDS \
           training/cogvideox/cogvideox_controlnet_I2V_sft.py \
-          --pretrained_model_name_or_path $MODEL_PATH \
+          --pretrained_model_name_or_path  $MODEL_PATH \
           --pretrained_controlnet_path $controlnet_path \
+          --pretrained_perception_head_path $perception_head_path \
           --dataset_file $DATA_ROOT \
           --trajectory_maps_type $TRAJECTORY_MAPS_TYPE \
           --frame_interval $frame_interval \
@@ -53,16 +58,15 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --validation_images \"/home/qid/quanhao/workspace/Open-Sora/assets/images/condition/boat.png\" \
           --validation_prompt_separator ::: \
           --num_validation_videos 1 \
-          --validation_steps 2000 \
-          --validation_trajectory_maps \"/home/qid/quanhao/workspace/Open-Sora/assets/mask_trajectory/boat/moved_mask_right/mask.mp4\" \
-          --trajectory_guidance_scale 2 \
+          --validation_steps 100 \
+          --validation_trajectory_maps \"/home/qid/quanhao/workspace/Open-Sora/assets/boxs_trajectory/boat/moved_mask_boxes/sparse_box.mp4\" \
           --seed 42 \
           --mixed_precision bf16 \
           --output_dir $output_dir \
           --max_num_frames 49 \
           --train_batch_size 1 \
           --num_train_epochs $epoch \
-          --checkpointing_steps 1000 \
+          --checkpointing_steps 100 \
           --gradient_accumulation_steps 1 \
           --gradient_checkpointing \
           --learning_rate $learning_rate \
@@ -81,8 +85,11 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --report_to wandb \
           --nccl_timeout 1800 \
           --controlnet_weights 1.0 \
-          --initial_global_step 7400 \
-          --global_step 7400"
+          --use_perception_head \
+          --lambda_latent_segmentation 0.5 \
+          --random_masked_condition \
+          --initial_global_step 1400 \
+          --global_step 1400"
         
         echo "Running command: $cmd"
         eval $cmd

@@ -71,6 +71,7 @@ from pipelines.pipeline_controlnet import CogVideoXImageToVideoControlnetPipelin
 from models.controlnet import CogVideoXControlnet
 from einops import rearrange
 from models.combined_model import CombinedModel
+from schedulers.trajectory_scheduler import CogVideoXControlnetDPMScheduler
 
 logger = get_logger(__name__)
 
@@ -349,22 +350,22 @@ def main(args):
     # CogVideoX-2b weights are stored in float16
     # CogVideoX-5b and CogVideoX-5b-I2V weights are stored in bfloat16
     load_dtype = torch.bfloat16 if "5b" in args.pretrained_model_name_or_path.lower() else torch.float16
-    if os.path.exists(args.pretrained_model_name_or_path):
-        ckpt = torch.load(args.pretrained_model_name_or_path, map_location='cpu', weights_only=False)
-        transformer_state_dict = {}
+    transformer = CogVideoXControlnetTransformer3DModel.from_pretrained(
+        args.pretrained_model_name_or_path,
+        subfolder="transformer",
+        torch_dtype=load_dtype,
+        revision=args.revision,
+        variant=args.variant,
+        use_perception_head=args.use_perception_head,
+    )
+    if os.path.exists(args.pretrained_perception_head_path):
+        ckpt = torch.load(args.pretrained_perception_head_path, map_location='cpu', weights_only=False)
+        perception_head_state_dict = {}
         for name, params in ckpt['state_dict'].items():
-            transformer_state_dict[name] = params
-        m, u = transformer.load_state_dict(transformer_state_dict, strict=False)
-        print(f'[ Weights from pretrained transformer was loaded into transformer ] [M: {len(m)} | U: {len(u)}]')
-    else:
-        transformer = CogVideoXControlnetTransformer3DModel.from_pretrained(
-            args.pretrained_model_name_or_path,
-            subfolder="transformer",
-            torch_dtype=load_dtype,
-            revision=args.revision,
-            variant=args.variant,
-            use_perception_head=args.use_perception_head,
-        )
+            perception_head_state_dict[name] = params
+        m, u = transformer.perception_head.load_state_dict(perception_head_state_dict, strict=False)
+        print(f'[ Weights from pretrained perception_head was loaded into transformer ] [M: {len(m)} | U: {len(u)}]')
+
     model_config = transformer.module.config if hasattr(transformer, "module") else transformer.config
     controlnet_config = {}  
     for k, v in model_config.items():
@@ -407,7 +408,7 @@ def main(args):
 
     combined_model = CombinedModel(transformer, controlnet)
 
-    scheduler = CogVideoXDPMScheduler.from_pretrained(args.pretrained_model_name_or_path, subfolder="scheduler")
+    scheduler = CogVideoXControlnetDPMScheduler.from_pretrained(args.pretrained_model_name_or_path, subfolder="scheduler")
 
     if args.enable_slicing:
         vae.enable_slicing()
@@ -661,6 +662,7 @@ def main(args):
                 trajectory_maps = batch["trajectory_maps"].to(accelerator.device, non_blocking=True)
                 latent_segmentation_gt = batch["latent_segmentation_gt"].to(accelerator.device, non_blocking=True)
                 assert trajectory_maps.shape == videos.shape
+                # save_tensor_as_video(trajectory_maps[0], "visualization/trajectory_maps.mp4")
 
                 # Encode videos
                 if not args.load_tensors:
@@ -828,9 +830,9 @@ def main(args):
                             controlnet_save_path = os.path.join(save_path, f"controlnet-checkpoint-{global_step}.pt")
                             torch.save({'state_dict': unwrap_model(accelerator, combined_model.controlnet).state_dict()}, controlnet_save_path)
                             logger.info(f"Saved Controlnet state to {save_path}")
-                            transformer_save_path = os.path.join(save_path, f"transformer-checkpoint-{global_step}.pt")
-                            torch.save({'state_dict': unwrap_model(accelerator, combined_model.transformer).state_dict()}, transformer_save_path)
-                            logger.info(f"Saved Transformer state to {save_path}")
+                            perception_head_save_path = os.path.join(save_path, f"perception_head-checkpoint-{global_step}.pt")
+                            torch.save({'state_dict': unwrap_model(accelerator, combined_model.transformer.perception_head).state_dict()}, perception_head_save_path)
+                            logger.info(f"Saved Perception Head state to {save_path}")
                         else:
                             save_path = os.path.join(args.output_dir, f"checkpoint-{global_step}.pt")
                             torch.save({'state_dict': unwrap_model(accelerator, controlnet).state_dict()}, save_path)

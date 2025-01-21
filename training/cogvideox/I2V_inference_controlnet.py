@@ -14,6 +14,7 @@
 # limitations under the License.
 
 import torch
+import os
 from transformers import T5EncoderModel, T5Tokenizer
 from diffusers.models import AutoencoderKLCogVideoX
 from diffusers.schedulers import CogVideoXDDIMScheduler, CogVideoXDPMScheduler
@@ -24,6 +25,7 @@ from args import get_args
 from pipelines.pipeline_controlnet import CogVideoXImageToVideoControlnetPipeline
 from models.transformer_controlnet import CogVideoXControlnetTransformer3DModel
 from models.controlnet import CogVideoXControlnet
+from schedulers.trajectory_scheduler import CogVideoXControlnetDPMScheduler
 
 def main(args):
     model_card = "THUDM/CogVideoX-5b-I2V"
@@ -31,12 +33,30 @@ def main(args):
     tokenizer    = T5Tokenizer.from_pretrained(model_card, subfolder="tokenizer")
     text_encoder = T5EncoderModel.from_pretrained(model_card, subfolder="text_encoder").cuda()
     vae          = AutoencoderKLCogVideoX.from_pretrained(model_card, subfolder="vae").cuda()
-    transformer  = CogVideoXControlnetTransformer3DModel.from_pretrained(args.pretrained_model_name_or_path, subfolder="transformer", torch_dtype=torch.bfloat16)
+    load_dtype = torch.bfloat16 if "5b" in args.pretrained_model_name_or_path.lower() else torch.float16
+    transformer = CogVideoXControlnetTransformer3DModel.from_pretrained(
+        args.pretrained_model_name_or_path,
+        subfolder="transformer",
+        torch_dtype=load_dtype,
+        revision=args.revision,
+        variant=args.variant,
+        use_perception_head=args.use_perception_head,
+    )
+    if os.path.exists(args.pretrained_perception_head_path):
+        ckpt = torch.load(args.pretrained_perception_head_path, map_location='cpu', weights_only=False)
+        perception_head_state_dict = {}
+        for name, params in ckpt['state_dict'].items():
+            perception_head_state_dict[name] = params
+        m, u = transformer.perception_head.load_state_dict(perception_head_state_dict, strict=False)
+        print(f'[ Weights from pretrained perception_head was loaded into transformer ] [M: {len(m)} | U: {len(u)}]')
     model_config = transformer.module.config if hasattr(transformer, "module") else transformer.config
-    if args.use_perception_head:
-        controlnet = CogVideoXControlnet(use_perception_head=True, **model_config,)
-    else:
-        controlnet = CogVideoXControlnet(**model_config,)
+    controlnet_config = {}  
+    for k, v in model_config.items():
+        if "use_perception_head" not in k:
+            controlnet_config[k] = v
+    controlnet = CogVideoXControlnet(
+            **controlnet_config,
+        )
     if args.init_from_transformer:
         controlnet_state_dict = {}
         for name, params in transformer.state_dict().items():
@@ -51,12 +71,13 @@ def main(args):
             controlnet_state_dict[name] = params
         m, u = controlnet.load_state_dict(controlnet_state_dict, strict=False)
         print(f'[ Weights from pretrained controlnet was loaded into controlnet ] [M: {len(m)} | U: {len(u)}]')
+
     params = [p.numel() for n, p in controlnet.named_parameters()]
     print(f"### Whole Controlnet Parameters: {sum(params) / 1e9} B")
     params = [p.numel() for n, p in transformer.named_parameters()]
     print(f"### Whole Transformer Parameters: {sum(params) / 1e9} B")
 
-    scheduler    = CogVideoXDPMScheduler.from_pretrained(model_card, subfolder="scheduler")
+    scheduler    = CogVideoXControlnetDPMScheduler.from_pretrained(model_card, subfolder="scheduler")
     pipe         = CogVideoXImageToVideoControlnetPipeline(vae=vae, text_encoder=text_encoder, tokenizer=tokenizer, transformer=transformer, controlnet=controlnet, scheduler=scheduler).to(torch.bfloat16)
 
 

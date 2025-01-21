@@ -515,25 +515,6 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
 
             assert frames.shape == trajectory_maps.shape
 
-            # Binary Latent Segmentation Ground Truth
-            # T, C, H, W = trajectory_maps.shape  # T=49
-            # assert T == 49, "This method assumes T=49 for trajectory_maps."
-            # first_9_indices = torch.linspace(0, 8, 3).round().long()
-            # remaining_indices = torch.cat([
-            #     (torch.linspace(i, i + 7, 2).round().long())
-            #     for i in range(9, 49, 8)
-            # ])
-            # sampled_indices = torch.cat([first_9_indices, remaining_indices])
-
-            # if self.trajectory_maps_type == "mask":
-            #     latent_segmentation_gt = trajectory_maps[sampled_indices, :, :, :]
-            # else:
-            #     mask_path = sample["trajectory_maps_path"]
-            #     trajectory_maps = self.read_mask(mask_path, mask_start_index, mask_end_index, frame_indices, nearest_res)
-            #     latent_segmentation_gt = trajectory_maps[sampled_indices, :, :, :]
-
-            # latent_segmentation_gt = (latent_segmentation_gt > 0).any(dim=1) 
-
             # Colorful Latent Segmentation Ground Truth
             latent_segmentation_gt = masks
 
@@ -555,11 +536,10 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
         trajectory_maps = trajectory_maps.permute(0, 3, 1, 2).contiguous()  # [T, C, H, W]
         if trajectory_type == "box" and random_masked_condition:
             F, C, H, W = trajectory_maps.shape
-            k = random.randint(1, F-1)
-            indices = torch.randperm(F-1)[:k] + 1  # 随机生成 k 个索引，加 1 保证范围是 [1, F-1]
+            k = random.randint(1, F)  # k 随机范围改为 [1, F]
+            indices = torch.randperm(F)[:k]  # 随机排列 [0, F-1]，取前 k 个
             mask = torch.zeros(F, dtype=torch.bool, device=trajectory_maps.device)
             mask[indices] = True
-            mask[0] = True
             mask = mask.unsqueeze(-1).unsqueeze(-1).unsqueeze(-1) # 扩展到 [F, 1, 1, 1]
             trajectory_maps = trajectory_maps * mask
 

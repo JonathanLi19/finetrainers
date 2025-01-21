@@ -427,6 +427,12 @@ def _get_training_args(parser: argparse.ArgumentParser) -> None:
         default=0,
         help="The initial global step to start training from.",
     )
+    parser.add_argument(
+        "--pretrained_perception_head_path",
+        type=str,
+        default="",
+        help="Path to the pretrained perption head.",
+    )
 
 
 def _get_optimizer_args(parser: argparse.ArgumentParser) -> None:

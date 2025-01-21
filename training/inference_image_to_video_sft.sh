@@ -9,8 +9,9 @@ MODEL_PATH="THUDM/CogVideoX-5b-I2V"
 
 python training/cogvideox/I2V_inference.py \
     --pretrained_model_name_or_path  $MODEL_PATH \
-    --validation_prompt "A rocket landing." \
-    --validation_images "/home/qid/quanhao/workspace/Open-Sora/assets/images/condition/rocket/0.jpg" \
+    --validation_prompt "A boat sailing in the river." \
+    --validation_images "/home/qid/quanhao/workspace/Open-Sora/assets/images/condition/boat.png" \
+    --validation_trajectory_maps "/home/qid/quanhao/workspace/Open-Sora/assets/boxs_trajectory/boat/moved_mask_boxes/box.mp4" \
     --validation_prompt_separator ::: \
     --num_validation_videos 1 \
     --seed 42 \

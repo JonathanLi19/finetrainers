@@ -514,6 +514,62 @@ def generate_gaussian_noise(height, width, mean=0, std_dev=1):
     
     return noise, noise_mean, noise_variance
 
+def load_frames_as_tensor(trajectory_maps_path, num_frames):
+    # 获取所有的帧文件并排序（假设是png或jpg格式）
+    frame_names = sorted([f for f in os.listdir(trajectory_maps_path) if f.endswith(('.png', '.jpg'))])#[:num_frames]
+    indices = np.linspace(0, len(frame_names) - 1, num_frames, dtype=int)
+    frame_names = [frame_names[i] for i in indices]
+    assert len(frame_names) == num_frames
+    
+    # 读取第一帧以提取唯一颜色
+    first_frame_path = os.path.join(trajectory_maps_path, frame_names[0])
+    first_image = cv2.imread(first_frame_path, cv2.IMREAD_COLOR)
+    first_image = cv2.cvtColor(first_image, cv2.COLOR_BGR2RGB)
+    df = pd.DataFrame(first_image.reshape(-1, 3), columns=['R', 'G', 'B'])
+    unique_colors_df = df.drop_duplicates()
+    unique_colors = unique_colors_df.to_numpy()
+    unique_colors = unique_colors[~np.all(unique_colors == [0, 0, 0], axis=1)]  # 排除黑色
+    
+
+    bounding_boxes = []
+    for frame_file in frame_names:
+        frame_path = os.path.join(trajectory_maps_path, frame_file)
+        image = cv2.imread(frame_path, cv2.IMREAD_COLOR)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        
+        # 提取bounding box坐标
+        height, width, _ = image.shape
+        frame_bounding_boxes = []
+        for color in unique_colors:
+            mask = cv2.inRange(image, np.array(color), np.array(color))
+            coords = np.column_stack(np.where(mask))
+            if coords.size > 0:
+                min_y, min_x = coords.min(axis=0)
+                max_y, max_x = coords.max(axis=0)
+                # 归一化坐标
+                min_y, min_x = min_y / height, min_x / width
+                max_y, max_x = max_y / height, max_x / width
+                frame_bounding_boxes.append((min_x, min_y, max_x, max_y))
+            else:
+                frame_bounding_boxes.append(None)  # 如果没有找到该颜色的bounding box，添加None
+                # assert 0
+        bounding_boxes.append(frame_bounding_boxes)
+
+    processed_bounding_boxes = []
+
+    # 前 9 帧选 3 帧
+    step_front = len(bounding_boxes[:9]) // 3  # 均匀间隔选帧
+    for i in range(0, len(bounding_boxes[:9]), step_front):
+        processed_bounding_boxes.append(bounding_boxes[i])
+
+    # 后面的帧每 8 帧选 2 帧
+    for start in range(9, len(bounding_boxes), 8):  # 从第10帧开始每8帧处理一次
+        for i in range(2):  # 选 2 帧
+            if start + i < len(bounding_boxes):  # 防止越界
+                processed_bounding_boxes.append(bounding_boxes[start + i])
+
+    return processed_bounding_boxes, bounding_boxes[0]
+
 if __name__ == "__main__":
     H, W = 100, 100
     noise, mean, variance = generate_gaussian_noise(H, W, mean=0, std_dev=1)

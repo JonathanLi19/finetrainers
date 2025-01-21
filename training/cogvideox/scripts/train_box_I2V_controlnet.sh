@@ -21,7 +21,8 @@ ACCELERATE_CONFIG_FILE="accelerate_configs/single_machine.yaml"
 # This example assumes you downloaded an already prepared dataset from HF CLI as follows:
 #   huggingface-cli download --repo-type dataset Wild-Heart/Disney-VideoGeneration-Dataset --local-dir /path/to/my/datasets/disney-dataset
 DATA_ROOT="/home/qid/quanhao/workspace/Open-Sora/data/Pexels/Pexels_MeViS_MOSE_DAVIS.csv"
-TRANSFORMER_PATH="THUDM/CogVideoX-5b-I2V"
+MODEL_PATH="THUDM/CogVideoX-5b-I2V"
+controlnet_path="/datadrive2/cogvideox/mask/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-5000.pt"
 TRAJECTORY_MAPS_TYPE="box"
 frame_interval=1
 
@@ -37,7 +38,8 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
         cmd="accelerate launch --config_file $ACCELERATE_CONFIG_FILE\
           --gpu_ids $GPU_IDS \
           training/cogvideox/cogvideox_controlnet_I2V_sft.py \
-          --pretrained_model_name_or_path  $TRANSFORMER_PATH \
+          --pretrained_model_name_or_path  $MODEL_PATH \
+          --pretrained_controlnet_path $controlnet_path \
           --dataset_file $DATA_ROOT \
           --trajectory_maps_type $TRAJECTORY_MAPS_TYPE \
           --frame_interval $frame_interval \
@@ -77,7 +79,6 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --report_to wandb \
           --nccl_timeout 1800 \
           --controlnet_weights 1.0 \
-          --pretrained_controlnet_path \"/datadrive2/cogvideox/mask/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-5000.pt\" \
           --use_perception_head \
           --lambda_latent_segmentation 0.5"
         
