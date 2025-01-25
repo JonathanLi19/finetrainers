@@ -1,8 +1,8 @@
 export TORCH_LOGS="+dynamo,recompiles,graph_breaks"
 export TORCHDYNAMO_VERBOSE=1
 export WANDB_MODE="online"
-export NCCL_P2P_DISABLE=1
-export NCCL_IB_DISABLE=1
+# export NCCL_P2P_DISABLE=1
+# export NCCL_IB_DISABLE=1
 export TORCH_NCCL_ENABLE_MONITORING=0
 export TOKENIZERS_PARALLELISM=true
 export OMP_NUM_THREADS=16
@@ -21,9 +21,9 @@ ACCELERATE_CONFIG_FILE="accelerate_configs/deepspeed.yaml"
 # Absolute path to where the data is located. Make sure to have read the README for how to prepare data.
 # This example assumes you downloaded an already prepared dataset from HF CLI as follows:
 #   huggingface-cli download --repo-type dataset Wild-Heart/Disney-VideoGeneration-Dataset --local-dir /path/to/my/datasets/disney-dataset
-DATA_ROOT="/home/qid/quanhao/workspace/Open-Sora/data/Pexels/Pexels_MeViS_MOSE_DAVIS.csv"
+DATA_ROOT="data/Pexels/Pexels_MeViS_MOSE.csv"
 MODEL_PATH="THUDM/CogVideoX-5b-I2V"
-controlnet_path="/datadrive2/cogvideox/mask/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-7400.pt"
+controlnet_path="/datadrive2/cogvideox/mask/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-7000.pt"
 TRAJECTORY_MAPS_TYPE="mask"
 frame_interval=1
 
@@ -62,7 +62,7 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --max_num_frames 49 \
           --train_batch_size 1 \
           --num_train_epochs $epoch \
-          --checkpointing_steps 1000 \
+          --checkpointing_steps 500 \
           --gradient_accumulation_steps 1 \
           --gradient_checkpointing \
           --learning_rate $learning_rate \
@@ -79,10 +79,10 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --max_grad_norm 1.0 \
           --allow_tf32 \
           --report_to wandb \
-          --nccl_timeout 1800 \
+          --nccl_timeout 180000000 \
           --controlnet_weights 1.0 \
-          --initial_global_step 7400 \
-          --global_step 7400"
+          --initial_global_step 7000 \
+          --global_step 7000"
         
         echo "Running command: $cmd"
         eval $cmd

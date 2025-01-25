@@ -28,11 +28,12 @@ from diffusers.pipelines.cogvideo import CogVideoXImageToVideoPipeline
 from diffusers.models.transformers import CogVideoXTransformer3DModel
 from schedulers.dpm_scheduler import CogVideoXControlnetDPMScheduler
 from schedulers.ddim_scheduler import CogVideoXControlnetDDIMScheduler
+from diffusers.schedulers.scheduling_ddim import DDIMScheduler
 from diffusers.schedulers.scheduling_ddim_inverse import DDIMInverseScheduler
 from pipelines.inverse_pipeline import InversePipeline
 from utils import save_tensor_as_video, save_tensor_as_images_with_pca, load_frames_as_tensor
 from inversion_utils.freeinit_utils import get_freq_filter, freq_mix_3d
-from einops import rearrange
+
 
 @torch.no_grad()
 def latent_shift(
@@ -99,7 +100,7 @@ def main(args):
     text_encoder = T5EncoderModel.from_pretrained(model_card, subfolder="text_encoder").cuda()
     vae          = AutoencoderKLCogVideoX.from_pretrained(model_card, subfolder="vae").cuda()
     transformer  = CogVideoXTransformer3DModel.from_pretrained(model_card, subfolder="transformer", torch_dtype=torch.bfloat16)
-    scheduler    = CogVideoXDDIMScheduler.from_pretrained(model_card, subfolder="scheduler")
+    scheduler    = CogVideoXControlnetDDIMScheduler.from_pretrained(model_card, subfolder="scheduler")
     pipe         = InversePipeline(vae=vae, text_encoder=text_encoder, tokenizer=tokenizer, transformer=transformer, scheduler=scheduler).to(torch.bfloat16)
 
     if model_card == "THUDM/CogVideoX1.5-5B-I2V":
@@ -124,10 +125,9 @@ def main(args):
         validation_images = args.validation_images.split(args.validation_prompt_separator)
         validation_trajectory_maps = args.validation_trajectory_maps.split(args.validation_prompt_separator)
         for validation_image, validation_prompt, validation_trajectory_map in zip(validation_images, validation_prompts, validation_trajectory_maps):
-            # image = load_image(validation_image)
-            # src_video = list(image for _ in range(num_frames))
-            src_video = load_video(validation_trajectory_map)
-            image = src_video[0]
+            image = load_image(validation_image)
+            inv_video = load_video(validation_trajectory_map)
+            generator=torch.Generator(device=pipe.device).manual_seed(args.seed)
             pipeline_args = {
                 "image": image,
                 "prompt": validation_prompt,
@@ -136,12 +136,23 @@ def main(args):
                 "height": args.height,
                 "width": args.width,
                 "num_frames": num_frames,
+                "generator": generator,
             }
-            # inverse image latents and then do latent shift
-            inversion = pipe.inverse(**pipeline_args, src_video=src_video, num_inference_steps=500,).frames
-            latents = inversion
-            print("Mean: ", latents.mean())
-            print("Std: ", latents.std())
+            # Encode video
+            inv_latent = pipe.encode_video(inv_video)
+            print(f"inv_latent shape: {inv_latent.shape}")
+
+            # inverse video latents
+            ddim_inv_latent = pipe.inverse(**pipeline_args,latents=inv_latent,num_inference_steps=50).frames
+            print(f"ddim_inv_latent shape: {ddim_inv_latent.shape}")
+            # Do video reconstruction
+            video_generate = pipe(**pipeline_args, latents=ddim_inv_latent).frames[0]
+            output_path = "samples/inverse/boat_ddim_inverse_50.mp4"
+            export_to_video(video_generate, output_path, fps=fps)
+
+
+
+
 
             # latents = torch.randn_like(inversion)
             # frame0_noise = inversion[:,0,:,:,:]
@@ -168,14 +179,13 @@ def main(args):
             # print("Mean of latents: ", latents.mean())
             # print("Std of latents: ", latents.std())
 
-            video_generate = pipe(
-                **pipeline_args,
-                latents=latents,
-                generator=torch.Generator(device=pipe.device).manual_seed(args.seed),  # Set the seed for reproducibility
-                output_type="np",
-            ).frames[0]
-            output_path = "samples/inverse/boat_ddim_inverse_500.mp4"
-            export_to_video(video_generate, output_path, fps=fps)
+            # video_generate = pipe(
+            #     **pipeline_args,
+            #     latents=None,
+            #     output_type="np",
+            # ).frames[0]
+            # output_path = "samples/inverse/boat_ddim_inverse_500.mp4"
+            # export_to_video(video_generate, output_path, fps=fps)
 
 if __name__ == "__main__":
     args = get_args()

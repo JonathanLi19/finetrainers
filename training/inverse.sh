@@ -7,11 +7,13 @@ export TOKENIZERS_PARALLELISM=False
 export CUDA_VISIBLE_DEVICES=3
 MODEL_PATH="THUDM/CogVideoX-5b-I2V"
 
-python training/cogvideox/I2V_inference_controlnet.py \
+python training/cogvideox/inverse.py \
     --pretrained_model_name_or_path  $MODEL_PATH \
-    --validation_args_csv  "training/cogvideox/validation_args/mask_condition.csv" \
+    --validation_prompt "A boat sailing in the river." \
+    --validation_images "/home/qid/quanhao/workspace/Open-Sora/assets/images/condition/boat.png" \
+    --validation_trajectory_maps "data/DAVIS/JPEGImages/480p/boat/boat_49.mp4" \
+    --validation_prompt_separator ::: \
     --num_validation_videos 1 \
     --seed 42 \
     --height 480 \
-    --width 720 \
-    --pretrained_controlnet_path "/datadrive2/cogvideox/mask/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-8000.pt"
+    --width 720

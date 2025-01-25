@@ -25,7 +25,7 @@ from args import get_args
 from pipelines.pipeline_controlnet import CogVideoXImageToVideoControlnetPipeline
 from models.transformer_controlnet import CogVideoXControlnetTransformer3DModel
 from models.controlnet import CogVideoXControlnet
-from schedulers.trajectory_scheduler import CogVideoXControlnetDPMScheduler
+from schedulers.dpm_scheduler import CogVideoXControlnetDPMScheduler
 
 def main(args):
     model_card = "THUDM/CogVideoX-5b-I2V"

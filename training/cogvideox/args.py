@@ -433,7 +433,12 @@ def _get_training_args(parser: argparse.ArgumentParser) -> None:
         default="",
         help="Path to the pretrained perption head.",
     )
-
+    parser.add_argument(
+        "--max_sparse_boxs_num",
+        type=int,
+        default=10,
+        help="The maximum number of sparse boxes.",
+    )
 
 def _get_optimizer_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(

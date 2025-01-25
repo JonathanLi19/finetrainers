@@ -16,28 +16,38 @@
 import inspect
 import math
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
-
+import os
 import PIL
 import PIL.Image
 import torch
 from transformers import T5EncoderModel, T5Tokenizer
 from diffusers.pipelines.cogvideo.pipeline_cogvideox_image2video import CogVideoXImageToVideoPipeline, retrieve_timesteps, retrieve_latents
+from diffusers.schedulers import CogVideoXDDIMScheduler, CogVideoXDPMScheduler
 from diffusers.utils import logging, replace_example_docstring
 from diffusers.callbacks import MultiPipelineCallbacks, PipelineCallback
 from diffusers.pipelines.cogvideo.pipeline_output import CogVideoXPipelineOutput
 from diffusers.image_processor import PipelineImageInput
+from diffusers.utils.torch_utils import randn_tensor
+from utils import save_tensor_as_images_with_pca
 
 logger = logging.get_logger(__name__)  # pylint: disable=invalid-name
 
 class InversePipeline(CogVideoXImageToVideoPipeline):
-    
-    def prepare_video_latents(
+
+    @torch.no_grad()
+    def encode_video(
         self,
         src_video: torch.Tensor,
+        height: int = 480,
+        width: int = 720,
         batch_size: int = 1,
-        dtype: Optional[torch.dtype] = None,
+        dtype: Optional[torch.dtype] = torch.bfloat16,
         generator: Optional[torch.Generator] = None,
     ):
+        device = self._execution_device
+        src_video = self.video_processor.preprocess_video(src_video, height=height, width=width).to(
+            device, dtype=dtype
+        )
 
         if isinstance(generator, list):
             video_latents = [
@@ -65,7 +75,6 @@ class InversePipeline(CogVideoXImageToVideoPipeline):
     @torch.no_grad()
     def inverse(
         self,
-        src_video: List[PIL.Image.Image],
         image: PipelineImageInput,
         prompt: Optional[Union[str, List[str]]] = None,
         negative_prompt: Optional[Union[str, List[str]]] = None,
@@ -130,7 +139,7 @@ class InversePipeline(CogVideoXImageToVideoPipeline):
         # here `guidance_scale` is defined analog to the guidance weight `w` of equation (2)
         # of the Imagen paper: https://arxiv.org/pdf/2205.11487.pdf . `guidance_scale = 1`
         # corresponds to doing no classifier free guidance.
-        do_classifier_free_guidance = guidance_scale > 1.0
+        do_classifier_free_guidance = guidance_scale > 1
 
         # 3. Encode input prompt
         prompt_embeds, negative_prompt_embeds = self.encode_prompt(
@@ -163,17 +172,8 @@ class InversePipeline(CogVideoXImageToVideoPipeline):
         image = self.video_processor.preprocess(image, height=height, width=width).to(
             device, dtype=prompt_embeds.dtype
         )
-        src_video = self.video_processor.preprocess_video(src_video, height=height, width=width).to(
-            device, dtype=prompt_embeds.dtype
-        )
 
         latent_channels = self.transformer.config.in_channels // 2
-        latents = self.prepare_video_latents(
-            src_video,
-            batch_size * num_videos_per_prompt,
-            prompt_embeds.dtype,
-            generator,
-        )
         latents, image_latents = self.prepare_latents(
             image,
             batch_size * num_videos_per_prompt,
@@ -203,14 +203,10 @@ class InversePipeline(CogVideoXImageToVideoPipeline):
 
         # 8. Denoising loop
         num_warmup_steps = max(len(timesteps) - num_inference_steps * self.scheduler.order, 0)
-        timesteps = torch.flip(timesteps, dims=[0])
-        zero = torch.tensor([0]).to(timesteps.device, timesteps.dtype)
-        timesteps = torch.cat((zero, timesteps))[:-1]
-        print(timesteps)
-
         with self.progress_bar(total=num_inference_steps) as progress_bar:
-            # for DPM-solver++
-            for i, t in enumerate(timesteps):
+            for i in range(num_inference_steps):
+                t = self.scheduler.timesteps[len(self.scheduler.timesteps) - i - 1]
+                print("t: ", t)
                 if self.interrupt:
                     continue
 
@@ -245,14 +241,11 @@ class InversePipeline(CogVideoXImageToVideoPipeline):
                     noise_pred = noise_pred_uncond + self.guidance_scale * (noise_pred_text - noise_pred_uncond)
 
                 # compute the previous noisy sample x_t -> x_t-1
-                latents, _ = self.scheduler.inverse(
-                    noise_pred,
-                    t,
-                    latents,
-                    **extra_step_kwargs,
-                    return_dict=False,
-                )
+                latents = self.scheduler.inverse(noise_pred, t, latents, **extra_step_kwargs).prev_sample
                 latents = latents.to(prompt_embeds.dtype)
+                # save_tensor_as_images_with_pca(latents, f"visualization/inversion_latents/latents_at_t{i}")
+                print("Mean: ", latents.mean())
+                print("Std: ", latents.std())
 
                 # call the callback, if provided
                 if callback_on_step_end is not None:
@@ -268,12 +261,10 @@ class InversePipeline(CogVideoXImageToVideoPipeline):
                 if i == len(timesteps) - 1 or ((i + 1) > num_warmup_steps and (i + 1) % self.scheduler.order == 0):
                     progress_bar.update()
 
-        latents = latents[:, additional_frames:]
+        if not return_dict:
+            return latents
 
         # Offload all models
         self.maybe_free_model_hooks()
-
-        if not return_dict:
-            return (latents,)
 
         return CogVideoXPipelineOutput(frames=latents)

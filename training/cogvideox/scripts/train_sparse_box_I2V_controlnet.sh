@@ -24,10 +24,8 @@ ACCELERATE_CONFIG_FILE="accelerate_configs/deepspeed.yaml"
 #   huggingface-cli download --repo-type dataset Wild-Heart/Disney-VideoGeneration-Dataset --local-dir /path/to/my/datasets/disney-dataset
 DATA_ROOT="/home/qid/quanhao/workspace/Open-Sora/data/Pexels/Pexels_MeViS_MOSE_DAVIS.csv"
 MODEL_PATH="THUDM/CogVideoX-5b-I2V"
-# perception_head_path="/datadrive2/cogvideox/box/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-2000/perception_head-checkpoint-2000.pt"
-# controlnet_path="/datadrive2/cogvideox/box/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-2000/controlnet-checkpoint-2000.pt"
-perception_head_path="/datadrive2/cogvideox/sparse_box/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-1400/perception_head-checkpoint-1400.pt"
-controlnet_path="/datadrive2/cogvideox/sparse_box/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-1400/controlnet-checkpoint-1400.pt"
+perception_head_path="/datadrive2/cogvideox/box/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-2000/perception_head-checkpoint-2000.pt"
+controlnet_path="/datadrive2/cogvideox/box/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-2000/controlnet-checkpoint-2000.pt"
 TRAJECTORY_MAPS_TYPE="box"
 frame_interval=1
 
@@ -88,8 +86,7 @@ for learning_rate in "${LEARNING_RATES[@]}"; do
           --use_perception_head \
           --lambda_latent_segmentation 0.5 \
           --random_masked_condition \
-          --initial_global_step 1400 \
-          --global_step 1400"
+          --max_sparse_boxs_num 10"
         
         echo "Running command: $cmd"
         eval $cmd

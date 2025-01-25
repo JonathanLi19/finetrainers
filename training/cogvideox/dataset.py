@@ -398,6 +398,7 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
         frame_interval: int = 1,
         random_masked_condition: bool = False,
         initial_step: int = 0,
+        max_sparse_boxs_num: int = 10
     ) -> None:
         super().__init__()
 
@@ -414,6 +415,7 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
         self.image_to_video = image_to_video
         self.frame_interval = frame_interval
         self.random_masked_condition = random_masked_condition
+        self.max_sparse_boxs_num = max_sparse_boxs_num
 
         self.resolutions = [
             (f, h, w) for h in self.height_buckets for w in self.width_buckets for f in self.frame_buckets
@@ -536,7 +538,7 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
         trajectory_maps = trajectory_maps.permute(0, 3, 1, 2).contiguous()  # [T, C, H, W]
         if trajectory_type == "box" and random_masked_condition:
             F, C, H, W = trajectory_maps.shape
-            k = random.randint(1, F)  # k 随机范围改为 [1, F]
+            k = random.randint(1, self.max_sparse_boxs_num)  # k 随机范围改为 [1, F]
             indices = torch.randperm(F)[:k]  # 随机排列 [0, F-1]，取前 k 个
             mask = torch.zeros(F, dtype=torch.bool, device=trajectory_maps.device)
             mask[indices] = True
@@ -567,7 +569,7 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
         if self.load_tensors:
             raise NotImplementedError
         else:
-            index = index + self.initial_step
+            index = index + self.initial_step * 3
             while True:
                 sample = self.data.iloc[index]
                 try:

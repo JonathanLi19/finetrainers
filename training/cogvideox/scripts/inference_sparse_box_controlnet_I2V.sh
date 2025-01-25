@@ -6,8 +6,8 @@ export TORCH_NCCL_ENABLE_MONITORING=0
 export TOKENIZERS_PARALLELISM=False
 export CUDA_VISIBLE_DEVICES=3
 MODEL_PATH="THUDM/CogVideoX-5b-I2V"
-perception_head_path="/datadrive2/cogvideox/sparse_box/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-3500/perception_head-checkpoint-3500.pt"
-controlnet_path="/datadrive2/cogvideox/sparse_box/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-3500/controlnet-checkpoint-3500.pt"
+perception_head_path="/datadrive2/cogvideox/sparse_box/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-3600/perception_head-checkpoint-3600.pt"
+controlnet_path="/datadrive2/cogvideox/sparse_box/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-3600/controlnet-checkpoint-3600.pt"
 
 python training/cogvideox/I2V_inference_controlnet.py \
     --pretrained_model_name_or_path  $MODEL_PATH \

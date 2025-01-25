@@ -71,7 +71,7 @@ from pipelines.pipeline_controlnet import CogVideoXImageToVideoControlnetPipelin
 from models.controlnet import CogVideoXControlnet
 from einops import rearrange
 from models.combined_model import CombinedModel
-from schedulers.trajectory_scheduler import CogVideoXControlnetDPMScheduler
+from schedulers.dpm_scheduler import CogVideoXControlnetDPMScheduler
 
 logger = get_logger(__name__)
 
@@ -544,6 +544,7 @@ def main(args):
         "frame_interval": args.frame_interval,
         "random_masked_condition": args.random_masked_condition,
         "initial_step": args.initial_global_step,
+        "max_sparse_boxs_num": args.max_sparse_boxs_num,
     }
     train_dataset = VideoTrajectoryDatasetWithResizing(**dataset_init_kwargs)
     collate_fn = CollateFunction(weight_dtype, args.load_tensors)

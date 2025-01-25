@@ -191,8 +191,6 @@ class CogVideoXControlnetTransformer3DModel(CogVideoXTransformer3DModel):
         p_t = self.config.patch_size_t
         if p_t is None:
             p_t = 1
-        # for i in range(self.start_layer, self.end_layer+1):
-        #     save_hidden_states_as_images(diffusion_features[i], f"visualization/diffusion_features_{i}", T=num_frames // p_t, H=height // p, W=width // p)
 
         # Do Latent Segmentation
         mask_pred = None
@@ -204,7 +202,7 @@ class CogVideoXControlnetTransformer3DModel(CogVideoXTransformer3DModel):
 
             mask_pred = self.perception_head(features)
             mask_pred = rearrange(mask_pred, "(B T) C H W -> B T C H W", T=num_frames // p_t, H=height, W=width)
-            save_tensor_as_images_with_pca(mask_pred, "visualization/mask_pred")
+            # save_tensor_as_images_with_pca(mask_pred, "visualization/mask_pred")
 
         if not self.config.use_rotary_positional_embeddings:
             # CogVideoX-2B
