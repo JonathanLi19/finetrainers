@@ -25,7 +25,6 @@ from args import get_args
 from pipelines.pipeline_controlnet import CogVideoXImageToVideoControlnetPipeline
 from models.transformer_controlnet import CogVideoXControlnetTransformer3DModel
 from models.controlnet import CogVideoXControlnet
-from schedulers.dpm_scheduler import CogVideoXControlnetDPMScheduler
 
 def main(args):
     model_card = "THUDM/CogVideoX-5b-I2V"
@@ -77,7 +76,7 @@ def main(args):
     params = [p.numel() for n, p in transformer.named_parameters()]
     print(f"### Whole Transformer Parameters: {sum(params) / 1e9} B")
 
-    scheduler    = CogVideoXControlnetDPMScheduler.from_pretrained(model_card, subfolder="scheduler")
+    scheduler    = CogVideoXDPMScheduler.from_pretrained(model_card, subfolder="scheduler")
     pipe         = CogVideoXImageToVideoControlnetPipeline(vae=vae, text_encoder=text_encoder, tokenizer=tokenizer, transformer=transformer, controlnet=controlnet, scheduler=scheduler).to(torch.bfloat16)
 
 

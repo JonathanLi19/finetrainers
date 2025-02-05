@@ -569,7 +569,7 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
         if self.load_tensors:
             raise NotImplementedError
         else:
-            index = index + self.initial_step * 3
+            index = index + self.initial_step * 4
             while True:
                 sample = self.data.iloc[index]
                 try:
@@ -657,3 +657,34 @@ class BucketSampler(Sampler):
                 yield bucket
                 del self.buckets[fhw]
                 self.buckets[fhw] = []
+
+class CollateFunction:
+    def __init__(self, weight_dtype: torch.dtype, load_tensors: bool) -> None:
+        self.weight_dtype = weight_dtype
+        self.load_tensors = load_tensors
+
+    def __call__(self, data: Dict[str, Any]) -> Dict[str, torch.Tensor]:
+        prompts = [x["prompt"] for x in data[0]]
+
+        if self.load_tensors:
+            prompts = torch.stack(prompts).to(dtype=self.weight_dtype, non_blocking=True)
+
+        images = [x["image"] for x in data[0]]
+        images = torch.stack(images).to(dtype=self.weight_dtype, non_blocking=True)
+
+        videos = [x["video"] for x in data[0]]
+        videos = torch.stack(videos).to(dtype=self.weight_dtype, non_blocking=True)
+
+        trajectory_maps = [x["trajectory_maps"] for x in data[0]]
+        trajectory_maps = torch.stack(trajectory_maps).to(dtype=self.weight_dtype, non_blocking=True)
+
+        latent_segmentation_gt = [x["latent_segmentation_gt"] for x in data[0]]
+        latent_segmentation_gt = torch.stack(latent_segmentation_gt).to(dtype=self.weight_dtype, non_blocking=True)
+
+        return {
+            "images": images,
+            "videos": videos,
+            "prompts": prompts,
+            "trajectory_maps": trajectory_maps,
+            "latent_segmentation_gt": latent_segmentation_gt,
+        }

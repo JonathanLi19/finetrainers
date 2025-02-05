@@ -14,4 +14,4 @@ python training/cogvideox/I2V_inference_controlnet.py \
     --seed 42 \
     --height 480 \
     --width 720 \
-    --pretrained_controlnet_path "/datadrive2/cogvideox/mask/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-8000.pt"
+    --pretrained_controlnet_path "/datadrive2/cogvideox/mask/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-17000.pt"

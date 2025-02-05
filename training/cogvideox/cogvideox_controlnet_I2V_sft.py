@@ -71,7 +71,6 @@ from pipelines.pipeline_controlnet import CogVideoXImageToVideoControlnetPipelin
 from models.controlnet import CogVideoXControlnet
 from einops import rearrange
 from models.combined_model import CombinedModel
-from schedulers.dpm_scheduler import CogVideoXControlnetDPMScheduler
 
 logger = get_logger(__name__)
 
@@ -408,7 +407,7 @@ def main(args):
 
     combined_model = CombinedModel(transformer, controlnet)
 
-    scheduler = CogVideoXControlnetDPMScheduler.from_pretrained(args.pretrained_model_name_or_path, subfolder="scheduler")
+    scheduler = CogVideoXDPMScheduler.from_pretrained(args.pretrained_model_name_or_path, subfolder="scheduler")
 
     if args.enable_slicing:
         vae.enable_slicing()
