@@ -3,7 +3,7 @@ export TORCHDYNAMO_VERBOSE=1
 export WANDB_MODE="offline"
 # export NCCL_P2P_DISABLE=1
 # export NCCL_IB_DISABLE=1
-export NCCL_P2P_LEVEL=NVL
+# export NCCL_P2P_LEVEL=NVL
 export NCCL_DEBUG=INFO
 export TORCH_NCCL_ENABLE_MONITORING=0
 export TOKENIZERS_PARALLELISM=true
@@ -68,7 +68,7 @@ while true; do
             --max_num_frames 49 \
             --train_batch_size 1 \
             --num_train_epochs $epoch \
-            --checkpointing_steps 500 \
+            --checkpointing_steps 100 \
             --gradient_accumulation_steps 1 \
             --gradient_checkpointing \
             --learning_rate $learning_rate \

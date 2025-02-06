@@ -50,7 +50,7 @@ from huggingface_hub import create_repo, upload_folder
 from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
 from transformers import AutoTokenizer, T5EncoderModel
-from utils import save_tensor_as_video
+
 
 from args import get_args  # isort:skip
 from dataset import BucketSampler, VideoDatasetWithResizing, VideoDatasetWithResizeAndRectangleCrop  # isort:skip
@@ -362,7 +362,6 @@ def main(args):
 
     VAE_SCALING_FACTOR = vae.config.scaling_factor
     VAE_SCALE_FACTOR_SPATIAL = 2 ** (len(vae.config.block_out_channels) - 1)
-    # print(VAE_SCALING_FACTOR, VAE_SCALE_FACTOR_SPATIAL) # 0.7 8
     RoPE_BASE_HEIGHT = transformer.config.sample_height * VAE_SCALE_FACTOR_SPATIAL
     RoPE_BASE_WIDTH = transformer.config.sample_width * VAE_SCALE_FACTOR_SPATIAL
 
@@ -662,9 +661,6 @@ def main(args):
                 images = batch["images"].to(accelerator.device, non_blocking=True)
                 videos = batch["videos"].to(accelerator.device, non_blocking=True)
                 prompts = batch["prompts"]
-                export_to_video(videos[0].detach().float().cpu().numpy().transpose(0, 2, 3, 1), "visualization/debug/I2V_video_train.mp4")
-                save_tensor_as_video(videos[0], "visualization/debug/I2V_video_train_1.mp4")
-                # print(images.shape, videos.shape, prompts) # torch.Size([1, 1, 3, 480, 720]) torch.Size([1, 49, 3, 480, 720])
 
                 # Encode videos
                 if not args.load_tensors:
@@ -741,7 +737,6 @@ def main(args):
                     if model_config.use_rotary_positional_embeddings
                     else None
                 )
-                # print("Rotary Embeddings:", image_rotary_emb[0].shape) # torch.Size([17550, 64])
 
                 # Add noise to the model input according to the noise magnitude at each timestep
                 # (this is the forward diffusion process)
