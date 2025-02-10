@@ -19,14 +19,13 @@ import os
 import matplotlib.pyplot as plt
 from transformers import T5EncoderModel, T5Tokenizer
 from diffusers.models import AutoencoderKLCogVideoX
-from diffusers.schedulers import CogVideoXDDIMScheduler, CogVideoXDPMScheduler
+from diffusers.schedulers import CogVideoXDDIMScheduler
 
 from diffusers.utils import convert_unet_state_dict_to_peft, export_to_video, load_image, load_video
 
 from args import get_args 
-from diffusers.pipelines.cogvideo import CogVideoXImageToVideoPipeline, CogVideoXPipeline
 from diffusers.models.transformers import CogVideoXTransformer3DModel
-from schedulers.ddpm_inverse_scheduler import CogvideoXDPMInverseScheduler
+from schedulers.ddim_inverse_scheduler import CogvideoXDDIMInverseScheduler
 from pipelines.inverse_T2V_pipeline import InverseT2VPipeline
 from utils import save_tensor_as_video, save_tensor_as_images_with_pca, load_frames_as_tensor
 from inversion_utils.freeinit_utils import get_freq_filter, freq_mix_3d
@@ -92,13 +91,13 @@ def init_filter(video_length, height, width, channels, filter_params, device):
 
 def main(args):
     model_card = args.pretrained_model_name_or_path
-
+    
     tokenizer    = T5Tokenizer.from_pretrained(model_card, subfolder="tokenizer")
     text_encoder = T5EncoderModel.from_pretrained(model_card, subfolder="text_encoder").cuda()
     vae          = AutoencoderKLCogVideoX.from_pretrained(model_card, subfolder="vae").cuda()
     transformer  = CogVideoXTransformer3DModel.from_pretrained(model_card, subfolder="transformer", torch_dtype=torch.bfloat16)
-    scheduler    = CogVideoXDPMScheduler.from_pretrained(model_card, subfolder="scheduler")
-    inverse_scheduler = CogvideoXDPMInverseScheduler.from_pretrained(model_card, subfolder="scheduler")
+    scheduler    = CogVideoXDDIMScheduler.from_pretrained(model_card, subfolder="scheduler")
+    inverse_scheduler = CogvideoXDDIMInverseScheduler.from_pretrained(model_card, subfolder="scheduler")
     pipe         = InverseT2VPipeline(vae=vae, text_encoder=text_encoder, tokenizer=tokenizer, transformer=transformer, scheduler=scheduler).to(torch.bfloat16)
 
     num_frames = 49
@@ -132,42 +131,18 @@ def main(args):
                 "generator": generator,
             }
             # Encode video
-            inv_latent = pipe.encode_video(inv_video)
+            video_latent = pipe.encode_video(inv_video)
+            save_tensor_as_images_with_pca(video_latent, "visualization/video_latent")
 
             # inverse video latents
             pipe.scheduler = inverse_scheduler
-            inv_latent = pipe(**pipeline_args,latents=inv_latent,num_inference_steps=1000,output_type="latent").frames
-
-            # Latent Shift
-            # frame0_noise = inv_latent[:,0,:,:,:]
-            # latents = torch.randn_like(inv_latent)
-            # latents = rearrange(latents, "B T C H W -> B C T H W")
-
-            # bounding_boxes = []
-            # first_frame_boxes = []
-            # bounding_box, first_frame_bounding_box = load_frames_as_tensor("assets/boxs_trajectory/boat/moved_boxes", num_frames)
-            # bounding_boxes.append(bounding_box)
-            # first_frame_boxes.append(first_frame_bounding_box) 
-            # z_shift = latent_shift(latents, frame0_noise, bounding_boxes, first_frame_boxes)
-            # save_tensor_as_images_with_pca(latents, "visualization/z_shift")
-
-            # z_rand = torch.randn_like(latents)
-            # filter_params = {
-            #     "method": "butterworth",
-            #     "n": 4,
-            #     "d_s": 0.75,
-            #     "d_t": 0.75
-            # }
-            # z_FFT = freq_mix_3d(z_shift.to(torch.float32), z_rand.to(torch.float32), LPF=init_filter(13, 60, 90, 16, filter_params, device=pipe.device))
-            # save_tensor_as_images_with_pca(z_FFT, "visualization/z_FFT")
-            # latents = z_FFT
-            # latents = rearrange(latents, "B C T H W -> B T C H W")
-            # latents = latents.to(torch.bfloat16)
+            inv_latent = pipe(**pipeline_args,latents=video_latent,num_inference_steps=100,output_type="latent").frames
+            save_tensor_as_images_with_pca(inv_latent, "visualization/inv_latent")
 
             # Do video reconstruction
             pipe.scheduler = scheduler
             video_generate = pipe(**pipeline_args, latents=inv_latent).frames[0]
-            output_path = "samples/inverse/boat_5b_1000.mp4"
+            output_path = "samples/inverse/boat_2b_100.mp4"
             export_to_video(video_generate, output_path, fps=fps)
 
 if __name__ == "__main__":

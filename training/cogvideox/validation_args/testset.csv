@@ -1,0 +1,453 @@
+validation_prompt,validation_images,validation_trajectory_maps,output_path,controlnet_weights
+ a smiling couple posing while holding wine glasses,testset/images/6760637.jpg,testset/mask_condition/6760637.mp4,samples/mask_condition/checkpoint-17000/6760637.mp4,1.0
+ a father and son going up the stairs while carrying a basket,testset/images/4555421.jpg,testset/mask_condition/4555421.mp4,samples/mask_condition/checkpoint-17000/4555421.mp4,1.0
+ a dog running in a grass field,testset/images/4166343.jpg,testset/mask_condition/4166343.mp4,samples/mask_condition/checkpoint-17000/4166343.mp4,1.0
+"The tall coconut trees sway gently with the breeze, as the pinkish sky suggests the sun is setting behind the dense, green foliage.",testset/images/18904898.jpg,testset/mask_condition/18904898.mp4,samples/mask_condition/checkpoint-17000/18904898.mp4,1.0
+ women checking information on cosmetics,testset/images/10609731.jpg,testset/mask_condition/10609731.mp4,samples/mask_condition/checkpoint-17000/10609731.mp4,1.0
+ cat stretching on table,testset/images/18106001.jpg,testset/mask_condition/18106001.mp4,samples/mask_condition/checkpoint-17000/18106001.mp4,1.0
+ a baker showing his skill in forming a dough ready for baking,testset/images/3195294.jpg,testset/mask_condition/3195294.mp4,samples/mask_condition/checkpoint-17000/3195294.mp4,1.0
+ woman standing in the bar counter,testset/images/6530988.jpg,testset/mask_condition/6530988.mp4,samples/mask_condition/checkpoint-17000/6530988.mp4,1.0
+ a bonfire burning against black background,testset/images/5593056.jpg,testset/mask_condition/5593056.mp4,samples/mask_condition/checkpoint-17000/5593056.mp4,1.0
+"This image captures a wall with newspaper articles illuminated by overhead lights, featuring titles about juggling with a cloth and the game 'DapoStar.'",testset/images/1094422.jpg,testset/mask_condition/1094422.mp4,samples/mask_condition/checkpoint-17000/1094422.mp4,1.0
+ person operating a medical equipment,testset/images/4976474.jpg,testset/mask_condition/4976474.mp4,samples/mask_condition/checkpoint-17000/4976474.mp4,1.0
+"The image shows a close-up view of an old, rusty, and decaying metal staircase with yellow paint and wooden slats, with dirt and debris visible on the steps.",testset/images/4058804.jpg,testset/mask_condition/4058804.mp4,samples/mask_condition/checkpoint-17000/4058804.mp4,1.0
+ men waiting for car and going to it,testset/images/10400753.jpg,testset/mask_condition/10400753.mp4,samples/mask_condition/checkpoint-17000/10400753.mp4,1.0
+ a woman sitting on a bench,testset/images/3926699.jpg,testset/mask_condition/3926699.mp4,samples/mask_condition/checkpoint-17000/3926699.mp4,1.0
+ bored little boy playing with toy,testset/images/6565084.jpg,testset/mask_condition/6565084.mp4,samples/mask_condition/checkpoint-17000/6565084.mp4,1.0
+ an empty road in between pine trees,testset/images/11180777.jpg,testset/mask_condition/11180777.mp4,samples/mask_condition/checkpoint-17000/11180777.mp4,1.0
+ urban tattooed man looking at camera,testset/images/5237017.jpg,testset/mask_condition/5237017.mp4,samples/mask_condition/checkpoint-17000/5237017.mp4,1.0
+ woman walking on red poppy flower field while carrying her baby,testset/images/4811932.jpg,testset/mask_condition/4811932.mp4,samples/mask_condition/checkpoint-17000/4811932.mp4,1.0
+"A person, distinctly holding a flashlight, seems to be in a dark, eerie environment possibly navigating or searching for something.",testset/images/4903187.jpg,testset/mask_condition/4903187.mp4,samples/mask_condition/checkpoint-17000/4903187.mp4,1.0
+ an elderly man in santa claus costume drinking a coffee,testset/images/6306213.jpg,testset/mask_condition/6306213.mp4,samples/mask_condition/checkpoint-17000/6306213.mp4,1.0
+"A bird's eye view of a rural landscape with green agricultural fields, scattered trees, and a pink temple complex with a pond surrounded by mountains.",testset/images/16292453.jpg,testset/mask_condition/16292453.mp4,samples/mask_condition/checkpoint-17000/16292453.mp4,1.0
+A close-up of hands with red nail polish grating cheese using a golden grater over a white countertop.,testset/images/6658856.jpg,testset/mask_condition/6658856.mp4,samples/mask_condition/checkpoint-17000/6658856.mp4,1.0
+ man and woman doing archery,testset/images/6540601.jpg,testset/mask_condition/6540601.mp4,samples/mask_condition/checkpoint-17000/6540601.mp4,1.0
+ close up of a person using a water color,testset/images/4733114.jpg,testset/mask_condition/4733114.mp4,samples/mask_condition/checkpoint-17000/4733114.mp4,1.0
+"In a room with exercise equipment, an individual is performing a stretching routine on a yoga mat.",testset/images/6023279.jpg,testset/mask_condition/6023279.mp4,samples/mask_condition/checkpoint-17000/6023279.mp4,1.0
+ a person preparing dough,testset/images/6222565.jpg,testset/mask_condition/6222565.mp4,samples/mask_condition/checkpoint-17000/6222565.mp4,1.0
+ fashion photographer model blonde,testset/images/3917518.jpg,testset/mask_condition/3917518.mp4,samples/mask_condition/checkpoint-17000/3917518.mp4,1.0
+"The Qatar flag displays maroon and white colors, separated by nine serrated edges representing Qatar's inclusion as the 9th member of the 'reconciled emirates.'",testset/images/13772822.jpg,testset/mask_condition/13772822.mp4,samples/mask_condition/checkpoint-17000/13772822.mp4,1.0
+ snowflakes and snow falling on pine tree in forest,testset/images/19492585.jpg,testset/mask_condition/19492585.mp4,samples/mask_condition/checkpoint-17000/19492585.mp4,1.0
+ drone footage of tractor harvesting on a farmland,testset/images/4809178.jpg,testset/mask_condition/4809178.mp4,samples/mask_condition/checkpoint-17000/4809178.mp4,1.0
+ pregnant woman touching her tummy,testset/images/5853209.jpg,testset/mask_condition/5853209.mp4,samples/mask_condition/checkpoint-17000/5853209.mp4,1.0
+ couple having a picnic,testset/images/4503831.jpg,testset/mask_condition/4503831.mp4,samples/mask_condition/checkpoint-17000/4503831.mp4,1.0
+ dentist working on female patient,testset/images/6192880.jpg,testset/mask_condition/6192880.mp4,samples/mask_condition/checkpoint-17000/6192880.mp4,1.0
+"Visitors gather outside the ancient fortress with a green dome, sitting on steps and strolling under the clear blue sky.",testset/images/4174563.jpg,testset/mask_condition/4174563.mp4,samples/mask_condition/checkpoint-17000/4174563.mp4,1.0
+ women having a road trip,testset/images/6118049.jpg,testset/mask_condition/6118049.mp4,samples/mask_condition/checkpoint-17000/6118049.mp4,1.0
+ a man on a wheelchair playing basketball,testset/images/6249305.jpg,testset/mask_condition/6249305.mp4,samples/mask_condition/checkpoint-17000/6249305.mp4,1.0
+Two individuals stand near a serene lake surrounded by lush greenery during what appears to be the early evening.,testset/images/10677463.jpg,testset/mask_condition/10677463.mp4,samples/mask_condition/checkpoint-17000/10677463.mp4,1.0
+ close up view of a person mixing ingredients,testset/images/4969060.jpg,testset/mask_condition/4969060.mp4,samples/mask_condition/checkpoint-17000/4969060.mp4,1.0
+ a man looking at the camera,testset/images/4354034.jpg,testset/mask_condition/4354034.mp4,samples/mask_condition/checkpoint-17000/4354034.mp4,1.0
+"The ancient fortress on the hill overlooks the bustling city below, with dirt paths and greenery weaving through the scene.",testset/images/16292450.jpg,testset/mask_condition/16292450.mp4,samples/mask_condition/checkpoint-17000/16292450.mp4,1.0
+ a fire in a griller,testset/images/4321858.jpg,testset/mask_condition/4321858.mp4,samples/mask_condition/checkpoint-17000/4321858.mp4,1.0
+ man stretching by bar,testset/images/10639403.jpg,testset/mask_condition/10639403.mp4,samples/mask_condition/checkpoint-17000/10639403.mp4,1.0
+ people playing table hockey,testset/images/6557764.jpg,testset/mask_condition/6557764.mp4,samples/mask_condition/checkpoint-17000/6557764.mp4,1.0
+ backside of a woman soaking in a bathtub,testset/images/3779922.jpg,testset/mask_condition/3779922.mp4,samples/mask_condition/checkpoint-17000/3779922.mp4,1.0
+ drone footage of a lake,testset/images/4825785.jpg,testset/mask_condition/4825785.mp4,samples/mask_condition/checkpoint-17000/4825785.mp4,1.0
+"Two people engage in a firm handshake, their fingers tightly interlocked, signifying a strong bond or agreement.",testset/images/6193006.jpg,testset/mask_condition/6193006.mp4,samples/mask_condition/checkpoint-17000/6193006.mp4,1.0
+ a person holding a wine glass,testset/images/5834603.jpg,testset/mask_condition/5834603.mp4,samples/mask_condition/checkpoint-17000/5834603.mp4,1.0
+ passenger airlines docked on an airport terminal,testset/images/3621083.jpg,testset/mask_condition/3621083.mp4,samples/mask_condition/checkpoint-17000/3621083.mp4,1.0
+ healthy friends women slow motion,testset/images/6540299.jpg,testset/mask_condition/6540299.mp4,samples/mask_condition/checkpoint-17000/6540299.mp4,1.0
+ man walking on snow to abandoned church,testset/images/11629983.jpg,testset/mask_condition/11629983.mp4,samples/mask_condition/checkpoint-17000/11629983.mp4,1.0
+ man in red shirt passing by a art shop,testset/images/1094478.jpg,testset/mask_condition/1094478.mp4,samples/mask_condition/checkpoint-17000/1094478.mp4,1.0
+ a boy doing acting,testset/images/5801419.jpg,testset/mask_condition/5801419.mp4,samples/mask_condition/checkpoint-17000/5801419.mp4,1.0
+ close up shot of a man holding on pommel horse grip,testset/images/6572844.jpg,testset/mask_condition/6572844.mp4,samples/mask_condition/checkpoint-17000/6572844.mp4,1.0
+ woman crying on the floor next to red berries,testset/images/6670835.jpg,testset/mask_condition/6670835.mp4,samples/mask_condition/checkpoint-17000/6670835.mp4,1.0
+ man and woman using one laptop,testset/images/6889590.jpg,testset/mask_condition/6889590.mp4,samples/mask_condition/checkpoint-17000/6889590.mp4,1.0
+"Two individuals appear in motion against a curved white wall with an arched doorway, under a night sky.",testset/images/13648583.jpg,testset/mask_condition/13648583.mp4,samples/mask_condition/checkpoint-17000/13648583.mp4,1.0
+ brown bird in the nature,testset/images/6247699.jpg,testset/mask_condition/6247699.mp4,samples/mask_condition/checkpoint-17000/6247699.mp4,1.0
+"Two individuals stand in front of a large wooden door, one peeling a yellow fruit, while the other holds a similar fruit with a straw.",testset/images/4874096.jpg,testset/mask_condition/4874096.mp4,samples/mask_condition/checkpoint-17000/4874096.mp4,1.0
+ footage of the vehicle crossing the street in time lapse,testset/images/3722527.jpg,testset/mask_condition/3722527.mp4,samples/mask_condition/checkpoint-17000/3722527.mp4,1.0
+A person in a red athletic outfit performs a push-up on a mat against the backdrop of snow-capped mountains and a lush valley.,testset/images/4945343.jpg,testset/mask_condition/4945343.mp4,samples/mask_condition/checkpoint-17000/4945343.mp4,1.0
+A person wearing gloves uses a pink dustpan while another smoothens a lime-green cloth on a wooden table.,testset/images/4267869.jpg,testset/mask_condition/4267869.mp4,samples/mask_condition/checkpoint-17000/4267869.mp4,1.0
+ man and woman dancing,testset/images/10273480.jpg,testset/mask_condition/10273480.mp4,samples/mask_condition/checkpoint-17000/10273480.mp4,1.0
+ gay couple having coffee while sitting on a bench,testset/images/4667910.jpg,testset/mask_condition/4667910.mp4,samples/mask_condition/checkpoint-17000/4667910.mp4,1.0
+ drying leaves of plants and trees due to weather and change in season,testset/images/3558090.jpg,testset/mask_condition/3558090.mp4,samples/mask_condition/checkpoint-17000/3558090.mp4,1.0
+A person in a striped shirt stands against a column in a corridor with repeating arches and stonework.,testset/images/5321131.jpg,testset/mask_condition/5321131.mp4,samples/mask_condition/checkpoint-17000/5321131.mp4,1.0
+ a woman looking at a thick fog covering the bridge,testset/images/3569294.jpg,testset/mask_condition/3569294.mp4,samples/mask_condition/checkpoint-17000/3569294.mp4,1.0
+"The calm waters of a lake shimmer under the sun, surrounded by lush green hills and trees.",testset/images/2430827.jpg,testset/mask_condition/2430827.mp4,samples/mask_condition/checkpoint-17000/2430827.mp4,1.0
+ old film look filter of a gumball dispenser video,testset/images/4067231.jpg,testset/mask_condition/4067231.mp4,samples/mask_condition/checkpoint-17000/4067231.mp4,1.0
+ spray one person virus wipe,testset/images/4144985.jpg,testset/mask_condition/4144985.mp4,samples/mask_condition/checkpoint-17000/4144985.mp4,1.0
+ video of a man in the shower,testset/images/4249234.jpg,testset/mask_condition/4249234.mp4,samples/mask_condition/checkpoint-17000/4249234.mp4,1.0
+"A close-up of a decadent ice cream sundae, topped with a chocolate chip cookie and drizzled with chocolate syrup.",testset/images/6412512.jpg,testset/mask_condition/6412512.mp4,samples/mask_condition/checkpoint-17000/6412512.mp4,1.0
+"A child's hand turns a colorful pencil sharpener against a rusty metal sharpener holder, creating pencil shavings.",testset/images/6701499.jpg,testset/mask_condition/6701499.mp4,samples/mask_condition/checkpoint-17000/6701499.mp4,1.0
+ woman looking at hands on piano,testset/images/10254497.jpg,testset/mask_condition/10254497.mp4,samples/mask_condition/checkpoint-17000/10254497.mp4,1.0
+ woman receiving a back massage,testset/images/5894293.jpg,testset/mask_condition/5894293.mp4,samples/mask_condition/checkpoint-17000/5894293.mp4,1.0
+ musical band recording in a studio,testset/images/5648487.jpg,testset/mask_condition/5648487.mp4,samples/mask_condition/checkpoint-17000/5648487.mp4,1.0
+ close up on guitar on wall,testset/images/10374965.jpg,testset/mask_condition/10374965.mp4,samples/mask_condition/checkpoint-17000/10374965.mp4,1.0
+"A large, glowing red moon hangs low in a dark sky, partially obscured by wispy clouds.",testset/images/12795413.jpg,testset/mask_condition/12795413.mp4,samples/mask_condition/checkpoint-17000/12795413.mp4,1.0
+ waves crashing on shore,testset/images/6533308.jpg,testset/mask_condition/6533308.mp4,samples/mask_condition/checkpoint-17000/6533308.mp4,1.0
+ people having an event inside the multi purpose hall,testset/images/4122166.jpg,testset/mask_condition/4122166.mp4,samples/mask_condition/checkpoint-17000/4122166.mp4,1.0
+ close up shot of a plasma ball,testset/images/6943700.jpg,testset/mask_condition/6943700.mp4,samples/mask_condition/checkpoint-17000/6943700.mp4,1.0
+ woman removing arrows from bullseye,testset/images/6668577.jpg,testset/mask_condition/6668577.mp4,samples/mask_condition/checkpoint-17000/6668577.mp4,1.0
+"A close-up of a black Rolls Royce with its iconic grille and Spirit of Ecstasy hood ornament, parked in front of a stone building.",testset/images/18826461.jpg,testset/mask_condition/18826461.mp4,samples/mask_condition/checkpoint-17000/18826461.mp4,1.0
+"A partially peeled orange rests on a white cutting board, its vibrant flesh exposed and glistening.",testset/images/6666366.jpg,testset/mask_condition/6666366.mp4,samples/mask_condition/checkpoint-17000/6666366.mp4,1.0
+ woman running and checking on her tracker,testset/images/3048203.jpg,testset/mask_condition/3048203.mp4,samples/mask_condition/checkpoint-17000/3048203.mp4,1.0
+ a woman fixing a pink wig,testset/images/6923006.jpg,testset/mask_condition/6923006.mp4,samples/mask_condition/checkpoint-17000/6923006.mp4,1.0
+ person getting a body massage,testset/images/5659270.jpg,testset/mask_condition/5659270.mp4,samples/mask_condition/checkpoint-17000/5659270.mp4,1.0
+"A person is swiftly moving under a clear blue sky, with a rope connected to a makeshift wooden structure.",testset/images/6815066.jpg,testset/mask_condition/6815066.mp4,samples/mask_condition/checkpoint-17000/6815066.mp4,1.0
+"A warmly lit room displays a serene view through a window, a sculpted torso beside it, and a person's hand in soft focus.",testset/images/4778794.jpg,testset/mask_condition/4778794.mp4,samples/mask_condition/checkpoint-17000/4778794.mp4,1.0
+ friends greeting each other on a beach volleyball court,testset/images/12169672.jpg,testset/mask_condition/12169672.mp4,samples/mask_condition/checkpoint-17000/12169672.mp4,1.0
+ close up of flowers on plant,testset/images/13082931.jpg,testset/mask_condition/13082931.mp4,samples/mask_condition/checkpoint-17000/13082931.mp4,1.0
+ a woman wrapping the plate with foil,testset/images/4005222.jpg,testset/mask_condition/4005222.mp4,samples/mask_condition/checkpoint-17000/4005222.mp4,1.0
+ putting a sale sign on shop products,testset/images/6114650.jpg,testset/mask_condition/6114650.mp4,samples/mask_condition/checkpoint-17000/6114650.mp4,1.0
+"A colorfully decorated tractor plows through a dry field, kicking up dust under a clear sky.",testset/images/17190669.jpg,testset/mask_condition/17190669.mp4,samples/mask_condition/checkpoint-17000/17190669.mp4,1.0
+ man having a physical therapy,testset/images/6111020.jpg,testset/mask_condition/6111020.mp4,samples/mask_condition/checkpoint-17000/6111020.mp4,1.0
+"A person is packing up on a mountain slope with a camera bag, overlooking a stunning lake vista, with transmission towers and rocky terrain in the backdrop.",testset/images/5788968.jpg,testset/mask_condition/5788968.mp4,samples/mask_condition/checkpoint-17000/5788968.mp4,1.0
+"Two individuals, clad in traditional embroidered attire, are captured mid-dance in a lush, green outdoor setting.",testset/images/17025807.jpg,testset/mask_condition/17025807.mp4,samples/mask_condition/checkpoint-17000/17025807.mp4,1.0
+ clouds in the sky,testset/images/4464038.jpg,testset/mask_condition/4464038.mp4,samples/mask_condition/checkpoint-17000/4464038.mp4,1.0
+"Branches and leaves in focus sway gently in the wind, with blurred background scenery adding to the depth and tranquility of the scene.",testset/images/4508052.jpg,testset/mask_condition/4508052.mp4,samples/mask_condition/checkpoint-17000/4508052.mp4,1.0
+ aerial footage of a river,testset/images/10070226.jpg,testset/mask_condition/10070226.mp4,samples/mask_condition/checkpoint-17000/10070226.mp4,1.0
+ a man teaching archery,testset/images/6602958.jpg,testset/mask_condition/6602958.mp4,samples/mask_condition/checkpoint-17000/6602958.mp4,1.0
+ makeup preparation gender diversity,testset/images/4716689.jpg,testset/mask_condition/4716689.mp4,samples/mask_condition/checkpoint-17000/4716689.mp4,1.0
+ view of the lake and sun from a boat,testset/images/5890577.jpg,testset/mask_condition/5890577.mp4,samples/mask_condition/checkpoint-17000/5890577.mp4,1.0
+ elderly couple walking on the bayside,testset/images/5642517.jpg,testset/mask_condition/5642517.mp4,samples/mask_condition/checkpoint-17000/5642517.mp4,1.0
+ an orange and white cat sitting on the sidewalk,testset/images/13279428.jpg,testset/mask_condition/13279428.mp4,samples/mask_condition/checkpoint-17000/13279428.mp4,1.0
+ woman on footpath near river,testset/images/12327830.jpg,testset/mask_condition/12327830.mp4,samples/mask_condition/checkpoint-17000/12327830.mp4,1.0
+ kids on the roof top talking to the camera,testset/images/4148327.jpg,testset/mask_condition/4148327.mp4,samples/mask_condition/checkpoint-17000/4148327.mp4,1.0
+"A woman cradles a baby in a green outdoor setting, with sunlight filtering through the trees behind them.",testset/images/4625208.jpg,testset/mask_condition/4625208.mp4,samples/mask_condition/checkpoint-17000/4625208.mp4,1.0
+"A person in a blue shirt is sitting on a couch next to another person, handing them a small booklet or pamphlet to read.",testset/images/4873461.jpg,testset/mask_condition/4873461.mp4,samples/mask_condition/checkpoint-17000/4873461.mp4,1.0
+"A female peacock pecks at the sandy ground, searching for food amidst the shadows of the trees.",testset/images/13520806.jpg,testset/mask_condition/13520806.mp4,samples/mask_condition/checkpoint-17000/13520806.mp4,1.0
+ farmers planting rice crops in paddy field,testset/images/5646602.jpg,testset/mask_condition/5646602.mp4,samples/mask_condition/checkpoint-17000/5646602.mp4,1.0
+"Cargo ships navigate the river, guided by tugboats, with a backdrop of a bustling city.",testset/images/15833108.jpg,testset/mask_condition/15833108.mp4,samples/mask_condition/checkpoint-17000/15833108.mp4,1.0
+ woman doing archery in the snow,testset/images/6603068.jpg,testset/mask_condition/6603068.mp4,samples/mask_condition/checkpoint-17000/6603068.mp4,1.0
+ close up video of person s hand movement,testset/images/5051339.jpg,testset/mask_condition/5051339.mp4,samples/mask_condition/checkpoint-17000/5051339.mp4,1.0
+ time lapse footage of moving clouds in the sky,testset/images/10304640.jpg,testset/mask_condition/10304640.mp4,samples/mask_condition/checkpoint-17000/10304640.mp4,1.0
+"Within a dimly lit industrial space, a figure stands under a skylight, with hands raised, adjusting a hood against a backdrop of dark structural beams and a vibrant blue sky.",testset/images/4613371.jpg,testset/mask_condition/4613371.mp4,samples/mask_condition/checkpoint-17000/4613371.mp4,1.0
+"A person in a red dress sits on a red couch, holding a sign that says 'MERRY XMAS 2021,' with twinkling lights adorning the couch's edge.",testset/images/6328610.jpg,testset/mask_condition/6328610.mp4,samples/mask_condition/checkpoint-17000/6328610.mp4,1.0
+"The image shows a close-up of succulent plants in dark pots, with a blurred background and a focus on the texture and shape of the leaves.",testset/images/1575765.jpg,testset/mask_condition/1575765.mp4,samples/mask_condition/checkpoint-17000/1575765.mp4,1.0
+"Two people in coats stand with their backs to the camera in an industrial area, with one apparently pointing towards something out of frame.",testset/images/5821500.jpg,testset/mask_condition/5821500.mp4,samples/mask_condition/checkpoint-17000/5821500.mp4,1.0
+"The sun sets over a tranquil rural landscape, casting a warm glow over the fields, trees, and winding road.",testset/images/11175373.jpg,testset/mask_condition/11175373.mp4,samples/mask_condition/checkpoint-17000/11175373.mp4,1.0
+ tailor measuring woman s arm,testset/images/6459914.jpg,testset/mask_condition/6459914.mp4,samples/mask_condition/checkpoint-17000/6459914.mp4,1.0
+ a man engaged in a video call,testset/images/4332771.jpg,testset/mask_condition/4332771.mp4,samples/mask_condition/checkpoint-17000/4332771.mp4,1.0
+ city rooftop summer building,testset/images/4979613.jpg,testset/mask_condition/4979613.mp4,samples/mask_condition/checkpoint-17000/4979613.mp4,1.0
+"A hiker in brown boots and blue jeans walks through a forest, stepping on moss-covered rocks.",testset/images/4124896.jpg,testset/mask_condition/4124896.mp4,samples/mask_condition/checkpoint-17000/4124896.mp4,1.0
+ little girl jumping in front of a mirror,testset/images/5272731.jpg,testset/mask_condition/5272731.mp4,samples/mask_condition/checkpoint-17000/5272731.mp4,1.0
+ close up video of people kissing,testset/images/5763324.jpg,testset/mask_condition/5763324.mp4,samples/mask_condition/checkpoint-17000/5763324.mp4,1.0
+ elderly couple standing on the street,testset/images/5642588.jpg,testset/mask_condition/5642588.mp4,samples/mask_condition/checkpoint-17000/5642588.mp4,1.0
+ women embracing each other,testset/images/5379001.jpg,testset/mask_condition/5379001.mp4,samples/mask_condition/checkpoint-17000/5379001.mp4,1.0
+"Two women practicing yoga in a bright studio, one stretching forward while the other kneels on a mat.",testset/images/4106220.jpg,testset/mask_condition/4106220.mp4,samples/mask_condition/checkpoint-17000/4106220.mp4,1.0
+"A person drives a Peugeot car with a GPS navigation app on their phone, guiding them on a rainy day.",testset/images/13802607.jpg,testset/mask_condition/13802607.mp4,samples/mask_condition/checkpoint-17000/13802607.mp4,1.0
+ person walking on a rocky pathway,testset/images/5833000.jpg,testset/mask_condition/5833000.mp4,samples/mask_condition/checkpoint-17000/5833000.mp4,1.0
+ a beautiful woman standing at an abandoned railway platform,testset/images/5327178.jpg,testset/mask_condition/5327178.mp4,samples/mask_condition/checkpoint-17000/5327178.mp4,1.0
+ colorful light reflections on a soap bubble,testset/images/10533545.jpg,testset/mask_condition/10533545.mp4,samples/mask_condition/checkpoint-17000/10533545.mp4,1.0
+ red poppy flowers under the blue sky,testset/images/15015551.jpg,testset/mask_condition/15015551.mp4,samples/mask_condition/checkpoint-17000/15015551.mp4,1.0
+A person's hands holding coffee beans with a blurred background.,testset/images/6813385.jpg,testset/mask_condition/6813385.mp4,samples/mask_condition/checkpoint-17000/6813385.mp4,1.0
+ drone footage of building construction,testset/images/14134323.jpg,testset/mask_condition/14134323.mp4,samples/mask_condition/checkpoint-17000/14134323.mp4,1.0
+A person in a brown sweater is smoothing out a large white textile with their hands on a table.,testset/images/4621694.jpg,testset/mask_condition/4621694.mp4,samples/mask_condition/checkpoint-17000/4621694.mp4,1.0
+ man getting his haircut done by a barber,testset/images/4718407.jpg,testset/mask_condition/4718407.mp4,samples/mask_condition/checkpoint-17000/4718407.mp4,1.0
+ woman on a video call,testset/images/5614667.jpg,testset/mask_condition/5614667.mp4,samples/mask_condition/checkpoint-17000/5614667.mp4,1.0
+ backpackers having a conversation,testset/images/4874094.jpg,testset/mask_condition/4874094.mp4,samples/mask_condition/checkpoint-17000/4874094.mp4,1.0
+ actors playing a romantic scene in a stay play,testset/images/6899903.jpg,testset/mask_condition/6899903.mp4,samples/mask_condition/checkpoint-17000/6899903.mp4,1.0
+ a woman exercising at home over a mat,testset/images/3760966.jpg,testset/mask_condition/3760966.mp4,samples/mask_condition/checkpoint-17000/3760966.mp4,1.0
+"A person sits at a wooden desk, writing intensely amidst a scattering of crumpled paper, with a laptop and coffee cup nearby, backed by a neatly arranged bookshelf adorned with decorative items and plants.",testset/images/4873113.jpg,testset/mask_condition/4873113.mp4,samples/mask_condition/checkpoint-17000/4873113.mp4,1.0
+ girl playing in a open field,testset/images/4841066.jpg,testset/mask_condition/4841066.mp4,samples/mask_condition/checkpoint-17000/4841066.mp4,1.0
+ top angle of a person feet walking on the ground,testset/images/4405571.jpg,testset/mask_condition/4405571.mp4,samples/mask_condition/checkpoint-17000/4405571.mp4,1.0
+A person in a black outfit interviews another with a microphone against a graffiti-covered wall.,testset/images/18196218.jpg,testset/mask_condition/18196218.mp4,samples/mask_condition/checkpoint-17000/18196218.mp4,1.0
+ woman playing with green leaf,testset/images/4504646.jpg,testset/mask_condition/4504646.mp4,samples/mask_condition/checkpoint-17000/4504646.mp4,1.0
+ drone footage of a passenger train crossing a viaduct,testset/images/15809779.jpg,testset/mask_condition/15809779.mp4,samples/mask_condition/checkpoint-17000/15809779.mp4,1.0
+ spinners rotating creating an optical illusion,testset/images/5242423.jpg,testset/mask_condition/5242423.mp4,samples/mask_condition/checkpoint-17000/5242423.mp4,1.0
+ a man smiling while talking in a business meeting,testset/images/6774634.jpg,testset/mask_condition/6774634.mp4,samples/mask_condition/checkpoint-17000/6774634.mp4,1.0
+ a woman dancing while cleaning the counter top,testset/images/4145112.jpg,testset/mask_condition/4145112.mp4,samples/mask_condition/checkpoint-17000/4145112.mp4,1.0
+"A forlorn dog, eyes closed, resting on a concrete floor, is comforted by a gentle hand next to a cardboard sign pleading, 'Take me Home.'",testset/images/6568506.jpg,testset/mask_condition/6568506.mp4,samples/mask_condition/checkpoint-17000/6568506.mp4,1.0
+ a video of a dentist wearing a surgical gloves and a face mask,testset/images/6630253.jpg,testset/mask_condition/6630253.mp4,samples/mask_condition/checkpoint-17000/6630253.mp4,1.0
+ two dogs running in the woods,testset/images/5473760.jpg,testset/mask_condition/5473760.mp4,samples/mask_condition/checkpoint-17000/5473760.mp4,1.0
+ drone footage of a village in greece,testset/images/6331345.jpg,testset/mask_condition/6331345.mp4,samples/mask_condition/checkpoint-17000/6331345.mp4,1.0
+"A seahorse clings to tangled branches of coral, surrounded by calm waters in an underwater scene.",testset/images/5548081.jpg,testset/mask_condition/5548081.mp4,samples/mask_condition/checkpoint-17000/5548081.mp4,1.0
+ honey bees on a honeycomb,testset/images/6872488.jpg,testset/mask_condition/6872488.mp4,samples/mask_condition/checkpoint-17000/6872488.mp4,1.0
+ glass plant cactus houseplants,testset/images/4507874.jpg,testset/mask_condition/4507874.mp4,samples/mask_condition/checkpoint-17000/4507874.mp4,1.0
+A group of individuals attentively listens to a person gesturing with their hands in a room with barred windows.,testset/images/5713499.jpg,testset/mask_condition/5713499.mp4,samples/mask_condition/checkpoint-17000/5713499.mp4,1.0
+ hand transparent candy dessert,testset/images/4659823.jpg,testset/mask_condition/4659823.mp4,samples/mask_condition/checkpoint-17000/4659823.mp4,1.0
+ woman lying down on bed listening to music and looking at posters on wall,testset/images/10598579.jpg,testset/mask_condition/10598579.mp4,samples/mask_condition/checkpoint-17000/10598579.mp4,1.0
+ couple watching movie together while eating popcorn,testset/images/5135775.jpg,testset/mask_condition/5135775.mp4,samples/mask_condition/checkpoint-17000/5135775.mp4,1.0
+ man in white long sleeve shirt,testset/images/5988898.jpg,testset/mask_condition/5988898.mp4,samples/mask_condition/checkpoint-17000/5988898.mp4,1.0
+ video of cars on the road,testset/images/5750727.jpg,testset/mask_condition/5750727.mp4,samples/mask_condition/checkpoint-17000/5750727.mp4,1.0
+ woman partying in bathtub,testset/images/6225032.jpg,testset/mask_condition/6225032.mp4,samples/mask_condition/checkpoint-17000/6225032.mp4,1.0
+ close up video of a couple touching hands,testset/images/3753701.jpg,testset/mask_condition/3753701.mp4,samples/mask_condition/checkpoint-17000/3753701.mp4,1.0
+ woman in a space suit,testset/images/5264494.jpg,testset/mask_condition/5264494.mp4,samples/mask_condition/checkpoint-17000/5264494.mp4,1.0
+ woman tying hand wrap for boxing practice,testset/images/5751978.jpg,testset/mask_condition/5751978.mp4,samples/mask_condition/checkpoint-17000/5751978.mp4,1.0
+ men discussing about the interior design,testset/images/6567833.jpg,testset/mask_condition/6567833.mp4,samples/mask_condition/checkpoint-17000/6567833.mp4,1.0
+"A snow-covered forest path winds through towering pine trees, with sunlight filtering through the branches.",testset/images/11699537.jpg,testset/mask_condition/11699537.mp4,samples/mask_condition/checkpoint-17000/11699537.mp4,1.0
+ carpenter working on a wood piece,testset/images/6789897.jpg,testset/mask_condition/6789897.mp4,samples/mask_condition/checkpoint-17000/6789897.mp4,1.0
+ tractor working in vast agricultural field,testset/images/11238545.jpg,testset/mask_condition/11238545.mp4,samples/mask_condition/checkpoint-17000/11238545.mp4,1.0
+"The image captures a partial view of a person in a green top, with a neutral background and soft lighting.",testset/images/4777885.jpg,testset/mask_condition/4777885.mp4,samples/mask_condition/checkpoint-17000/4777885.mp4,1.0
+ close up shot of a person sewing,testset/images/5815277.jpg,testset/mask_condition/5815277.mp4,samples/mask_condition/checkpoint-17000/5815277.mp4,1.0
+ a beautiful couple on a road trip,testset/images/5417884.jpg,testset/mask_condition/5417884.mp4,samples/mask_condition/checkpoint-17000/5417884.mp4,1.0
+ person using her macbook,testset/images/4474880.jpg,testset/mask_condition/4474880.mp4,samples/mask_condition/checkpoint-17000/4474880.mp4,1.0
+ a man visiting family during hanukkah,testset/images/6123059.jpg,testset/mask_condition/6123059.mp4,samples/mask_condition/checkpoint-17000/6123059.mp4,1.0
+ a duck paddling on the lake surface,testset/images/4415026.jpg,testset/mask_condition/4415026.mp4,samples/mask_condition/checkpoint-17000/4415026.mp4,1.0
+ teen having fun riding a skateboard in a skatepark,testset/images/5039815.jpg,testset/mask_condition/5039815.mp4,samples/mask_condition/checkpoint-17000/5039815.mp4,1.0
+ jellyfish swimming inside the aquarium,testset/images/5158726.jpg,testset/mask_condition/5158726.mp4,samples/mask_condition/checkpoint-17000/5158726.mp4,1.0
+ woman with white eyeliner and lipstick dancing seductively,testset/images/6835712.jpg,testset/mask_condition/6835712.mp4,samples/mask_condition/checkpoint-17000/6835712.mp4,1.0
+ person painting the street with a mural,testset/images/4808695.jpg,testset/mask_condition/4808695.mp4,samples/mask_condition/checkpoint-17000/4808695.mp4,1.0
+ video of a woman behind glasses of water,testset/images/5876890.jpg,testset/mask_condition/5876890.mp4,samples/mask_condition/checkpoint-17000/5876890.mp4,1.0
+ a smiling woman posing at a beach volleyball court,testset/images/12169405.jpg,testset/mask_condition/12169405.mp4,samples/mask_condition/checkpoint-17000/12169405.mp4,1.0
+"In a spacious gym, a person in a red shirt and boxing gloves is engaged in a training session, throwing a punch towards their unseen sparring partner.",testset/images/4107379.jpg,testset/mask_condition/4107379.mp4,samples/mask_condition/checkpoint-17000/4107379.mp4,1.0
+ woman touching her hair,testset/images/5336779.jpg,testset/mask_condition/5336779.mp4,samples/mask_condition/checkpoint-17000/5336779.mp4,1.0
+ a woman typing on her laptop beside a woman watching her,testset/images/6034882.jpg,testset/mask_condition/6034882.mp4,samples/mask_condition/checkpoint-17000/6034882.mp4,1.0
+ a happy family bonding at the park,testset/images/6181549.jpg,testset/mask_condition/6181549.mp4,samples/mask_condition/checkpoint-17000/6181549.mp4,1.0
+ clouds on sky over trees,testset/images/14158703.jpg,testset/mask_condition/14158703.mp4,samples/mask_condition/checkpoint-17000/14158703.mp4,1.0
+ a man fitting his formal wear,testset/images/6766765.jpg,testset/mask_condition/6766765.mp4,samples/mask_condition/checkpoint-17000/6766765.mp4,1.0
+ food wood dawn caffeine,testset/images/17122045.jpg,testset/mask_condition/17122045.mp4,samples/mask_condition/checkpoint-17000/17122045.mp4,1.0
+"Two people sitting on a couch are intensely playing video games, holding game controllers and focusing on the screen ahead.",testset/images/4010186.jpg,testset/mask_condition/4010186.mp4,samples/mask_condition/checkpoint-17000/4010186.mp4,1.0
+ close up of a smiling woman on a windy winter s day,testset/images/10453490.jpg,testset/mask_condition/10453490.mp4,samples/mask_condition/checkpoint-17000/10453490.mp4,1.0
+ businessman man office portrait,testset/images/5083286.jpg,testset/mask_condition/5083286.mp4,samples/mask_condition/checkpoint-17000/5083286.mp4,1.0
+ woman wearing earrings looking at camera,testset/images/6721816.jpg,testset/mask_condition/6721816.mp4,samples/mask_condition/checkpoint-17000/6721816.mp4,1.0
+ a man posing for a female photographer,testset/images/10250520.jpg,testset/mask_condition/10250520.mp4,samples/mask_condition/checkpoint-17000/10250520.mp4,1.0
+ a director having a cast meeting,testset/images/6896045.jpg,testset/mask_condition/6896045.mp4,samples/mask_condition/checkpoint-17000/6896045.mp4,1.0
+ woman drying hair with partner,testset/images/6715785.jpg,testset/mask_condition/6715785.mp4,samples/mask_condition/checkpoint-17000/6715785.mp4,1.0
+ woman walking in forest,testset/images/6621057.jpg,testset/mask_condition/6621057.mp4,samples/mask_condition/checkpoint-17000/6621057.mp4,1.0
+ a little boy watching his father working,testset/images/5457532.jpg,testset/mask_condition/5457532.mp4,samples/mask_condition/checkpoint-17000/5457532.mp4,1.0
+ a shot of blazing fire,testset/images/4321852.jpg,testset/mask_condition/4321852.mp4,samples/mask_condition/checkpoint-17000/4321852.mp4,1.0
+ drone footage of a sunset in the countryside,testset/images/14953301.jpg,testset/mask_condition/14953301.mp4,samples/mask_condition/checkpoint-17000/14953301.mp4,1.0
+ woman writing letter with dip pen and ink,testset/images/6752412.jpg,testset/mask_condition/6752412.mp4,samples/mask_condition/checkpoint-17000/6752412.mp4,1.0
+"A person with a prosthetic leg is jumping rope in a park, surrounded by trees and a clear blue sky.",testset/images/6022791.jpg,testset/mask_condition/6022791.mp4,samples/mask_condition/checkpoint-17000/6022791.mp4,1.0
+ drone footage of seascape scenery during daytime,testset/images/5550887.jpg,testset/mask_condition/5550887.mp4,samples/mask_condition/checkpoint-17000/5550887.mp4,1.0
+ person walking towards to table to serve cake,testset/images/6184973.jpg,testset/mask_condition/6184973.mp4,samples/mask_condition/checkpoint-17000/6184973.mp4,1.0
+ a person placing wheat as a decoration on a gift,testset/images/6305787.jpg,testset/mask_condition/6305787.mp4,samples/mask_condition/checkpoint-17000/6305787.mp4,1.0
+ shaving lumber woods with heavy machine,testset/images/5972114.jpg,testset/mask_condition/5972114.mp4,samples/mask_condition/checkpoint-17000/5972114.mp4,1.0
+ a daughter helping her mother,testset/images/6949989.jpg,testset/mask_condition/6949989.mp4,samples/mask_condition/checkpoint-17000/6949989.mp4,1.0
+"Two children sitting cross-legged on a grassy field, playing with small objects in their hands.",testset/images/10601799.jpg,testset/mask_condition/10601799.mp4,samples/mask_condition/checkpoint-17000/10601799.mp4,1.0
+ women wearing a hat on their daughter,testset/images/10045009.jpg,testset/mask_condition/10045009.mp4,samples/mask_condition/checkpoint-17000/10045009.mp4,1.0
+ girl helping grandmother wash bowl,testset/images/6248172.jpg,testset/mask_condition/6248172.mp4,samples/mask_condition/checkpoint-17000/6248172.mp4,1.0
+ a person decorating dried leaves,testset/images/5694518.jpg,testset/mask_condition/5694518.mp4,samples/mask_condition/checkpoint-17000/5694518.mp4,1.0
+ two people riding a motorbike on a dirt road in a mountain area,testset/images/15540590.jpg,testset/mask_condition/15540590.mp4,samples/mask_condition/checkpoint-17000/15540590.mp4,1.0
+"A white marble domed structure sits in a park with trees, as people walk along the paths and mountains loom in the background.",testset/images/18447841.jpg,testset/mask_condition/18447841.mp4,samples/mask_condition/checkpoint-17000/18447841.mp4,1.0
+ a man talking on his phone while typing on his laptop,testset/images/6332942.jpg,testset/mask_condition/6332942.mp4,samples/mask_condition/checkpoint-17000/6332942.mp4,1.0
+ footage of the sea waves,testset/images/3704164.jpg,testset/mask_condition/3704164.mp4,samples/mask_condition/checkpoint-17000/3704164.mp4,1.0
+ woman with flower in water,testset/images/10678415.jpg,testset/mask_condition/10678415.mp4,samples/mask_condition/checkpoint-17000/10678415.mp4,1.0
+"Three people engage in a discussion at a table with notebooks and pens, in a room with a large window providing natural light.",testset/images/6219757.jpg,testset/mask_condition/6219757.mp4,samples/mask_condition/checkpoint-17000/6219757.mp4,1.0
+ wide shot video of sundown,testset/images/5976070.jpg,testset/mask_condition/5976070.mp4,samples/mask_condition/checkpoint-17000/5976070.mp4,1.0
+ a photographer holding his camera while walking,testset/images/4258070.jpg,testset/mask_condition/4258070.mp4,samples/mask_condition/checkpoint-17000/4258070.mp4,1.0
+"A person with white hair relaxes in a blue armchair, surrounded by plants and a guitar in a hazy room.",testset/images/6908506.jpg,testset/mask_condition/6908506.mp4,samples/mask_condition/checkpoint-17000/6908506.mp4,1.0
+"On a sunny table, a hand holds a fork slicing through a colorful crepe topped with strawberries, kiwi, and powdered sugar.",testset/images/10058504.jpg,testset/mask_condition/10058504.mp4,samples/mask_condition/checkpoint-17000/10058504.mp4,1.0
+"Several large blue cranes tower over the dock as seagulls fly past, and truck trailers loaded with industrial equipment line the quay.",testset/images/5853149.jpg,testset/mask_condition/5853149.mp4,samples/mask_condition/checkpoint-17000/5853149.mp4,1.0
+ a man wearing hoodie jacket on the street,testset/images/3953465.jpg,testset/mask_condition/3953465.mp4,samples/mask_condition/checkpoint-17000/3953465.mp4,1.0
+ a young girl lying on her bed,testset/images/10608104.jpg,testset/mask_condition/10608104.mp4,samples/mask_condition/checkpoint-17000/10608104.mp4,1.0
+"A person with purple hair is holding a rectangular object in front of them, reflected in an ornate mirror, with a green leafy plant nearby.",testset/images/6763411.jpg,testset/mask_condition/6763411.mp4,samples/mask_condition/checkpoint-17000/6763411.mp4,1.0
+ woman dancing and playing the tambourine on beach,testset/images/6798929.jpg,testset/mask_condition/6798929.mp4,samples/mask_condition/checkpoint-17000/6798929.mp4,1.0
+ man riding a motorcycle with helmet running at high speed,testset/images/4608272.jpg,testset/mask_condition/4608272.mp4,samples/mask_condition/checkpoint-17000/4608272.mp4,1.0
+ a woman using laptop,testset/images/6876152.jpg,testset/mask_condition/6876152.mp4,samples/mask_condition/checkpoint-17000/6876152.mp4,1.0
+ man clicking pictures of his friend in lawn,testset/images/5091924.jpg,testset/mask_condition/5091924.mp4,samples/mask_condition/checkpoint-17000/5091924.mp4,1.0
+ a woman talking on the phone while walking in the hallway,testset/images/4105034.jpg,testset/mask_condition/4105034.mp4,samples/mask_condition/checkpoint-17000/4105034.mp4,1.0
+"Two individuals engage in a serene outdoor setting with a book and a cup on the table, surrounded by a forest.",testset/images/5960169.jpg,testset/mask_condition/5960169.mp4,samples/mask_condition/checkpoint-17000/5960169.mp4,1.0
+ a woman walking barefooted on the sand,testset/images/5601396.jpg,testset/mask_condition/5601396.mp4,samples/mask_condition/checkpoint-17000/5601396.mp4,1.0
+ a little girl dancing while holding a magic wand,testset/images/6191452.jpg,testset/mask_condition/6191452.mp4,samples/mask_condition/checkpoint-17000/6191452.mp4,1.0
+ video of a couple kissing together,testset/images/6788041.jpg,testset/mask_condition/6788041.mp4,samples/mask_condition/checkpoint-17000/6788041.mp4,1.0
+"A person in a white shirt and black pants stands in front of a grand building with ornate doors and a classic street lamp, near a statue and greenery.",testset/images/4936438.jpg,testset/mask_condition/4936438.mp4,samples/mask_condition/checkpoint-17000/4936438.mp4,1.0
+ close up of dj working,testset/images/12991908.jpg,testset/mask_condition/12991908.mp4,samples/mask_condition/checkpoint-17000/12991908.mp4,1.0
+ walkway to the house ruins in the mountains,testset/images/6014591.jpg,testset/mask_condition/6014591.mp4,samples/mask_condition/checkpoint-17000/6014591.mp4,1.0
+ a man fixing his bow,testset/images/6540044.jpg,testset/mask_condition/6540044.mp4,samples/mask_condition/checkpoint-17000/6540044.mp4,1.0
+ two young women holding hands and hugging in a park,testset/images/10660985.jpg,testset/mask_condition/10660985.mp4,samples/mask_condition/checkpoint-17000/10660985.mp4,1.0
+ a vehicle inside auto repair shop,testset/images/6062877.jpg,testset/mask_condition/6062877.mp4,samples/mask_condition/checkpoint-17000/6062877.mp4,1.0
+ a playful kid on bed,testset/images/5215499.jpg,testset/mask_condition/5215499.mp4,samples/mask_condition/checkpoint-17000/5215499.mp4,1.0
+A woman with long blonde hair reaching for a bottle on a wooden shelf in a modern kitchen.,testset/images/16454951.jpg,testset/mask_condition/16454951.mp4,samples/mask_condition/checkpoint-17000/16454951.mp4,1.0
+ an elderly man wearing a compass on his grandchild s wrist,testset/images/6133260.jpg,testset/mask_condition/6133260.mp4,samples/mask_condition/checkpoint-17000/6133260.mp4,1.0
+ a close up of burning coals,testset/images/3987800.jpg,testset/mask_condition/3987800.mp4,samples/mask_condition/checkpoint-17000/3987800.mp4,1.0
+ man and woman clinking wine glasses at home,testset/images/6714589.jpg,testset/mask_condition/6714589.mp4,samples/mask_condition/checkpoint-17000/6714589.mp4,1.0
+"A person with long hair and a green shirt tilts their head back, revealing their neck and chin against a clear blue sky.",testset/images/5103575.jpg,testset/mask_condition/5103575.mp4,samples/mask_condition/checkpoint-17000/5103575.mp4,1.0
+ couple talking and relaxing in bed,testset/images/4115593.jpg,testset/mask_condition/4115593.mp4,samples/mask_condition/checkpoint-17000/4115593.mp4,1.0
+ a pull out shot of a park bench,testset/images/4166267.jpg,testset/mask_condition/4166267.mp4,samples/mask_condition/checkpoint-17000/4166267.mp4,1.0
+ woman posing on a sofa,testset/images/4236743.jpg,testset/mask_condition/4236743.mp4,samples/mask_condition/checkpoint-17000/4236743.mp4,1.0
+ corporate colleagues brainstorming in the office,testset/images/6563828.jpg,testset/mask_condition/6563828.mp4,samples/mask_condition/checkpoint-17000/6563828.mp4,1.0
+ red paddle on water,testset/images/4457500.jpg,testset/mask_condition/4457500.mp4,samples/mask_condition/checkpoint-17000/4457500.mp4,1.0
+"A person is in close proximity to a white aerial silk, suggesting a moment captured during an aerial performance or practice session.",testset/images/4324572.jpg,testset/mask_condition/4324572.mp4,samples/mask_condition/checkpoint-17000/4324572.mp4,1.0
+ a woman touching her lips in bed,testset/images/6649690.jpg,testset/mask_condition/6649690.mp4,samples/mask_condition/checkpoint-17000/6649690.mp4,1.0
+"A serene view from an airplane window showing the bright sun, fluffy clouds, and a glimpse of the jet engine.",testset/images/18936530.jpg,testset/mask_condition/18936530.mp4,samples/mask_condition/checkpoint-17000/18936530.mp4,1.0
+ kids riding a carriage pulled by a horse,testset/images/3191807.jpg,testset/mask_condition/3191807.mp4,samples/mask_condition/checkpoint-17000/3191807.mp4,1.0
+"A student with a backpack stands in a classroom filled with desks, papers, and a bookshelf crammed with varied reading materials.",testset/images/5197614.jpg,testset/mask_condition/5197614.mp4,samples/mask_condition/checkpoint-17000/5197614.mp4,1.0
+"In a room washed with red, a figure pulls on a string, unveiling draped cloths or garments hung along the wall.",testset/images/10276177.jpg,testset/mask_condition/10276177.mp4,samples/mask_condition/checkpoint-17000/10276177.mp4,1.0
+"Two individuals wearing hoodies are situated indoors, seemingly engaged in a conversation within a room flooded with natural light.",testset/images/6406076.jpg,testset/mask_condition/6406076.mp4,samples/mask_condition/checkpoint-17000/6406076.mp4,1.0
+"A person with bright red hair stands near a gauzy curtain, hands gently clasped together.",testset/images/5328663.jpg,testset/mask_condition/5328663.mp4,samples/mask_condition/checkpoint-17000/5328663.mp4,1.0
+ an elderly couple standing in the middle of the street,testset/images/5638343.jpg,testset/mask_condition/5638343.mp4,samples/mask_condition/checkpoint-17000/5638343.mp4,1.0
+ a couple bonding inside a tent,testset/images/5358818.jpg,testset/mask_condition/5358818.mp4,samples/mask_condition/checkpoint-17000/5358818.mp4,1.0
+ low angle shot of a dancing hippie couple,testset/images/10436066.jpg,testset/mask_condition/10436066.mp4,samples/mask_condition/checkpoint-17000/10436066.mp4,1.0
+ collection of stamps on an album,testset/images/6657751.jpg,testset/mask_condition/6657751.mp4,samples/mask_condition/checkpoint-17000/6657751.mp4,1.0
+ a man kissing a woman neck and shoulder,testset/images/4218716.jpg,testset/mask_condition/4218716.mp4,samples/mask_condition/checkpoint-17000/4218716.mp4,1.0
+ a woman bonding with her little dog,testset/images/6272402.jpg,testset/mask_condition/6272402.mp4,samples/mask_condition/checkpoint-17000/6272402.mp4,1.0
+ back view of young woman sitting and looking into horizon,testset/images/5368496.jpg,testset/mask_condition/5368496.mp4,samples/mask_condition/checkpoint-17000/5368496.mp4,1.0
+ a person petting a white dog,testset/images/5495995.jpg,testset/mask_condition/5495995.mp4,samples/mask_condition/checkpoint-17000/5495995.mp4,1.0
+ a woman having a massage,testset/images/5894179.jpg,testset/mask_condition/5894179.mp4,samples/mask_condition/checkpoint-17000/5894179.mp4,1.0
+ birthday cake with candles on the top of the table with confetti presents and red cups,testset/images/5804947.jpg,testset/mask_condition/5804947.mp4,samples/mask_condition/checkpoint-17000/5804947.mp4,1.0
+ close up shot of american flag swaying,testset/images/3998956.jpg,testset/mask_condition/3998956.mp4,samples/mask_condition/checkpoint-17000/3998956.mp4,1.0
+ aerial view of waterfall in forest,testset/images/10255438.jpg,testset/mask_condition/10255438.mp4,samples/mask_condition/checkpoint-17000/10255438.mp4,1.0
+ a man spinning a pencil while looking at his computer screen,testset/images/12283406.jpg,testset/mask_condition/12283406.mp4,samples/mask_condition/checkpoint-17000/12283406.mp4,1.0
+ a person watering a flower,testset/images/10534251.jpg,testset/mask_condition/10534251.mp4,samples/mask_condition/checkpoint-17000/10534251.mp4,1.0
+ sea man couple woman,testset/images/4928270.jpg,testset/mask_condition/4928270.mp4,samples/mask_condition/checkpoint-17000/4928270.mp4,1.0
+"Two people wearing party hats sit at a table with a cake and red cups, one gesturing while holding a ladle.",testset/images/6519566.jpg,testset/mask_condition/6519566.mp4,samples/mask_condition/checkpoint-17000/6519566.mp4,1.0
+"A person stands before a green chalkboard, holding a bold orange sign with the phrase '#perfectly imperfect' inscribed in black.",testset/images/6593632.jpg,testset/mask_condition/6593632.mp4,samples/mask_condition/checkpoint-17000/6593632.mp4,1.0
+ sailboat on lake in birds eye view,testset/images/13184705.jpg,testset/mask_condition/13184705.mp4,samples/mask_condition/checkpoint-17000/13184705.mp4,1.0
+"An aerial view shows a large, boat-shaped building surrounded by lush greenery and a small pond.",testset/images/4404658.jpg,testset/mask_condition/4404658.mp4,samples/mask_condition/checkpoint-17000/4404658.mp4,1.0
+ interior view of humayun s tomb delhi,testset/images/6161416.jpg,testset/mask_condition/6161416.mp4,samples/mask_condition/checkpoint-17000/6161416.mp4,1.0
+ an aerial footage of a mosque,testset/images/4840259.jpg,testset/mask_condition/4840259.mp4,samples/mask_condition/checkpoint-17000/4840259.mp4,1.0
+ close up of a cocktail drink,testset/images/6174443.jpg,testset/mask_condition/6174443.mp4,samples/mask_condition/checkpoint-17000/6174443.mp4,1.0
+A person is giving a belly rub to a relaxed dog lying on a bed with a red harness.,testset/images/5226988.jpg,testset/mask_condition/5226988.mp4,samples/mask_condition/checkpoint-17000/5226988.mp4,1.0
+ a drone shot over a solar panel farm,testset/images/4324105.jpg,testset/mask_condition/4324105.mp4,samples/mask_condition/checkpoint-17000/4324105.mp4,1.0
+ time lapse video of sunset,testset/images/5498904.jpg,testset/mask_condition/5498904.mp4,samples/mask_condition/checkpoint-17000/5498904.mp4,1.0
+"A person in a white sleeveless outfit stands beside an empty wire hanger, with a patterned curtain in the background.",testset/images/10049432.jpg,testset/mask_condition/10049432.mp4,samples/mask_condition/checkpoint-17000/10049432.mp4,1.0
+ sea sky woman water,testset/images/4920800.jpg,testset/mask_condition/4920800.mp4,samples/mask_condition/checkpoint-17000/4920800.mp4,1.0
+"A person in a yellow sweater sits cross-legged on a vibrant blanket, reading a book amidst a serene mountain landscape.",testset/images/17968500.jpg,testset/mask_condition/17968500.mp4,samples/mask_condition/checkpoint-17000/17968500.mp4,1.0
+ player scoring in ice hockey,testset/images/6338349.jpg,testset/mask_condition/6338349.mp4,samples/mask_condition/checkpoint-17000/6338349.mp4,1.0
+"A bear walks through a forest floor covered in fallen leaves, with green foliage in the background.",testset/images/18856750.jpg,testset/mask_condition/18856750.mp4,samples/mask_condition/checkpoint-17000/18856750.mp4,1.0
+ children sleeping on a bed full of feathers,testset/images/6685563.jpg,testset/mask_condition/6685563.mp4,samples/mask_condition/checkpoint-17000/6685563.mp4,1.0
+"Two people in white shirts are seated on a sailboat, with windswept hair and a view of the water behind them.",testset/images/4919700.jpg,testset/mask_condition/4919700.mp4,samples/mask_condition/checkpoint-17000/4919700.mp4,1.0
+"A bare-chested individual executes an abdominal exercise, lifting legs and torso against a lakeside backdrop on a wooden platform.",testset/images/6293127.jpg,testset/mask_condition/6293127.mp4,samples/mask_condition/checkpoint-17000/6293127.mp4,1.0
+"In a cozy room with a neon sign reading 'Never Stop Dreaming,' a person in a teal dress captures a moment with a camera while another relaxes on a pink, fluffy chair.",testset/images/6225471.jpg,testset/mask_condition/6225471.mp4,samples/mask_condition/checkpoint-17000/6225471.mp4,1.0
+ three freshly cooked hamburgers,testset/images/5488025.jpg,testset/mask_condition/5488025.mp4,samples/mask_condition/checkpoint-17000/5488025.mp4,1.0
+ bosphorus sea boat to karakoy,testset/images/17892955.jpg,testset/mask_condition/17892955.mp4,samples/mask_condition/checkpoint-17000/17892955.mp4,1.0
+ forest on hills in winter,testset/images/11408251.jpg,testset/mask_condition/11408251.mp4,samples/mask_condition/checkpoint-17000/11408251.mp4,1.0
+ a man doing stretching while on the beach,testset/images/5905027.jpg,testset/mask_condition/5905027.mp4,samples/mask_condition/checkpoint-17000/5905027.mp4,1.0
+ close up view of a monkey eating while hanging on a tree branch,testset/images/6434174.jpg,testset/mask_condition/6434174.mp4,samples/mask_condition/checkpoint-17000/6434174.mp4,1.0
+ a shot of a sea crashing waves on the beach,testset/images/4278293.jpg,testset/mask_condition/4278293.mp4,samples/mask_condition/checkpoint-17000/4278293.mp4,1.0
+ footage of rotary phones on the wall,testset/images/12405652.jpg,testset/mask_condition/12405652.mp4,samples/mask_condition/checkpoint-17000/12405652.mp4,1.0
+ a hand pouring a powder in an erlenmeyer flask with liquid,testset/images/10189160.jpg,testset/mask_condition/10189160.mp4,samples/mask_condition/checkpoint-17000/10189160.mp4,1.0
+ a tractor plowing the field,testset/images/4844556.jpg,testset/mask_condition/4844556.mp4,samples/mask_condition/checkpoint-17000/4844556.mp4,1.0
+ a teen girl in a floral dress hanging out in a park,testset/images/10601403.jpg,testset/mask_condition/10601403.mp4,samples/mask_condition/checkpoint-17000/10601403.mp4,1.0
+"A person in a white outfit stands with their back against a partially lifted yellow blind, creating a contrast of lines and light.",testset/images/6539041.jpg,testset/mask_condition/6539041.mp4,samples/mask_condition/checkpoint-17000/6539041.mp4,1.0
+ a vineyard in albania,testset/images/5020185.jpg,testset/mask_condition/5020185.mp4,samples/mask_condition/checkpoint-17000/5020185.mp4,1.0
+ a man sitting on a bench receiving a video call,testset/images/6413985.jpg,testset/mask_condition/6413985.mp4,samples/mask_condition/checkpoint-17000/6413985.mp4,1.0
+ a video of a bonsai collection,testset/images/4166271.jpg,testset/mask_condition/4166271.mp4,samples/mask_condition/checkpoint-17000/4166271.mp4,1.0
+ drone footage of the ocean,testset/images/5011812.jpg,testset/mask_condition/5011812.mp4,samples/mask_condition/checkpoint-17000/5011812.mp4,1.0
+ a person practicing martial arts in the middle of a dessert,testset/images/6636786.jpg,testset/mask_condition/6636786.mp4,samples/mask_condition/checkpoint-17000/6636786.mp4,1.0
+A person cleans a mushroom with a knife over a wicker basket filled with freshly picked mushrooms in the woods.,testset/images/18682956.jpg,testset/mask_condition/18682956.mp4,samples/mask_condition/checkpoint-17000/18682956.mp4,1.0
+ portrait of a woman holding a camera,testset/images/2795406.jpg,testset/mask_condition/2795406.mp4,samples/mask_condition/checkpoint-17000/2795406.mp4,1.0
+"A hockey goalie crouches by the net, anticipating a shot, as players clash sticks on the ice rink.",testset/images/6340063.jpg,testset/mask_condition/6340063.mp4,samples/mask_condition/checkpoint-17000/6340063.mp4,1.0
+ baby laughter playful crawling,testset/images/4185305.jpg,testset/mask_condition/4185305.mp4,samples/mask_condition/checkpoint-17000/4185305.mp4,1.0
+ a person using circular saw,testset/images/5895455.jpg,testset/mask_condition/5895455.mp4,samples/mask_condition/checkpoint-17000/5895455.mp4,1.0
+ drone footage of lofoten,testset/images/10116694.jpg,testset/mask_condition/10116694.mp4,samples/mask_condition/checkpoint-17000/10116694.mp4,1.0
+ a man with a moustache discussing ideas with the team,testset/images/4629269.jpg,testset/mask_condition/4629269.mp4,samples/mask_condition/checkpoint-17000/4629269.mp4,1.0
+ video of an ambulance parking,testset/images/6687706.jpg,testset/mask_condition/6687706.mp4,samples/mask_condition/checkpoint-17000/6687706.mp4,1.0
+ cold snow wood black and white,testset/images/18019172.jpg,testset/mask_condition/18019172.mp4,samples/mask_condition/checkpoint-17000/18019172.mp4,1.0
+ close up of a bee collecting pollen,testset/images/16590273.jpg,testset/mask_condition/16590273.mp4,samples/mask_condition/checkpoint-17000/16590273.mp4,1.0
+"The sun sets over a calm lake, casting a warm orange glow on the water and silhouetted trees along the shoreline.",testset/images/4652499.jpg,testset/mask_condition/4652499.mp4,samples/mask_condition/checkpoint-17000/4652499.mp4,1.0
+ view of houses in a canal,testset/images/5693258.jpg,testset/mask_condition/5693258.mp4,samples/mask_condition/checkpoint-17000/5693258.mp4,1.0
+ bee on a lilac flower,testset/images/18631950.jpg,testset/mask_condition/18631950.mp4,samples/mask_condition/checkpoint-17000/18631950.mp4,1.0
+ a woman clipping her hair,testset/images/6740728.jpg,testset/mask_condition/6740728.mp4,samples/mask_condition/checkpoint-17000/6740728.mp4,1.0
+ fishing boats cascading on a harbor,testset/images/3564333.jpg,testset/mask_condition/3564333.mp4,samples/mask_condition/checkpoint-17000/3564333.mp4,1.0
+"A cozy modern living room with a beige couch, black chair, wooden coffee table, and a tree lit from below, showcasing a peaceful and serene ambiance.",testset/images/10605591.jpg,testset/mask_condition/10605591.mp4,samples/mask_condition/checkpoint-17000/10605591.mp4,1.0
+ warehouse in a dockyard,testset/images/3889037.jpg,testset/mask_condition/3889037.mp4,samples/mask_condition/checkpoint-17000/3889037.mp4,1.0
+ close up of a maneki neko,testset/images/4982726.jpg,testset/mask_condition/4982726.mp4,samples/mask_condition/checkpoint-17000/4982726.mp4,1.0
+A person gazes over a verdant landscape under a dramatic sky from a high vantage point.,testset/images/6467366.jpg,testset/mask_condition/6467366.mp4,samples/mask_condition/checkpoint-17000/6467366.mp4,1.0
+ woman putting lip gloss,testset/images/1596893.jpg,testset/mask_condition/1596893.mp4,samples/mask_condition/checkpoint-17000/1596893.mp4,1.0
+ couple and dog playing with snow,testset/images/6672702.jpg,testset/mask_condition/6672702.mp4,samples/mask_condition/checkpoint-17000/6672702.mp4,1.0
+"Two individuals are seated closely on a park bench, surrounded by lush green foliage, sharing a moment of companionship.",testset/images/4842770.jpg,testset/mask_condition/4842770.mp4,samples/mask_condition/checkpoint-17000/4842770.mp4,1.0
+ backpacker with a wooden log,testset/images/5061782.jpg,testset/mask_condition/5061782.mp4,samples/mask_condition/checkpoint-17000/5061782.mp4,1.0
+"A person holds a lavender sprig, sitting by a canvas tent with warm lights in a forest at dusk.",testset/images/5365217.jpg,testset/mask_condition/5365217.mp4,samples/mask_condition/checkpoint-17000/5365217.mp4,1.0
+"A male mallard duck with a shiny green head swims peacefully across a calm, dark green pond, creating ripples in the water.",testset/images/16818024.jpg,testset/mask_condition/16818024.mp4,samples/mask_condition/checkpoint-17000/16818024.mp4,1.0
+ music musician lifestyle sound,testset/images/4088836.jpg,testset/mask_condition/4088836.mp4,samples/mask_condition/checkpoint-17000/4088836.mp4,1.0
+ man walking with a camera,testset/images/2084060.jpg,testset/mask_condition/2084060.mp4,samples/mask_condition/checkpoint-17000/2084060.mp4,1.0
+ a footage of a house,testset/images/6739333.jpg,testset/mask_condition/6739333.mp4,samples/mask_condition/checkpoint-17000/6739333.mp4,1.0
+A fisherman wearing a hat rows a small boat with an engine near anchored fishing boats in calm waters under the blue sky.,testset/images/18064951.jpg,testset/mask_condition/18064951.mp4,samples/mask_condition/checkpoint-17000/18064951.mp4,1.0
+ dachshund standing over wooden surface,testset/images/6952897.jpg,testset/mask_condition/6952897.mp4,samples/mask_condition/checkpoint-17000/6952897.mp4,1.0
+ men couple talking to each other while smiling,testset/images/4701498.jpg,testset/mask_condition/4701498.mp4,samples/mask_condition/checkpoint-17000/4701498.mp4,1.0
+ wood bench fashion man,testset/images/16923290.jpg,testset/mask_condition/16923290.mp4,samples/mask_condition/checkpoint-17000/16923290.mp4,1.0
+ men laughing while talking to each other,testset/images/4667923.jpg,testset/mask_condition/4667923.mp4,samples/mask_condition/checkpoint-17000/4667923.mp4,1.0
+"A person with curly hair is holding hands with someone in a white garment, against a backdrop of a lush green park.",testset/images/10673300.jpg,testset/mask_condition/10673300.mp4,samples/mask_condition/checkpoint-17000/10673300.mp4,1.0
+ two women looking at camera,testset/images/6381283.jpg,testset/mask_condition/6381283.mp4,samples/mask_condition/checkpoint-17000/6381283.mp4,1.0
+ a river beside mountains,testset/images/11197988.jpg,testset/mask_condition/11197988.mp4,samples/mask_condition/checkpoint-17000/11197988.mp4,1.0
+ a smiling woman in a flowery dress running in a meadow,testset/images/10544168.jpg,testset/mask_condition/10544168.mp4,samples/mask_condition/checkpoint-17000/10544168.mp4,1.0
+ a woman playing chess,testset/images/6032021.jpg,testset/mask_condition/6032021.mp4,samples/mask_condition/checkpoint-17000/6032021.mp4,1.0
+"A person strides across a grassy hilltop, holding a colorful umbrella, with mountains under a dramatic cloudy sky in the background.",testset/images/18599809.jpg,testset/mask_condition/18599809.mp4,samples/mask_condition/checkpoint-17000/18599809.mp4,1.0
+"A dimly lit dinner gathering reveals an intimate atmosphere, with flickering candle flames and a man raising a wine glass in a subtle toast.",testset/images/5019040.jpg,testset/mask_condition/5019040.mp4,samples/mask_condition/checkpoint-17000/5019040.mp4,1.0
+ a person writing on a paper,testset/images/6538450.jpg,testset/mask_condition/6538450.mp4,samples/mask_condition/checkpoint-17000/6538450.mp4,1.0
+ video of a house on fire,testset/images/5622766.jpg,testset/mask_condition/5622766.mp4,samples/mask_condition/checkpoint-17000/5622766.mp4,1.0
+ male model in artistic makeup posing with chess piece,testset/images/6688354.jpg,testset/mask_condition/6688354.mp4,samples/mask_condition/checkpoint-17000/6688354.mp4,1.0
+ man teaching girl archery,testset/images/6655784.jpg,testset/mask_condition/6655784.mp4,samples/mask_condition/checkpoint-17000/6655784.mp4,1.0
+ a man talking in the office,testset/images/4436483.jpg,testset/mask_condition/4436483.mp4,samples/mask_condition/checkpoint-17000/4436483.mp4,1.0
+"Two individuals in traditional headscarves stand by a wooden fence, overlooking a peaceful rural landscape with hints of agricultural life.",testset/images/5562216.jpg,testset/mask_condition/5562216.mp4,samples/mask_condition/checkpoint-17000/5562216.mp4,1.0
+"In a brightly lit gym, two individuals engage in a resistance band workout while others exercise in the background.",testset/images/6740237.jpg,testset/mask_condition/6740237.mp4,samples/mask_condition/checkpoint-17000/6740237.mp4,1.0
+ a shot of a river in the forest,testset/images/4376346.jpg,testset/mask_condition/4376346.mp4,samples/mask_condition/checkpoint-17000/4376346.mp4,1.0
+"An aerial view of a circular brick structure surrounded by greenery, with a person walking along the perimeter.",testset/images/2035977.jpg,testset/mask_condition/2035977.mp4,samples/mask_condition/checkpoint-17000/2035977.mp4,1.0
+ a person lighting up a candle at a public protest,testset/images/4766261.jpg,testset/mask_condition/4766261.mp4,samples/mask_condition/checkpoint-17000/4766261.mp4,1.0
+ couple filming their kissing,testset/images/6788026.jpg,testset/mask_condition/6788026.mp4,samples/mask_condition/checkpoint-17000/6788026.mp4,1.0
+ man doing sit ups,testset/images/4259000.jpg,testset/mask_condition/4259000.mp4,samples/mask_condition/checkpoint-17000/4259000.mp4,1.0
+A person sitting in the passenger seat of a car secures their seatbelt across their chest.,testset/images/6788024.jpg,testset/mask_condition/6788024.mp4,samples/mask_condition/checkpoint-17000/6788024.mp4,1.0
+The bright sun peeking through the fluffy white clouds against the beautiful blue sky.,testset/images/11845812.jpg,testset/mask_condition/11845812.mp4,samples/mask_condition/checkpoint-17000/11845812.mp4,1.0
+ woman holding wine glass dancing,testset/images/6143551.jpg,testset/mask_condition/6143551.mp4,samples/mask_condition/checkpoint-17000/6143551.mp4,1.0
+"A person in a brown patterned sweater and crisp, cream collar stands against a backdrop of varicolored clothing on hangers.",testset/images/6121048.jpg,testset/mask_condition/6121048.mp4,samples/mask_condition/checkpoint-17000/6121048.mp4,1.0
+ video of child hugging her mother,testset/images/6195036.jpg,testset/mask_condition/6195036.mp4,samples/mask_condition/checkpoint-17000/6195036.mp4,1.0
+ aerial footage of a mountain teeming with lush vegetation,testset/images/2711112.jpg,testset/mask_condition/2711112.mp4,samples/mask_condition/checkpoint-17000/2711112.mp4,1.0
+ fishing tackle nature man vacation,testset/images/4830208.jpg,testset/mask_condition/4830208.mp4,samples/mask_condition/checkpoint-17000/4830208.mp4,1.0
+ drone footage of beach,testset/images/6577822.jpg,testset/mask_condition/6577822.mp4,samples/mask_condition/checkpoint-17000/6577822.mp4,1.0
+ an abandoned school in a rural area,testset/images/12982381.jpg,testset/mask_condition/12982381.mp4,samples/mask_condition/checkpoint-17000/12982381.mp4,1.0
+ two coworkers sitting at a desk sharing ideas,testset/images/12283407.jpg,testset/mask_condition/12283407.mp4,samples/mask_condition/checkpoint-17000/12283407.mp4,1.0
+ scenery with hills and river,testset/images/10183461.jpg,testset/mask_condition/10183461.mp4,samples/mask_condition/checkpoint-17000/10183461.mp4,1.0
+ woman striking pool balls,testset/images/6254168.jpg,testset/mask_condition/6254168.mp4,samples/mask_condition/checkpoint-17000/6254168.mp4,1.0
+A man riding a scooter board,testset/images/scooter-board.jpg,testset/mask_condition/scooter-board.mp4,samples/mask_condition/checkpoint-17000/scooter-board.mp4,1.0
+After running and full of colors,testset/images/color-run.jpg,testset/mask_condition/color-run.mp4,samples/mask_condition/checkpoint-17000/color-run.mp4,1.0
+A man walking on the beach,testset/images/kite-walk.jpg,testset/mask_condition/kite-walk.mp4,samples/mask_condition/checkpoint-17000/kite-walk.mp4,1.0
+A dog chasing gooses on the grass,testset/images/dog-gooses.jpg,testset/mask_condition/dog-gooses.mp4,samples/mask_condition/checkpoint-17000/dog-gooses.mp4,1.0
+A goat hopping on cliff,testset/images/goat.jpg,testset/mask_condition/goat.mp4,samples/mask_condition/checkpoint-17000/goat.mp4,1.0
+A man and a woman wakling on the street,testset/images/walking.jpg,testset/mask_condition/walking.mp4,samples/mask_condition/checkpoint-17000/walking.mp4,1.0
+A girl dancing and jumping,testset/images/dance-jump.jpg,testset/mask_condition/dance-jump.mp4,samples/mask_condition/checkpoint-17000/dance-jump.mp4,1.0
+An old lady running inside a room,testset/images/lady-running.jpg,testset/mask_condition/lady-running.mp4,samples/mask_condition/checkpoint-17000/lady-running.mp4,1.0
+A man doing hockey,testset/images/hockey.jpg,testset/mask_condition/hockey.mp4,samples/mask_condition/checkpoint-17000/hockey.mp4,1.0
+A man skiing with snowboard,testset/images/snowboard.jpg,testset/mask_condition/snowboard.mp4,samples/mask_condition/checkpoint-17000/snowboard.mp4,1.0
+flamingos drinking water,testset/images/flamingo.jpg,testset/mask_condition/flamingo.mp4,samples/mask_condition/checkpoint-17000/flamingo.mp4,1.0
+A woman dancing and twirling,testset/images/dance-twirl.jpg,testset/mask_condition/dance-twirl.mp4,samples/mask_condition/checkpoint-17000/dance-twirl.mp4,1.0
+Man playing scooter,testset/images/stunt.jpg,testset/mask_condition/stunt.mp4,samples/mask_condition/checkpoint-17000/stunt.mp4,1.0
+Two men dring a classic car on the road,testset/images/classic-car.jpg,testset/mask_condition/classic-car.mp4,samples/mask_condition/checkpoint-17000/classic-car.mp4,1.0
+An old man hiking with a bag and a hat,testset/images/hike.jpg,testset/mask_condition/hike.mp4,samples/mask_condition/checkpoint-17000/hike.mp4,1.0
+Goldfish swimming in fish tank,testset/images/gold-fish.jpg,testset/mask_condition/gold-fish.mp4,samples/mask_condition/checkpoint-17000/gold-fish.mp4,1.0
+Horse jumps low and competes in the obstacle course,testset/images/horsejump-low.jpg,testset/mask_condition/horsejump-low.mp4,samples/mask_condition/checkpoint-17000/horsejump-low.mp4,1.0
+Children sitting on a tuk-tuk on the road,testset/images/tuk-tuk.jpg,testset/mask_condition/tuk-tuk.mp4,samples/mask_condition/checkpoint-17000/tuk-tuk.mp4,1.0
+Paragliding launch on the grass,testset/images/paragliding-launch.jpg,testset/mask_condition/paragliding-launch.mp4,samples/mask_condition/checkpoint-17000/paragliding-launch.mp4,1.0
+A cow walking,testset/images/cows.jpg,testset/mask_condition/cows.mp4,samples/mask_condition/checkpoint-17000/cows.mp4,1.0
+Two men drove their homemade cars over a small slope,testset/images/soapbox.jpg,testset/mask_condition/soapbox.mp4,samples/mask_condition/checkpoint-17000/soapbox.mp4,1.0
+People doing lindy hop,testset/images/lindy-hop.jpg,testset/mask_condition/lindy-hop.mp4,samples/mask_condition/checkpoint-17000/lindy-hop.mp4,1.0
+roller coaster ride,testset/images/upside-down.jpg,testset/mask_condition/upside-down.mp4,samples/mask_condition/checkpoint-17000/upside-down.mp4,1.0
+People playing in a skate park,testset/images/skate-park.jpg,testset/mask_condition/skate-park.mp4,samples/mask_condition/checkpoint-17000/skate-park.mp4,1.0
+A car drives on a curvy road lined with trees,testset/images/car-turn.jpg,testset/mask_condition/car-turn.mp4,samples/mask_condition/checkpoint-17000/car-turn.mp4,1.0
+pigs walking,testset/images/pigs.jpg,testset/mask_condition/pigs.mp4,samples/mask_condition/checkpoint-17000/pigs.mp4,1.0
+Two disc jockey dancing and one with mask,testset/images/disc-jockey.jpg,testset/mask_condition/disc-jockey.mp4,samples/mask_condition/checkpoint-17000/disc-jockey.mp4,1.0
+Toy train runs on the tracks,testset/images/train.jpg,testset/mask_condition/train.mp4,samples/mask_condition/checkpoint-17000/train.mp4,1.0
+A woman wearing a skirt is walking,testset/images/lucia.jpg,testset/mask_condition/lucia.mp4,samples/mask_condition/checkpoint-17000/lucia.mp4,1.0
+A man doing breakdance,testset/images/breakdance-flare.jpg,testset/mask_condition/breakdance-flare.mp4,samples/mask_condition/checkpoint-17000/breakdance-flare.mp4,1.0
+A mallard swimming in the water,testset/images/mallard-water.jpg,testset/mask_condition/mallard-water.mp4,samples/mask_condition/checkpoint-17000/mallard-water.mp4,1.0
+A man doing breakdance with a group of people watching,testset/images/breakdance.jpg,testset/mask_condition/breakdance.mp4,samples/mask_condition/checkpoint-17000/breakdance.mp4,1.0
+Two men loading goods in the supermarket,testset/images/loading.jpg,testset/mask_condition/loading.mp4,samples/mask_condition/checkpoint-17000/loading.mp4,1.0
+A boy riding a bmx,testset/images/bmx-bumps.jpg,testset/mask_condition/bmx-bumps.mp4,samples/mask_condition/checkpoint-17000/bmx-bumps.mp4,1.0
+A man is playing longboard,testset/images/longboard.jpg,testset/mask_condition/longboard.mp4,samples/mask_condition/checkpoint-17000/longboard.mp4,1.0
+Men surfing in the sea,testset/images/miami-surf.jpg,testset/mask_condition/miami-surf.mp4,samples/mask_condition/checkpoint-17000/miami-surf.mp4,1.0
+schoolgirls chatting and walking,testset/images/schoolgirls.jpg,testset/mask_condition/schoolgirls.mp4,samples/mask_condition/checkpoint-17000/schoolgirls.mp4,1.0
+A black swan swimming in the river,testset/images/blackswan.jpg,testset/mask_condition/blackswan.mp4,samples/mask_condition/checkpoint-17000/blackswan.mp4,1.0
+People dancing on the street,testset/images/dancing.jpg,testset/mask_condition/dancing.mp4,samples/mask_condition/checkpoint-17000/dancing.mp4,1.0
+A man paragliding with trees and house below,testset/images/paragliding.jpg,testset/mask_condition/paragliding.mp4,samples/mask_condition/checkpoint-17000/paragliding.mp4,1.0
+A man flying a drone,testset/images/drone.jpg,testset/mask_condition/drone.mp4,samples/mask_condition/checkpoint-17000/drone.mp4,1.0
+A camel walking,testset/images/camel.jpg,testset/mask_condition/camel.mp4,samples/mask_condition/checkpoint-17000/camel.mp4,1.0
+A boy riding a bmx with trees aside,testset/images/bmx-trees.jpg,testset/mask_condition/bmx-trees.mp4,samples/mask_condition/checkpoint-17000/bmx-trees.mp4,1.0
+A girl playing with a cat,testset/images/cat-girl.jpg,testset/mask_condition/cat-girl.mp4,samples/mask_condition/checkpoint-17000/cat-girl.mp4,1.0
+A racing car drift straight,testset/images/drift-straight.jpg,testset/mask_condition/drift-straight.mp4,samples/mask_condition/checkpoint-17000/drift-straight.mp4,1.0
+A bear walking with stones behind,testset/images/bear.jpg,testset/mask_condition/bear.mp4,samples/mask_condition/checkpoint-17000/bear.mp4,1.0
+A man riding motorbike,testset/images/mbike-trick.jpg,testset/mask_condition/mbike-trick.mp4,samples/mask_condition/checkpoint-17000/mbike-trick.mp4,1.0
+Motocross bumps,testset/images/motocross-bumps.jpg,testset/mask_condition/motocross-bumps.mp4,samples/mask_condition/checkpoint-17000/motocross-bumps.mp4,1.0
+A racing car drift chicane,testset/images/drift-chicane.jpg,testset/mask_condition/drift-chicane.mp4,samples/mask_condition/checkpoint-17000/drift-chicane.mp4,1.0
+A boat sailing in the river,testset/images/boat.jpg,testset/mask_condition/boat.mp4,samples/mask_condition/checkpoint-17000/boat.mp4,1.0
+Surfing on the sea,testset/images/surf.jpg,testset/mask_condition/surf.mp4,samples/mask_condition/checkpoint-17000/surf.mp4,1.0
+a man packing his bike,testset/images/bike-packing.jpg,testset/mask_condition/bike-packing.mp4,samples/mask_condition/checkpoint-17000/bike-packing.mp4,1.0
+Putting a dog on a scale,testset/images/dogs-scale.jpg,testset/mask_condition/dogs-scale.mp4,samples/mask_condition/checkpoint-17000/dogs-scale.mp4,1.0
+A woman playing with swing,testset/images/swing.jpg,testset/mask_condition/swing.mp4,samples/mask_condition/checkpoint-17000/swing.mp4,1.0
+A man riding a gray scooter,testset/images/scooter-gray.jpg,testset/mask_condition/scooter-gray.mp4,samples/mask_condition/checkpoint-17000/scooter-gray.mp4,1.0
+A dog walking,testset/images/libby.jpg,testset/mask_condition/libby.mp4,samples/mask_condition/checkpoint-17000/libby.mp4,1.0
+A man doing kite surfing,testset/images/kite-surf.jpg,testset/mask_condition/kite-surf.mp4,samples/mask_condition/checkpoint-17000/kite-surf.mp4,1.0
+A racing car drift turn,testset/images/drift-turn.jpg,testset/mask_condition/drift-turn.mp4,samples/mask_condition/checkpoint-17000/drift-turn.mp4,1.0
+varanus climbing on a branch,testset/images/varanus-cage.jpg,testset/mask_condition/varanus-cage.mp4,samples/mask_condition/checkpoint-17000/varanus-cage.mp4,1.0
+A man playing tennis,testset/images/tennis.jpg,testset/mask_condition/tennis.mp4,samples/mask_condition/checkpoint-17000/tennis.mp4,1.0
+An elephant walking,testset/images/elephant.jpg,testset/mask_condition/elephant.mp4,samples/mask_condition/checkpoint-17000/elephant.mp4,1.0
+People walking on an Indian street,testset/images/india.jpg,testset/mask_condition/india.mp4,samples/mask_condition/checkpoint-17000/india.mp4,1.0
+An old couple walking on crossing,testset/images/crossing.jpg,testset/mask_condition/crossing.mp4,samples/mask_condition/checkpoint-17000/crossing.mp4,1.0
+Two men are having a boxing match with a referee standing by,testset/images/boxing-fisheye.jpg,testset/mask_condition/boxing-fisheye.mp4,samples/mask_condition/checkpoint-17000/boxing-fisheye.mp4,1.0
+A koala climbing,testset/images/koala.jpg,testset/mask_condition/koala.mp4,samples/mask_condition/checkpoint-17000/koala.mp4,1.0
+rhino walking,testset/images/rhino.jpg,testset/mask_condition/rhino.mp4,samples/mask_condition/checkpoint-17000/rhino.mp4,1.0
+A man doing parkour,testset/images/parkour.jpg,testset/mask_condition/parkour.mp4,samples/mask_condition/checkpoint-17000/parkour.mp4,1.0
+Kid playing football,testset/images/kid-football.jpg,testset/mask_condition/kid-football.mp4,samples/mask_condition/checkpoint-17000/kid-football.mp4,1.0
+A mallard on the grass flying,testset/images/mallard-fly.jpg,testset/mask_condition/mallard-fly.mp4,samples/mask_condition/checkpoint-17000/mallard-fly.mp4,1.0
+A bus driving on the road,testset/images/bus.jpg,testset/mask_condition/bus.mp4,samples/mask_condition/checkpoint-17000/bus.mp4,1.0
+Racing cars rally on gravel road,testset/images/rallye.jpg,testset/mask_condition/rallye.mp4,samples/mask_condition/checkpoint-17000/rallye.mp4,1.0
+A car doing roundabout,testset/images/car-roundabout.jpg,testset/mask_condition/car-roundabout.mp4,samples/mask_condition/checkpoint-17000/car-roundabout.mp4,1.0
+Dogs jumping around a woman,testset/images/dogs-jump.jpg,testset/mask_condition/dogs-jump.mp4,samples/mask_condition/checkpoint-17000/dogs-jump.mp4,1.0
+woman with stroller walking on a street,testset/images/stroller.jpg,testset/mask_condition/stroller.mp4,samples/mask_condition/checkpoint-17000/stroller.mp4,1.0
+tractor driving on sand,testset/images/tractor-sand.jpg,testset/mask_condition/tractor-sand.mp4,samples/mask_condition/checkpoint-17000/tractor-sand.mp4,1.0
+A dog walking,testset/images/dog.jpg,testset/mask_condition/dog.mp4,samples/mask_condition/checkpoint-17000/dog.mp4,1.0
+sheeps walking on grass,testset/images/sheep.jpg,testset/mask_condition/sheep.mp4,samples/mask_condition/checkpoint-17000/sheep.mp4,1.0
+Horse jumps high and competes in the obstacle course,testset/images/horsejump-high.jpg,testset/mask_condition/horsejump-high.mp4,samples/mask_condition/checkpoint-17000/horsejump-high.mp4,1.0

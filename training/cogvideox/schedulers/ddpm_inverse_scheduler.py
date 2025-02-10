@@ -420,11 +420,10 @@ class CogvideoXDPMInverseScheduler(SchedulerMixin, ConfigMixin):
                 f"prediction_type given as {self.config.prediction_type} must be one of `epsilon`, `sample`, or"
                 " `v_prediction`"
             )
-        
+
         h, r, lamb, lamb_next = self.get_variables(alpha_prod_t, alpha_prod_t_prev, alpha_prod_t_back)
         mult = list(self.get_mult(h, r, alpha_prod_t, alpha_prod_t_prev, alpha_prod_t_back))
-        variance = self._get_variance(alpha_prod_t, alpha_prod_t_prev)
-        mult_noise = variance ** 0.5
+        mult_noise = (1 - alpha_prod_t_prev) ** 0.5 * (1 - (-2 * h).exp()) ** 0.5
 
         noise = randn_tensor(sample.shape, generator=generator, device=sample.device, dtype=sample.dtype)
         prev_sample = mult[0] * sample - mult[1] * pred_original_sample + mult_noise * noise

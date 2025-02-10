@@ -320,6 +320,7 @@ class InverseT2VPipeline(CogVideoXPipeline):
                         return_dict=False,
                     )
                 latents = latents.to(prompt_embeds.dtype)
+                print(latents.mean(), latents.std())
 
                 # call the callback, if provided
                 if callback_on_step_end is not None:

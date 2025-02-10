@@ -106,6 +106,9 @@ def main(args):
         output_paths = validation_args['output_path'].tolist()
         controlnet_weights = validation_args['controlnet_weights'].tolist()
         for validation_image, validation_prompt, validation_trajectory_map, output_path, weight in zip(validation_images, validation_prompts, validation_trajectory_maps, output_paths, controlnet_weights):
+            if os.path.exists(output_path):
+                print(f"Output path {output_path} already exists. Skipping.")
+                continue
             pipeline_args = {
                 "image": load_image(validation_image),
                 "prompt": validation_prompt,

@@ -433,7 +433,6 @@ class CogVideoXImageToVideoControlnetPipeline(DiffusionPipeline, CogVideoXLoraLo
         dtype: Optional[torch.dtype] = None,
         generator: Optional[torch.Generator] = None,
     ):
-        print(trajectory_maps.shape)
         if isinstance(generator, list):
             trajectory_latents = [
                 retrieve_latents(self.vae.encode(trajectory_maps[i].unsqueeze(0)), generator[i]) for i in range(batch_size)

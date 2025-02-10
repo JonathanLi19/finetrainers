@@ -100,7 +100,7 @@ def rescale_zero_terminal_snr(alphas_cumprod):
 
     return alphas_bar
 
-class ModifiedDDIMInverseScheduler(DDIMInverseScheduler):
+class CogvideoXDDIMInverseScheduler(DDIMInverseScheduler):
     @register_to_config
     def __init__(
         self,

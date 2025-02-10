@@ -117,8 +117,6 @@ class ModifiedCogvideoXDPMScheduler(CogVideoXDPMScheduler):
         alpha_prod_t_back = self.alphas_cumprod[timestep_back] if timestep_back is not None else None
 
         beta_prod_t = 1 - alpha_prod_t
-        print("alpha_prod_t:", alpha_prod_t)
-        print("1 - alpha_prod_t:", (1 - alpha_prod_t))
 
         # 3. compute predicted original sample from predicted noise also called
         # "predicted x_0" of formula (12) from https://arxiv.org/pdf/2010.02502.pdf

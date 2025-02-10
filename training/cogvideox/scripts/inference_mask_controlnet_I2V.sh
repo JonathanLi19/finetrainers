@@ -9,9 +9,9 @@ MODEL_PATH="THUDM/CogVideoX-5b-I2V"
 
 python training/cogvideox/I2V_inference_controlnet.py \
     --pretrained_model_name_or_path  $MODEL_PATH \
-    --validation_args_csv  "training/cogvideox/validation_args/mask_condition.csv" \
+    --validation_args_csv  "training/cogvideox/validation_args/testset.csv" \
     --num_validation_videos 1 \
     --seed 42 \
     --height 480 \
     --width 720 \
-    --pretrained_controlnet_path "/datadrive2/cogvideox/mask/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-17000.pt"
+    --pretrained_controlnet_path "checkpoints/mask/checkpoint-17000.pt"
