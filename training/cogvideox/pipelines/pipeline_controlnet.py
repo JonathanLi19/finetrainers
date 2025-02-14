@@ -420,8 +420,6 @@ class CogVideoXImageToVideoControlnetPipeline(DiffusionPipeline, CogVideoXLoraLo
             latents = randn_tensor(shape, generator=generator, device=device, dtype=dtype)
         else:
             latents = latents.to(device)
-        # TODO: Inverse image_latents and then do latent_shift
-
         # scale the initial noise by the standard deviation required by the scheduler
         latents = latents * self.scheduler.init_noise_sigma
         return latents, image_latents
@@ -833,6 +831,8 @@ class CogVideoXImageToVideoControlnetPipeline(DiffusionPipeline, CogVideoXLoraLo
             generator,
             latents,
         )
+        # save_tensor_as_images_with_pca(latents, "visualization/latents")
+        # save_tensor_as_images_with_pca(image_latents, "visualization/image_latents")
 
         # Encode controlnet frames
         controlnet_latents = self.prepare_trajectory_latents(
@@ -841,6 +841,7 @@ class CogVideoXImageToVideoControlnetPipeline(DiffusionPipeline, CogVideoXLoraLo
             prompt_embeds.dtype,
             generator,
         )
+        # save_tensor_as_images_with_pca(controlnet_latents, "visualization/trajectory_latents")
         if do_classifier_free_guidance:
             controlnet_latents = torch.cat([controlnet_latents, controlnet_latents], dim=0)
 
@@ -944,6 +945,7 @@ class CogVideoXImageToVideoControlnetPipeline(DiffusionPipeline, CogVideoXLoraLo
         if not output_type == "latent":
             # Discard any padding frames that were added for CogVideoX 1.5
             latents = latents[:, additional_frames:]
+            # save_tensor_as_images_with_pca(latents, "visualization/output_latents")
             video = self.decode_latents(latents)
             video = self.video_processor.postprocess_video(video=video, output_type=output_type)
         else:

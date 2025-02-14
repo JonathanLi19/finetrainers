@@ -1,0 +1,2 @@
+validation_prompt,validation_images,validation_trajectory_maps,output_path,controlnet_weights
+Two lambs runnning on the grass.,testset/images/lamb.jpg,visualization/train_video/lamb.mp4,samples/mask_condition/checkpoint-17000/lamb1.mp4,1.0

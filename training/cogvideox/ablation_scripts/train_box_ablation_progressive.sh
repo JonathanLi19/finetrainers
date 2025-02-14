@@ -29,38 +29,19 @@ TRAJECTORY_MAPS_TYPE="box"
 frame_interval=1
 output_dir="/datadrive2/lqh/cogvideox/box-ablation-progressive/Pexels_MeViS_MOSE_DAVIS/Controlnet"
 
-get_latest_checkpoint() {
-  if [[ ! -d "$output_dir" ]]; then
-    mkdir -p "$output_dir"
-  fi
-
-  if [[ -z "$(ls -A "$output_dir")" ]]; then
-    return 1  # 返回非零值表示没有找到 checkpoint
-  fi
-
-  latest_checkpoint=$(ls -t ${output_dir}/checkpoint-*.pt 2>/dev/null | head -n 1)
-
-  if [[ -z "$latest_checkpoint" ]]; then
-    return 1  # 返回非零值表示没有找到 checkpoint
-  fi
-
-  echo "$latest_checkpoint"  # 返回最新的 checkpoint 路径
-}
-
 # 获取最新的 checkpoint 目录
 while true; do
-  pretrained_controlnet_path=$(get_latest_checkpoint)
-
-  # 如果没有 checkpoint，设置最新的 step 为 0
-  if [[ $? -ne 0 ]]; then
+  latest_checkpoint=$(ls -d $output_dir/checkpoint-* 2>/dev/null | sort -V | tail -n 1)
+  if [[ -z "$latest_checkpoint" ]]; then
     latest_step=0
-    use_pretrained_controlnet=false
+    pretrained_controlnet_path=""
+    pretrained_perception_head_path=""
   else
-    latest_step=$(basename "$pretrained_controlnet_path" | grep -oE '[0-9]+')
-    use_pretrained_controlnet=true
+    latest_step=$(basename "$latest_checkpoint" | awk -F'-' '{print $2}')
+    pretrained_controlnet_path="$latest_checkpoint/controlnet-checkpoint-$latest_step.pt"
+    pretrained_perception_head_path="$latest_checkpoint/perception_head-checkpoint-$latest_step.pt"
   fi
-
-  echo "Using Controlnet checkpoint: $pretrained_controlnet_path with step: $latest_step"
+  echo "Using Controlnet checkpoint: $pretrained_controlnet_path & Perception Head checkpoint:$pretrained_perception_head_path with step: $latest_step"
 
   for learning_rate in "${LEARNING_RATES[@]}"; do
     for lr_schedule in "${LR_SCHEDULES[@]}"; do
@@ -104,14 +85,19 @@ while true; do
             --report_to wandb \
             --nccl_timeout 1800 \
             --controlnet_weights 1.0 \
+            --use_perception_head \
+            --lambda_latent_segmentation 0.5 \
             --initial_global_step $latest_step \
             --global_step $latest_step"
 
           # 根据 initial_step 选择是否使用 `--pretrained_controlnet_path` 或 `--init_from_transformer`
-          if [[ "$use_pretrained_controlnet" == true ]]; then
-            cmd+=" --pretrained_controlnet_path $controlnet_path"
+          if [[ -n "$pretrained_controlnet_path" ]]; then
+            cmd+=" --pretrained_controlnet_path $pretrained_controlnet_path"
           else
             cmd+=" --init_from_transformer"
+          fi
+          if [[ -n "$pretrained_perception_head_path" ]]; then
+            cmd+=" --pretrained_perception_head_path $pretrained_perception_head_path"
           fi
 
           echo "Running command: $cmd"
