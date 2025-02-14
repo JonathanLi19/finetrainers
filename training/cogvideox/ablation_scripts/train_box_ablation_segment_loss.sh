@@ -8,7 +8,7 @@ export NCCL_DEBUG=INFO
 export TORCH_NCCL_ENABLE_MONITORING=0
 export TOKENIZERS_PARALLELISM=true
 export OMP_NUM_THREADS=16
-GPU_IDS="0,1,2"
+GPU_IDS="2"
 
 # Training Configurations
 # Experiment with as many hyperparameters as you want!
@@ -23,11 +23,12 @@ ACCELERATE_CONFIG_FILE="accelerate_configs/deepspeed.yaml"
 # Absolute path to where the data is located. Make sure to have read the README for how to prepare data.
 # This example assumes you downloaded an already prepared dataset from HF CLI as follows:
 #   huggingface-cli download --repo-type dataset Wild-Heart/Disney-VideoGeneration-Dataset --local-dir /path/to/my/datasets/disney-dataset
-DATA_ROOT="data/Pexels/Pexels_MeViS_MOSE.csv"
+DATA_ROOT="data/DAVIS/DAVIS_data.csv"
 MODEL_PATH="THUDM/CogVideoX-5b-I2V"
-TRAJECTORY_MAPS_TYPE="mask"
+TRAJECTORY_MAPS_TYPE="box"
 frame_interval=1
-output_dir="/datadrive2/cogvideox/mask/Pexels_MeViS_MOSE_DAVIS/Controlnet"
+mask_controlnet_path="checkpoints/mask/checkpoint-17000.pt"
+output_dir="/datadrive2/lqh/cogvideox/box-ablation-segmentloss/Pexels_MeViS_MOSE_DAVIS/Controlnet"
 
 get_latest_checkpoint() {
   if [[ ! -d "$output_dir" ]]; then
@@ -47,30 +48,30 @@ get_latest_checkpoint() {
   echo "$latest_checkpoint"  # 返回最新的 checkpoint 路径
 }
 
+# 获取最新的 checkpoint 目录
 while true; do
-  # 获取最新 checkpoint 和其对应的 step
-  controlnet_path=$(get_latest_checkpoint)
-  
+  pretrained_controlnet_path=$(get_latest_checkpoint)
+
   # 如果没有 checkpoint，设置最新的 step 为 0
   if [[ $? -ne 0 ]]; then
     latest_step=0
-    use_pretrained_controlnet=false
+    pretrained_controlnet_path=$mask_controlnet_path
   else
     latest_step=$(basename "$pretrained_controlnet_path" | grep -oE '[0-9]+')
-    use_pretrained_controlnet=true
   fi
 
-  echo "Using checkpoint: $controlnet_path with step: $latest_step"
-  
+  echo "Using Controlnet checkpoint: $pretrained_controlnet_path with step: $latest_step"
+
   for learning_rate in "${LEARNING_RATES[@]}"; do
     for lr_schedule in "${LR_SCHEDULES[@]}"; do
       for optimizer in "${OPTIMIZERS[@]}"; do
         for epoch in "${EPOCHS[@]}"; do
-          # 基础命令
+
           cmd="accelerate launch --config_file $ACCELERATE_CONFIG_FILE \
             --gpu_ids $GPU_IDS \
             training/cogvideox/cogvideox_controlnet_I2V_sft.py \
             --pretrained_model_name_or_path $MODEL_PATH \
+            --pretrained_controlnet_path $pretrained_controlnet_path \
             --dataset_file $DATA_ROOT \
             --trajectory_maps_type $TRAJECTORY_MAPS_TYPE \
             --frame_interval $frame_interval \
@@ -79,14 +80,13 @@ while true; do
             --frame_buckets 49 \
             --dataloader_num_workers 8 \
             --pin_memory \
-            --trajectory_guidance_scale 2 \
             --seed 42 \
             --mixed_precision bf16 \
             --output_dir $output_dir \
             --max_num_frames 49 \
             --train_batch_size 1 \
             --num_train_epochs $epoch \
-            --checkpointing_steps 500 \
+            --checkpointing_steps 100 \
             --gradient_accumulation_steps 1 \
             --gradient_checkpointing \
             --learning_rate $learning_rate \
@@ -107,13 +107,6 @@ while true; do
             --controlnet_weights 1.0 \
             --initial_global_step $latest_step \
             --global_step $latest_step"
-          
-          # 根据 initial_step 选择是否使用 `--pretrained_controlnet_path` 或 `--init_from_transformer`
-          if [[ "$use_pretrained_controlnet" == true ]]; then
-            cmd+=" --pretrained_controlnet_path $controlnet_path"
-          else
-            cmd+=" --init_from_transformer"
-          fi
 
           echo "Running command: $cmd"
           eval $cmd

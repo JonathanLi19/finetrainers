@@ -398,7 +398,8 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
         frame_interval: int = 1,
         random_masked_condition: bool = False,
         initial_step: int = 0,
-        max_sparse_boxs_num: int = 10
+        max_sparse_boxs_num: int = 10,
+        batch_size: int = 4,
     ) -> None:
         super().__init__()
 
@@ -437,6 +438,7 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
         self.trajectory_maps_type=trajectory_maps_type # box / mask
         self.log_file = "log/datasets_error_log.txt"
         self.initial_step = initial_step
+        self.batch_size = batch_size
 
     @staticmethod
     def identity_transform(x):
@@ -569,7 +571,7 @@ class VideoTrajectoryDatasetWithResizing(Dataset):
         if self.load_tensors:
             raise NotImplementedError
         else:
-            index = index + self.initial_step * 4
+            index = index + self.initial_step * self.batch_size
             while True:
                 sample = self.data.iloc[index]
                 try:

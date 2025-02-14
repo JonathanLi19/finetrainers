@@ -198,9 +198,6 @@ class CogVideoXControlnet(ModelMixin, ConfigMixin, PeftAdapterMixin):
             ]
         )
         self.gradient_checkpointing = False
-
-    def _set_gradient_checkpointing(self, module, value=False):
-        self.gradient_checkpointing = value
         
     def forward(
         self,

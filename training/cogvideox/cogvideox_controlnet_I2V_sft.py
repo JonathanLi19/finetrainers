@@ -544,6 +544,7 @@ def main(args):
         "random_masked_condition": args.random_masked_condition,
         "initial_step": args.initial_global_step,
         "max_sparse_boxs_num": args.max_sparse_boxs_num,
+        "batch_size": args.train_batch_size * accelerator.num_processes * args.gradient_accumulation_steps,
     }
     train_dataset = VideoTrajectoryDatasetWithResizing(**dataset_init_kwargs)
     collate_fn = CollateFunction(weight_dtype, args.load_tensors)

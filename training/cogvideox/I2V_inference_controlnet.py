@@ -120,15 +120,17 @@ def main(args):
                 "trajectory_maps": load_video(validation_trajectory_map),
                 "controlnet_weights": float(weight),
             }
+            try:
+                video_generate = pipe(
+                    **pipeline_args,
+                    num_frames=num_frames,
+                    generator=torch.Generator(device=pipe.device).manual_seed(args.seed),  # Set the seed for reproducibility
+                    output_type="np",
+                ).frames[0]
 
-            video_generate = pipe(
-                **pipeline_args,
-                num_frames=num_frames,
-                generator=torch.Generator(device=pipe.device).manual_seed(args.seed),  # Set the seed for reproducibility
-                output_type="np",
-            ).frames[0]
-
-            export_to_video(video_generate, output_path, fps=fps)
+                export_to_video(video_generate, output_path, fps=fps)
+            except Exception as e:
+                print(f"Error processing {output_path}: {e}")
 
 if __name__ == "__main__":
     args = get_args()
