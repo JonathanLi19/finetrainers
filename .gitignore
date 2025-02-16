@@ -180,5 +180,9 @@ output_trajectory/
 visualization/
 utils/
 testset/
-data/
 checkpoints/
+data/DAVIS
+data/SA-V
+data/MeViS/mask_dict.json
+data/MeViS/meta_expressions.json
+data/MeViS/MeViS

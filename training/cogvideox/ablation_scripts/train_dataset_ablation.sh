@@ -3,7 +3,7 @@ export TORCHDYNAMO_VERBOSE=1
 export WANDB_MODE="offline"
 # export NCCL_P2P_DISABLE=1
 # export NCCL_IB_DISABLE=1
-# export NCCL_P2P_LEVEL=NVL
+export NCCL_P2P_LEVEL=NVL
 export NCCL_DEBUG=INFO
 export TORCH_NCCL_ENABLE_MONITORING=0
 export TOKENIZERS_PARALLELISM=true
@@ -23,7 +23,7 @@ ACCELERATE_CONFIG_FILE="accelerate_configs/deepspeed.yaml"
 # Absolute path to where the data is located. Make sure to have read the README for how to prepare data.
 # This example assumes you downloaded an already prepared dataset from HF CLI as follows:
 #   huggingface-cli download --repo-type dataset Wild-Heart/Disney-VideoGeneration-Dataset --local-dir /path/to/my/datasets/disney-dataset
-DATA_ROOT="data/ablation_dataset/MeVis_MOSE.csv"
+DATA_ROOT="data/MeViS/MeViS_MOSE.csv"
 MODEL_PATH="THUDM/CogVideoX-5b-I2V"
 TRAJECTORY_MAPS_TYPE="box"
 frame_interval=1

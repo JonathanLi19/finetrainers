@@ -8,17 +8,17 @@ export NCCL_DEBUG=INFO
 export TORCH_NCCL_ENABLE_MONITORING=0
 export TOKENIZERS_PARALLELISM=true
 export OMP_NUM_THREADS=16
-GPU_IDS="3"
+GPU_IDS="0,1,2,3"
 
 # Training Configurations
 # Experiment with as many hyperparameters as you want!
 LEARNING_RATES=("1e-5")
 LR_SCHEDULES=("cosine_with_restarts")
 OPTIMIZERS=("adamw")
-EPOCHS=("2")
+EPOCHS=("1")
 
 # Single GPU uncompiled training
-ACCELERATE_CONFIG_FILE="accelerate_configs/single_machine.yaml"
+ACCELERATE_CONFIG_FILE="accelerate_configs/deepspeed.yaml"
 
 # Absolute path to where the data is located. Make sure to have read the README for how to prepare data.
 # This example assumes you downloaded an already prepared dataset from HF CLI as follows:
@@ -27,18 +27,16 @@ DATA_ROOT="data/Pexels/Pexels_MeViS_MOSE.csv"
 MODEL_PATH="THUDM/CogVideoX-5b-I2V"
 TRAJECTORY_MAPS_TYPE="box"
 frame_interval=1
-dense_box_controlnet_path="/datadrive2/cogvideox/box/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-xxx.pt"
+dense_box_controlnet_path=" /datadrive2/cogvideox/box/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-12900/controlnet-checkpoint-12900.pt"
+perception_head_path="/datadrive2/cogvideox/box/Pexels_MeViS_MOSE_DAVIS/Controlnet/checkpoint-12900/perception_head-checkpoint-12900.pt"
 output_dir="/datadrive2/cogvideox/sparse_box/Pexels_MeViS_MOSE_DAVIS/Controlnet"
-
-# Set ` --load_tensors ` to load tensors from disk instead of recomputing the encoder process.
-# Launch experiments with different hyperparameters
 
 while true; do
   latest_checkpoint=$(ls -d $output_dir/checkpoint-* 2>/dev/null | sort -V | tail -n 1)
   if [[ -z "$latest_checkpoint" ]]; then
     latest_step=0
     pretrained_controlnet_path="$dense_box_controlnet_path"
-    pretrained_perception_head_path=""
+    pretrained_perception_head_path="$perception_head_path"
   else
     latest_step=$(basename "$latest_checkpoint" | awk -F'-' '{print $2}')
     pretrained_controlnet_path="$latest_checkpoint/controlnet-checkpoint-$latest_step.pt"
@@ -64,19 +62,13 @@ while true; do
             --frame_buckets 49 \
             --dataloader_num_workers 8 \
             --pin_memory \
-            --validation_prompt \"A boat sailing in the river.\" \
-            --validation_images \"/home/qid/quanhao/workspace/Open-Sora/assets/images/condition/boat.png\" \
-            --validation_prompt_separator ::: \
-            --num_validation_videos 1 \
-            --validation_steps 500 \
-            --validation_trajectory_maps \"/home/qid/quanhao/workspace/Open-Sora/assets/boxs_trajectory/boat/moved_mask_boxes/box.mp4\" \
             --seed 42 \
             --mixed_precision bf16 \
             --output_dir $output_dir \
             --max_num_frames 49 \
             --train_batch_size 1 \
             --num_train_epochs $epoch \
-            --checkpointing_steps 500 \
+            --checkpointing_steps 100 \
             --gradient_accumulation_steps 1 \
             --gradient_checkpointing \
             --learning_rate $learning_rate \
