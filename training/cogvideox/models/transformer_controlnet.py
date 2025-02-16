@@ -182,7 +182,7 @@ class CogVideoXControlnetTransformer3DModel(CogVideoXTransformer3DModel):
                     controlnet_block_weight = controlnet_weights[i]
                 elif isinstance(controlnet_weights, (float, int)):
                     controlnet_block_weight = controlnet_weights
-                
+
                 hidden_states = hidden_states + controlnet_states_block * controlnet_block_weight
             diffusion_features.append(hidden_states)
 
@@ -198,6 +198,7 @@ class CogVideoXControlnetTransformer3DModel(CogVideoXTransformer3DModel):
             features = []
             for i in range(self.start_layer, self.end_layer+1):
                 spatial_feature = rearrange(diffusion_features[i], "B (T H W) C -> (B T) C H W", T=num_frames // p_t, H=height // p, W=width // p)
+                # print(spatial_feature.shape) # torch.Size([26, 3072, 30, 45])
                 features.append(spatial_feature)
 
             mask_pred = self.perception_head(features)
