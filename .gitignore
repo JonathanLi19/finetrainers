@@ -186,3 +186,5 @@ data/SA-V
 data/MeViS/mask_dict.json
 data/MeViS/meta_expressions.json
 data/MeViS/MeViS
+!training/cogvideox/validation_args/testset/
+!training/cogvideox/validation_args/utils
