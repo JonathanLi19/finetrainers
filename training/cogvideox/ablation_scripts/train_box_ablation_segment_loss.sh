@@ -23,7 +23,7 @@ ACCELERATE_CONFIG_FILE="accelerate_configs/deepspeed.yaml"
 # Absolute path to where the data is located. Make sure to have read the README for how to prepare data.
 # This example assumes you downloaded an already prepared dataset from HF CLI as follows:
 #   huggingface-cli download --repo-type dataset Wild-Heart/Disney-VideoGeneration-Dataset --local-dir /path/to/my/datasets/disney-dataset
-DATA_ROOT="data/DAVIS/DAVIS_data.csv"
+DATA_ROOT="data/Pexels/Pexels_MeViS_MOSE.csv"
 MODEL_PATH="THUDM/CogVideoX-5b-I2V"
 TRAJECTORY_MAPS_TYPE="box"
 frame_interval=1

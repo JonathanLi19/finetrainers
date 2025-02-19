@@ -188,3 +188,4 @@ data/MeViS/meta_expressions.json
 data/MeViS/MeViS
 !training/cogvideox/validation_args/testset/
 !training/cogvideox/validation_args/utils
+*.pt

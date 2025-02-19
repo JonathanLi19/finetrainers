@@ -26,10 +26,10 @@ def extract_frames(video_path, save_dir):
         ret, frame = cap.read()
         if not ret:
             break
-        frame_count += 1
         # 保存每一帧图像
         frame_filename = os.path.join(save_dir, f"frame_{frame_count:04d}.jpg")
         cv2.imwrite(frame_filename, frame)
+        frame_count += 1
 
     cap.release()
 
@@ -39,7 +39,7 @@ def calculate_fid(video_id):
         "python", 
         "-m", 
         "pytorch_fid", 
-        f"/datadrive2/lqh/generated_videos_as_images/mask_condition/{video_id}", 
+        f"/datadrive2/lqh/generated_videos_as_images/box_condition/{video_id}", 
         f"/datadrive2/lqh/testset_data/video_as_images/{video_id}/{video_id}.npz"
     ]
     result = subprocess.run(command, capture_output=True, text=True)
@@ -51,6 +51,14 @@ def calculate_fid(video_id):
     else:
         return None
 
+# 读取已存在的 FID 结果
+existing_fid_results = {}
+if os.path.exists(output_csv):
+    with open(output_csv, 'r') as outfile:
+        reader = csv.DictReader(outfile)
+        for row in reader:
+            existing_fid_results[row['videoid']] = float(row['fid_value'])
+
 # 处理 CSV 文件
 with open(input_csv, 'r') as infile:
     reader = csv.DictReader(infile)
@@ -59,9 +67,9 @@ with open(input_csv, 'r') as infile:
         output_path = row['output_path']
         video_id = os.path.splitext(os.path.basename(output_path))[0]  # 获取视频 ID
 
-        # 检查视频文件是否存在
-        if os.path.exists(output_path):
-            save_dir = f"/datadrive2/lqh/generated_videos_as_images/mask_condition/{video_id}"
+        # 检查视频文件是否存在以及是否已经处理过
+        if os.path.exists(output_path) and video_id not in existing_fid_results:
+            save_dir = f"/datadrive2/lqh/generated_videos_as_images/box_condition/{video_id}"
 
             if not os.path.exists(save_dir):
                 # 提取视频的每一帧
@@ -71,14 +79,12 @@ with open(input_csv, 'r') as infile:
             fid_value = calculate_fid(video_id)
             print(f"Video {video_id}: FID = {fid_value}")
 
-            # 如果 FID 值有效，保存到结果列表
+            # 如果 FID 值有效，立即保存到 CSV 文件
             if fid_value is not None:
-                fid_results.append([video_id, fid_value])
-
-# 保存结果到新 CSV 文件
-with open(output_csv, 'w', newline='') as outfile:
-    writer = csv.writer(outfile)
-    writer.writerow(['videoid', 'fid_value'])
-    writer.writerows(fid_results)
+                with open(output_csv, 'a' if os.path.exists(output_csv) else 'w', newline='') as outfile:
+                    writer = csv.writer(outfile)
+                    if os.path.getsize(output_csv) == 0:
+                        writer.writerow(['videoid', 'fid_value'])  # 写入表头
+                    writer.writerow([video_id, fid_value])
 
 print(f"FID values have been saved to {output_csv}")
