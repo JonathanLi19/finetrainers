@@ -13,7 +13,7 @@ python training/cogvideox/I2V_inference_controlnet.py \
     --pretrained_model_name_or_path  $MODEL_PATH \
     --pretrained_controlnet_path $controlnet_path \
     --pretrained_perception_head_path $perception_head_path \
-    --validation_args_csv  "training/cogvideox/validation_args/testset/box_dataset_ablation/selected_testset.csv" \
+    --validation_args_csv  "training/cogvideox/validation_args/testset/box/final_testset.csv" \
     --num_validation_videos 1 \
     --seed 42 \
     --height 480 \
