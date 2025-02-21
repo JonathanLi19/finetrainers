@@ -29,14 +29,26 @@ merged = merged.drop(columns=['videoid_mask_fid', 'videoid_mask_objmc', 'videoid
 # 过滤掉有 NaN 值的行
 merged = merged.dropna()
 
-# 定义一个函数来排序和选择前 100 个视频
+# 定义一个函数来计算综合评分并选择前 100 个视频
 def filter_by_score(df, num_objects, n=100):
     if num_objects == '>5':
         df = df[df['num_objects'] > 5]
     else:
         df = df[df['num_objects'] == num_objects]
-    df = df.sort_values(by=['fid_value_mask_fid', 'fid_value_box_fid'], ascending=[True, True])
-    df = df.sort_values(by=['mask_objectmc_mask_objmc', 'box_objectmc_box_objmc'], ascending=[False, False])
+
+    # 计算综合评分
+    df.loc[:, 'score'] = (
+        df['fid_value_mask_fid'].rank(ascending=True) +
+        df['fid_value_box_fid'].rank(ascending=True) +
+        df['mask_objectmc_mask_objmc'].rank(ascending=False) +
+        df['box_objectmc_mask_objmc'].rank(ascending=False) +
+        df['mask_objectmc_box_objmc'].rank(ascending=False) +
+        df['box_objectmc_box_objmc'].rank(ascending=False)
+    )
+
+    # 按照综合评分排序
+    df = df.sort_values(by='score')
+
     return df.head(n)
 
 # 过滤每种 num_objects 的视频
