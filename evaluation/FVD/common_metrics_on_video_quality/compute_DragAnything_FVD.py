@@ -62,3 +62,4 @@ only_final = True
 
 result['fvd'] = calculate_fvd(videos1, videos2, device, method='styleganv', only_final=only_final)
 print(json.dumps(result, indent=4))
+# 628.866485504306
