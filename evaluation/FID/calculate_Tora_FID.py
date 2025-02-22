@@ -6,9 +6,9 @@ import subprocess
 import cv2
 
 
-# 读取原始 CSV 文件中的 videoid 列
-input_csv = '/datadrive2/lqh/Tora/sat/testset/final_testset.csv'
-output_csv = 'evaluation/FID/results/Tora.csv'
+# 读取原始 CSV 文件中的 output_path 列
+input_csv = 'training/cogvideox/validation_args/testset/mask/selected_testset.csv'
+output_csv = 'evaluation/FID/results/mask_condition.csv'
 
 # 存储 FID 值的结果
 fid_results = []
@@ -36,10 +36,10 @@ def extract_frames(video_path, save_dir):
 # 执行 FID 计算命令
 def calculate_fid(video_id):
     command = [
-        "python",
-        "-m",
-        "pytorch_fid",
-        f"/datadrive2/lqh/generated_videos_as_images/Tora/{video_id}",
+        "python", 
+        "-m", 
+        "pytorch_fid", 
+        f"/datadrive2/lqh/generated_videos_as_images/mask_condition/{video_id}", 
         f"/datadrive2/lqh/testset_data/video_as_images/{video_id}/{video_id}.npz"
     ]
     result = subprocess.run(command, capture_output=True, text=True)
@@ -64,12 +64,12 @@ with open(input_csv, 'r') as infile:
     reader = csv.DictReader(infile)
 
     for row in reader:
-        video_id = row['videoid']
-        output_path = f"/datadrive2/lqh/Tora/sat/samples/testset/{video_id}.mp4"
+        output_path = row['output_path']
+        video_id = os.path.splitext(os.path.basename(output_path))[0]  # 获取视频 ID
 
         # 检查视频文件是否存在以及是否已经处理过
         if os.path.exists(output_path) and video_id not in existing_fid_results:
-            save_dir = f"/datadrive2/lqh/generated_videos_as_images/Tora/{video_id}"
+            save_dir = f"/datadrive2/lqh/generated_videos_as_images/mask_condition/{video_id}"
 
             if not os.path.exists(save_dir):
                 # 提取视频的每一帧

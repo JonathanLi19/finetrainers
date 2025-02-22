@@ -10,7 +10,7 @@ from calculate_fvd import calculate_fvd
 # ps: pixel value should be in [0, 1]!
 
 input_csv = '/datadrive2/lqh/finetrainers/testset/final_testset.csv'
-VIDEO_LENGTH = 25
+VIDEO_LENGTH = 49
 CHANNEL = 3
 H = 64
 W = 64
@@ -22,7 +22,7 @@ with open(input_csv, 'r') as infile:
     reader = csv.DictReader(infile)
     for row in reader:
         video_id = row['videoid']
-        output_path = f"/datadrive2/lqh/DragAnything/samples/{video_id}.mp4"
+        output_path = f"/datadrive2/lqh/Tora/sat/samples/testset/{video_id}.mp4"
         resized_video_path = f"/datadrive2/lqh/testset_data/resized_videos/{video_id}.mp4"
 
         if os.path.exists(output_path) and os.path.exists(resized_video_path):
@@ -62,4 +62,4 @@ only_final = True
 
 result['fvd'] = calculate_fvd(videos1, videos2, device, method='styleganv', only_final=only_final)
 print(json.dumps(result, indent=4))
-# 284.43047139753855
+# 213.8916529168996
