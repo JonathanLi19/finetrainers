@@ -22,14 +22,12 @@ def load_video_to_tensor(video_path, video_tensor, index):
         frame_count += 1
     cap.release()
 
-# ps: pixel value should be in [0, 1]!
-
 input_csv = '/datadrive2/lqh/finetrainers/testset/final_testset.csv'
-output_csv = 'evaluation/FVD/results/box_condition.csv'
-VIDEO_LENGTH = 49
+output_csv = 'evaluation/FVD/results/MotionI2V.csv'
+VIDEO_LENGTH = 16
 CHANNEL = 3
-H = 480
-W = 720
+H = 320
+W = 512
 
 # 读取 CSV 文件并统计满足条件的视频数量
 for num_objects in [1, 2, 3, 4, 5, 6]:
@@ -40,7 +38,7 @@ for num_objects in [1, 2, 3, 4, 5, 6]:
         for row in reader:
             if (num_objects == 6 and int(row['num_objects']) > 5) or (int(row['num_objects']) == num_objects):
                 video_id = row['videoid']
-                output_path = f"/datadrive2/lqh/finetrainers/samples/box_condition/checkpoint-12900/{video_id}.mp4"
+                output_path = f"/datadrive2/lqh/Motion-I2V/outputs/output_mp4/{video_id}.mp4"
                 resized_video_path = f"/datadrive2/lqh/testset_data/resized_videos/{video_id}.mp4"
 
                 if os.path.exists(output_path) and os.path.exists(resized_video_path):
