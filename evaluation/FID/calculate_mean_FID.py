@@ -1,23 +1,24 @@
 import pandas as pd
-for num_objects in [1, 2, 3, 4, 5, 6]:
+for num_objects in [0, 1, 2, 3, 4, 5, 6]:
 
     # 文件路径
     final_testset_path = 'testset/final_testset.csv'
-    mask_condition_final_path = 'evaluation/FID/results/MotionI2V.csv'
+    mask_condition_final_path = 'evaluation/FID/results/DragNUWA.csv'
 
     # 读取 CSV 文件
     final_testset_df = pd.read_csv(final_testset_path)
     mask_condition_final_df = pd.read_csv(mask_condition_final_path)
 
     # 过滤 num_objects=1 的行
-    if num_objects == 6:
+    if num_objects == 0:
+        filtered_final_testset_df = final_testset_df
+    elif num_objects == 6:
         filtered_final_testset_df = final_testset_df[final_testset_df['num_objects'] > 5]
     else:
         filtered_final_testset_df = final_testset_df[final_testset_df['num_objects'] == num_objects]
 
     # 获取 num_objects=1 对应的 videoid 列表
     videoid_list = filtered_final_testset_df['videoid'].tolist()
-    print(videoid_list[0])
 
     # 过滤 mask_condition_final_df 中 videoid 在 videoid_list 中的行
     filtered_mask_condition_final_df = mask_condition_final_df[mask_condition_final_df['videoid'].isin(videoid_list)]

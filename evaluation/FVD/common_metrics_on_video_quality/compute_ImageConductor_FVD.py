@@ -26,11 +26,11 @@ def load_video_to_tensor(video_path, video_tensor, index, num_frames=16):
     cap.release()
 
 input_csv = '/datadrive2/lqh/finetrainers/testset/final_testset.csv'
-output_csv = 'evaluation/FVD/results/LeViTor.csv'
+output_csv = 'evaluation/FVD/results/ImageConductor.csv'
 VIDEO_LENGTH = 16
 CHANNEL = 3
-H = 288
-W = 512
+H = 256
+W = 384
 
 # 读取 CSV 文件并统计满足条件的视频数量
 for num_objects in [0, 1, 2, 3, 4, 5, 6]:
@@ -41,7 +41,7 @@ for num_objects in [0, 1, 2, 3, 4, 5, 6]:
         for row in reader:
             if (num_objects == 0) or (num_objects == 6 and int(row['num_objects']) > 5) or (int(row['num_objects']) == num_objects):
                 video_id = row['videoid']
-                output_path = f"/datadrive2/lqh/LeviTor/output/output_videos_mp4/{video_id}.mp4"
+                output_path = f"/datadrive2/lqh/ImageConductor/outputs/output_mp4/{video_id}.mp4"
                 resized_video_path = f"/datadrive2/lqh/testset_data/resized_videos/{video_id}.mp4"
 
                 if os.path.exists(output_path) and os.path.exists(resized_video_path):

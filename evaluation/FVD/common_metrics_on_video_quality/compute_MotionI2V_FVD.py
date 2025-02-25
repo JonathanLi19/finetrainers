@@ -1,7 +1,7 @@
 import csv
 import json
 import os
-
+import numpy as np
 import cv2
 import torch
 from calculate_fvd import calculate_fvd
@@ -9,17 +9,20 @@ from calculate_fvd import calculate_fvd
 
 # ps: pixel value should be in [0, 1]!
 
-def load_video_to_tensor(video_path, video_tensor, index):
+def load_video_to_tensor(video_path, video_tensor, index, num_frames=16):
     cap = cv2.VideoCapture(video_path)
-    frame_count = 0
-    while cap.isOpened() and frame_count < VIDEO_LENGTH:
+    frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    indices = np.linspace(0, frame_count - 1, num_frames, dtype=int)
+
+    for i, frame_idx in enumerate(indices):
+        cap.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
         ret, frame = cap.read()
         if not ret:
             break
         frame = cv2.resize(frame, (W, H))
         frame = frame / 255.0  # 将像素值从 [0, 255] 转换到 [0, 1]
-        video_tensor[index, frame_count] = torch.tensor(frame).permute(2, 0, 1)
-        frame_count += 1
+        video_tensor[index, i] = torch.tensor(frame).permute(2, 0, 1)
+
     cap.release()
 
 input_csv = '/datadrive2/lqh/finetrainers/testset/final_testset.csv'
@@ -30,13 +33,13 @@ H = 320
 W = 512
 
 # 读取 CSV 文件并统计满足条件的视频数量
-for num_objects in [1, 2, 3, 4, 5, 6]:
+for num_objects in [0, 1, 2, 3, 4, 5, 6]:
     video_paths = []
     resized_video_paths = []
     with open(input_csv, 'r') as infile:
         reader = csv.DictReader(infile)
         for row in reader:
-            if (num_objects == 6 and int(row['num_objects']) > 5) or (int(row['num_objects']) == num_objects):
+            if (num_objects == 0) or (num_objects == 6 and int(row['num_objects']) > 5) or (int(row['num_objects']) == num_objects):
                 video_id = row['videoid']
                 output_path = f"/datadrive2/lqh/Motion-I2V/outputs/output_mp4/{video_id}.mp4"
                 resized_video_path = f"/datadrive2/lqh/testset_data/resized_videos/{video_id}.mp4"

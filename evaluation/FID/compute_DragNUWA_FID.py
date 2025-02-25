@@ -40,7 +40,7 @@ def calculate_fid(video_id):
         "-m",
         "pytorch_fid",
         f"/datadrive2/lqh/generated_videos_as_images/DragNUWA/{video_id}",
-        f"/datadrive2/lqh/testset_data/video_as_images/{video_id}/{video_id}.npz"
+        f"/datadrive2/lqh/testset_data/video_as_images_14frames/{video_id}"
     ]
     result = subprocess.run(command, capture_output=True, text=True)
 
@@ -71,9 +71,7 @@ with open(input_csv, 'r') as infile:
         if os.path.exists(output_path) and video_id not in existing_fid_results:
             save_dir = f"/datadrive2/lqh/generated_videos_as_images/DragNUWA/{video_id}"
 
-            if not os.path.exists(save_dir):
-                # 提取视频的每一帧
-                extract_frames(output_path, save_dir)
+            extract_frames(output_path, save_dir)
 
             # 计算 FID 值
             fid_value = calculate_fid(video_id)

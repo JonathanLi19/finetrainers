@@ -4,7 +4,7 @@ import numpy as np
 
 # 源目录和目标目录
 source_dir = '/datadrive2/lqh/testset_data/video_as_images'
-target_dir = '/datadrive2/lqh/testset_data/video_as_images_25frames'
+target_dir = '/datadrive2/lqh/testset_data/video_as_images_14frames'
 
 # 确保目标目录存在
 os.makedirs(target_dir, exist_ok=True)
@@ -19,7 +19,7 @@ for videoid in os.listdir(source_dir):
         # 确保有49帧图片
         assert len(image_files) == 49
         # 生成均匀分布的帧索引
-        indices = np.linspace(0, 48, 25, dtype=int)
+        indices = np.linspace(0, 48, 14, dtype=int)
 
         # 创建目标子目录
         target_videoid_path = os.path.join(target_dir, videoid)

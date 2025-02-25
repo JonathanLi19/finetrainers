@@ -189,3 +189,4 @@ data/MeViS/MeViS
 !training/cogvideox/validation_args/testset/
 !training/cogvideox/validation_args/utils
 *.pt
+*.zip

@@ -8,7 +8,7 @@ import cv2
 
 # 读取原始 CSV 文件中的 videoid 列
 input_csv = 'testset/final_testset.csv'
-output_csv = 'evaluation/FID/results/MotionI2V.csv'
+output_csv = 'evaluation/FID/results/LeviTor.csv'
 
 # 存储 FID 值的结果
 fid_results = []
@@ -39,7 +39,7 @@ def calculate_fid(video_id):
         "python",
         "-m",
         "pytorch_fid",
-        f"/datadrive2/lqh/generated_videos_as_images/MotionI2V/{video_id}",
+        f"/datadrive2/lqh/generated_videos_as_images/LeviTor/{video_id}",
         f"/datadrive2/lqh/testset_data/video_as_images_16frames/{video_id}"
     ]
     result = subprocess.run(command, capture_output=True, text=True)
@@ -65,13 +65,15 @@ with open(input_csv, 'r') as infile:
 
     for row in reader:
         video_id = row['videoid']
-        output_path = f"/datadrive2/lqh/Motion-I2V/outputs/output_mp4/{video_id}.mp4"
+        output_path = f"/datadrive2/lqh/LeviTor/output/output_videos_mp4/{video_id}.mp4"
 
         # 检查视频文件是否存在以及是否已经处理过
         if os.path.exists(output_path) and video_id not in existing_fid_results:
-            save_dir = f"/datadrive2/lqh/generated_videos_as_images/MotionI2V/{video_id}"
+            save_dir = f"/datadrive2/lqh/generated_videos_as_images/LeviTor/{video_id}"
 
-            extract_frames(output_path, save_dir)
+            if not os.path.exists(save_dir):
+                # 提取视频的每一帧
+                extract_frames(output_path, save_dir)
 
             # 计算 FID 值
             fid_value = calculate_fid(video_id)

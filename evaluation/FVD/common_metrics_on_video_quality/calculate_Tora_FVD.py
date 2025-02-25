@@ -32,13 +32,13 @@ H = 480
 W = 720
 
 # 读取 CSV 文件并统计满足条件的视频数量
-for num_objects in [1, 2, 3, 4, 5, 6]:
+for num_objects in [0, 1, 2, 3, 4, 5, 6]:
     video_paths = []
     resized_video_paths = []
     with open(input_csv, 'r') as infile:
         reader = csv.DictReader(infile)
         for row in reader:
-            if (num_objects == 6 and int(row['num_objects']) > 5) or (int(row['num_objects']) == num_objects):
+            if (num_objects == 0) or (num_objects == 6 and int(row['num_objects']) > 5) or (int(row['num_objects']) == num_objects):
                 video_id = row['videoid']
                 output_path = f"/datadrive2/lqh/Tora/sat/samples/testset/{video_id}.mp4"
                 resized_video_path = f"/datadrive2/lqh/testset_data/resized_videos/{video_id}.mp4"
