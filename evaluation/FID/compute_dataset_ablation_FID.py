@@ -8,7 +8,7 @@ import cv2
 
 # 读取原始 CSV 文件中的 videoid 列
 input_csv = 'testset/final_testset.csv'
-output_csv = 'evaluation/FID/results/ImageConductor.csv'
+output_csv = 'evaluation/FID/results/dataset_ablation.csv'
 
 # 存储 FID 值的结果
 fid_results = []
@@ -39,11 +39,11 @@ def calculate_fid(video_id):
         "python",
         "-m",
         "pytorch_fid",
-        f"/datadrive3/generated_videos_as_images/ImageConductor/{video_id}",
-        f"/datadrive3/testset_data/video_as_images_16frames/{video_id}"
+        f"/datadrive3/generated_videos_as_images/dataset_ablation/checkpoint-3300/{video_id}",
+        f"/datadrive3/testset_data/video_as_images/{video_id}"
     ]
     result = subprocess.run(command, capture_output=True, text=True)
-
+    
     # 提取 FID 值
     match = re.search(r"FID:\s+([\d\.]+)", result.stdout)
     if match:
@@ -65,17 +65,20 @@ with open(input_csv, 'r') as infile:
 
     for row in reader:
         video_id = row['videoid']
-        output_path = f"/home/qid/quanhao/workspace/ImageConductor/outputs/output_mp4/{video_id}.mp4"
+        output_path = f"samples/box_condition_dataset_ablation/checkpoint-3300/{video_id}.mp4"
 
         # 检查视频文件是否存在以及是否已经处理过
         if os.path.exists(output_path) and video_id not in existing_fid_results:
-            save_dir = f"/datadrive3/generated_videos_as_images/ImageConductor/{video_id}"
+            save_dir = f"/datadrive3/generated_videos_as_images/dataset_ablation/checkpoint-3300/{video_id}"
 
-            extract_frames(output_path, save_dir)
+            if not os.path.exists(save_dir):
+                # 提取视频的每一帧
+                extract_frames(output_path, save_dir)
 
             # 计算 FID 值
             fid_value = calculate_fid(video_id)
             print(f"Video {video_id}: FID = {fid_value}")
+            assert fid_value is not None
 
             # 如果 FID 值有效，立即保存到 CSV 文件
             if fid_value is not None:

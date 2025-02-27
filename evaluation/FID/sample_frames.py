@@ -3,8 +3,8 @@ import shutil
 import numpy as np
 
 # 源目录和目标目录
-source_dir = '/datadrive2/lqh/testset_data/video_as_images'
-target_dir = '/datadrive2/lqh/testset_data/video_as_images_14frames'
+source_dir = '/datadrive3/testset_data/video_as_images'
+target_dir = '/datadrive3/testset_data/video_as_images_16frames'
 
 # 确保目标目录存在
 os.makedirs(target_dir, exist_ok=True)

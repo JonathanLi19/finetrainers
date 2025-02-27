@@ -39,8 +39,8 @@ def calculate_fid(video_id):
         "python",
         "-m",
         "pytorch_fid",
-        f"/datadrive2/lqh/generated_videos_as_images/MotionI2V/{video_id}",
-        f"/datadrive2/lqh/testset_data/video_as_images_16frames/{video_id}"
+        f"/datadrive3/generated_videos_as_images/MotionI2V/{video_id}",
+        f"/datadrive3/testset_data/video_as_images_16frames/{video_id}"
     ]
     result = subprocess.run(command, capture_output=True, text=True)
 
@@ -65,11 +65,11 @@ with open(input_csv, 'r') as infile:
 
     for row in reader:
         video_id = row['videoid']
-        output_path = f"/datadrive2/lqh/Motion-I2V/outputs/output_mp4/{video_id}.mp4"
+        output_path = f"/home/qid/quanhao/workspace/Motion-I2V/outputs/output_mp4/{video_id}.mp4"
 
         # 检查视频文件是否存在以及是否已经处理过
         if os.path.exists(output_path) and video_id not in existing_fid_results:
-            save_dir = f"/datadrive2/lqh/generated_videos_as_images/MotionI2V/{video_id}"
+            save_dir = f"/datadrive3/generated_videos_as_images/MotionI2V/{video_id}"
 
             extract_frames(output_path, save_dir)
 

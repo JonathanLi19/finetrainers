@@ -2,8 +2,8 @@ import pandas as pd
 for num_objects in [0, 1, 2, 3, 4, 5, 6]:
 
     # 文件路径
-    final_testset_path = 'testset/final_testset.csv'
-    mask_condition_final_path = 'evaluation/FID/results/DragNUWA.csv'
+    final_testset_path = 'data/DAVIS/DAVIS_data.csv'
+    mask_condition_final_path = 'evaluation/FID/results/Tora_DAVIS.csv'
 
     # 读取 CSV 文件
     final_testset_df = pd.read_csv(final_testset_path)

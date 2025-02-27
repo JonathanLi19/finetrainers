@@ -109,6 +109,8 @@ def main(args):
             if os.path.exists(output_path):
                 print(f"Output path {output_path} already exists. Skipping.")
                 continue
+            if not os.path.exists(os.path.dirname(output_path)):
+                os.makedirs(os.path.dirname(output_path), exist_ok=True)
             pipeline_args = {
                 "image": load_image(validation_image),
                 "prompt": validation_prompt,
