@@ -4,7 +4,7 @@ import pandas as pd
 from tqdm import tqdm
 
 # 设置输入输出路径
-input_csv = 'testset/whole_testset.csv'
+input_csv = 'data/DAVIS/DAVIS_data.csv'
 output_csv = 'training/cogvideox/validation_args/testset.csv'
 
 # 设置保存图片和视频的路径

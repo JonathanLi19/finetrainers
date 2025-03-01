@@ -1,0 +1,40 @@
+validation_prompt,validation_images,validation_trajectory_maps,output_path,controlnet_weights
+A man paragliding with trees and house below,testset/images/paragliding.jpg,testset/box_condition/DAVIS/paragliding.mp4,samples/box_condition/checkpoint-12900/DAVIS/paragliding.mp4,1.0
+A man flying a drone,testset/images/drone.jpg,testset/box_condition/DAVIS/drone.mp4,samples/box_condition/checkpoint-12900/DAVIS/drone.mp4,1.0
+A camel walking,testset/images/camel.jpg,testset/box_condition/DAVIS/camel.mp4,samples/box_condition/checkpoint-12900/DAVIS/camel.mp4,1.0
+A boy riding a bmx with trees aside,testset/images/bmx-trees.jpg,testset/box_condition/DAVIS/bmx-trees.mp4,samples/box_condition/checkpoint-12900/DAVIS/bmx-trees.mp4,1.0
+A girl playing with a cat,testset/images/cat-girl.jpg,testset/box_condition/DAVIS/cat-girl.mp4,samples/box_condition/checkpoint-12900/DAVIS/cat-girl.mp4,1.0
+A racing car drift straight,testset/images/drift-straight.jpg,testset/box_condition/DAVIS/drift-straight.mp4,samples/box_condition/checkpoint-12900/DAVIS/drift-straight.mp4,1.0
+A bear walking with stones behind,testset/images/bear.jpg,testset/box_condition/DAVIS/bear.mp4,samples/box_condition/checkpoint-12900/DAVIS/bear.mp4,1.0
+A man riding motorbike,testset/images/mbike-trick.jpg,testset/box_condition/DAVIS/mbike-trick.mp4,samples/box_condition/checkpoint-12900/DAVIS/mbike-trick.mp4,1.0
+Motocross bumps,testset/images/motocross-bumps.jpg,testset/box_condition/DAVIS/motocross-bumps.mp4,samples/box_condition/checkpoint-12900/DAVIS/motocross-bumps.mp4,1.0
+A racing car drift chicane,testset/images/drift-chicane.jpg,testset/box_condition/DAVIS/drift-chicane.mp4,samples/box_condition/checkpoint-12900/DAVIS/drift-chicane.mp4,1.0
+A boat sailing in the river,testset/images/boat.jpg,testset/box_condition/DAVIS/boat.mp4,samples/box_condition/checkpoint-12900/DAVIS/boat.mp4,1.0
+Surfing on the sea,testset/images/surf.jpg,testset/box_condition/DAVIS/surf.mp4,samples/box_condition/checkpoint-12900/DAVIS/surf.mp4,1.0
+a man packing his bike,testset/images/bike-packing.jpg,testset/box_condition/DAVIS/bike-packing.mp4,samples/box_condition/checkpoint-12900/DAVIS/bike-packing.mp4,1.0
+Putting a dog on a scale,testset/images/dogs-scale.jpg,testset/box_condition/DAVIS/dogs-scale.mp4,samples/box_condition/checkpoint-12900/DAVIS/dogs-scale.mp4,1.0
+A woman playing with swing,testset/images/swing.jpg,testset/box_condition/DAVIS/swing.mp4,samples/box_condition/checkpoint-12900/DAVIS/swing.mp4,1.0
+A man riding a gray scooter,testset/images/scooter-gray.jpg,testset/box_condition/DAVIS/scooter-gray.mp4,samples/box_condition/checkpoint-12900/DAVIS/scooter-gray.mp4,1.0
+A dog walking,testset/images/libby.jpg,testset/box_condition/DAVIS/libby.mp4,samples/box_condition/checkpoint-12900/DAVIS/libby.mp4,1.0
+A man doing kite surfing,testset/images/kite-surf.jpg,testset/box_condition/DAVIS/kite-surf.mp4,samples/box_condition/checkpoint-12900/DAVIS/kite-surf.mp4,1.0
+A racing car drift turn,testset/images/drift-turn.jpg,testset/box_condition/DAVIS/drift-turn.mp4,samples/box_condition/checkpoint-12900/DAVIS/drift-turn.mp4,1.0
+varanus climbing on a branch,testset/images/varanus-cage.jpg,testset/box_condition/DAVIS/varanus-cage.mp4,samples/box_condition/checkpoint-12900/DAVIS/varanus-cage.mp4,1.0
+A man playing tennis,testset/images/tennis.jpg,testset/box_condition/DAVIS/tennis.mp4,samples/box_condition/checkpoint-12900/DAVIS/tennis.mp4,1.0
+An elephant walking,testset/images/elephant.jpg,testset/box_condition/DAVIS/elephant.mp4,samples/box_condition/checkpoint-12900/DAVIS/elephant.mp4,1.0
+People walking on an Indian street,testset/images/india.jpg,testset/box_condition/DAVIS/india.mp4,samples/box_condition/checkpoint-12900/DAVIS/india.mp4,1.0
+An old couple walking on crossing,testset/images/crossing.jpg,testset/box_condition/DAVIS/crossing.mp4,samples/box_condition/checkpoint-12900/DAVIS/crossing.mp4,1.0
+Two men are having a boxing match with a referee standing by,testset/images/boxing-fisheye.jpg,testset/box_condition/DAVIS/boxing-fisheye.mp4,samples/box_condition/checkpoint-12900/DAVIS/boxing-fisheye.mp4,1.0
+A koala climbing,testset/images/koala.jpg,testset/box_condition/DAVIS/koala.mp4,samples/box_condition/checkpoint-12900/DAVIS/koala.mp4,1.0
+rhino walking,testset/images/rhino.jpg,testset/box_condition/DAVIS/rhino.mp4,samples/box_condition/checkpoint-12900/DAVIS/rhino.mp4,1.0
+A man doing parkour,testset/images/parkour.jpg,testset/box_condition/DAVIS/parkour.mp4,samples/box_condition/checkpoint-12900/DAVIS/parkour.mp4,1.0
+Kid playing football,testset/images/kid-football.jpg,testset/box_condition/DAVIS/kid-football.mp4,samples/box_condition/checkpoint-12900/DAVIS/kid-football.mp4,1.0
+A mallard on the grass flying,testset/images/mallard-fly.jpg,testset/box_condition/DAVIS/mallard-fly.mp4,samples/box_condition/checkpoint-12900/DAVIS/mallard-fly.mp4,1.0
+A bus driving on the road,testset/images/bus.jpg,testset/box_condition/DAVIS/bus.mp4,samples/box_condition/checkpoint-12900/DAVIS/bus.mp4,1.0
+Racing cars rally on gravel road,testset/images/rallye.jpg,testset/box_condition/DAVIS/rallye.mp4,samples/box_condition/checkpoint-12900/DAVIS/rallye.mp4,1.0
+A car doing roundabout,testset/images/car-roundabout.jpg,testset/box_condition/DAVIS/car-roundabout.mp4,samples/box_condition/checkpoint-12900/DAVIS/car-roundabout.mp4,1.0
+Dogs jumping around a woman,testset/images/dogs-jump.jpg,testset/box_condition/DAVIS/dogs-jump.mp4,samples/box_condition/checkpoint-12900/DAVIS/dogs-jump.mp4,1.0
+woman with stroller walking on a street,testset/images/stroller.jpg,testset/box_condition/DAVIS/stroller.mp4,samples/box_condition/checkpoint-12900/DAVIS/stroller.mp4,1.0
+tractor driving on sand,testset/images/tractor-sand.jpg,testset/box_condition/DAVIS/tractor-sand.mp4,samples/box_condition/checkpoint-12900/DAVIS/tractor-sand.mp4,1.0
+A dog walking,testset/images/dog.jpg,testset/box_condition/DAVIS/dog.mp4,samples/box_condition/checkpoint-12900/DAVIS/dog.mp4,1.0
+sheeps walking on grass,testset/images/sheep.jpg,testset/box_condition/DAVIS/sheep.mp4,samples/box_condition/checkpoint-12900/DAVIS/sheep.mp4,1.0
+Horse jumps high and competes in the obstacle course,testset/images/horsejump-high.jpg,testset/box_condition/DAVIS/horsejump-high.mp4,samples/box_condition/checkpoint-12900/DAVIS/horsejump-high.mp4,1.0
