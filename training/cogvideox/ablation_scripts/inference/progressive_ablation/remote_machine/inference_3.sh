@@ -4,16 +4,16 @@ export WANDB_MODE="offline"
 export NCCL_P2P_DISABLE=1
 export TORCH_NCCL_ENABLE_MONITORING=0
 export TOKENIZERS_PARALLELISM=False
-export CUDA_VISIBLE_DEVICES=3
+export CUDA_VISIBLE_DEVICES=2
 MODEL_PATH="THUDM/CogVideoX-5b-I2V"
-perception_head_path="checkpoints/box_ablation_progressive/checkpoint-3500/perception_head-checkpoint-3500.pt"
-controlnet_path="checkpoints/box_ablation_progressive/checkpoint-3500/controlnet-checkpoint-3500.pt"
+perception_head_path="checkpoints/box_ablation_progressive/checkpoint-4500/perception_head-checkpoint-4500.pt"
+controlnet_path="checkpoints/box_ablation_progressive/checkpoint-4500/controlnet-checkpoint-4500.pt"
 
 python training/cogvideox/I2V_inference_controlnet.py \
     --pretrained_model_name_or_path  $MODEL_PATH \
     --pretrained_controlnet_path $controlnet_path \
     --pretrained_perception_head_path $perception_head_path \
-    --validation_args_csv  "training/cogvideox/validation_args/DAVIS/box/part/part2.csv" \
+    --validation_args_csv  "training/cogvideox/validation_args/DAVIS/box_progressive_ablation/remote_machine/step4500.csv" \
     --num_validation_videos 1 \
     --seed 42 \
     --height 480 \

@@ -25,8 +25,8 @@ def load_video_to_tensor(video_path, video_tensor, index, num_frames=49):
 
     cap.release()
 
-input_csv = 'testset/final_testset.csv'
-output_csv = 'evaluation/FVD/results/segment_loss_ablation.csv'
+input_csv = 'data/DAVIS/DAVIS_data.csv'
+output_csv = 'evaluation/FVD/results/segment_loss_ablation_6500_DAVIS.csv'
 VIDEO_LENGTH = 49
 CHANNEL = 3
 H = 480

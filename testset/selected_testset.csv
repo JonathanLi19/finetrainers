@@ -1,0 +1,893 @@
+videoid,num_objects,path,trajectory_maps_path,text,flow
+3704164,1,/datadrive2/lqh/testset_data/resized_videos/3704164.mp4,/datadrive2/lqh/testset_data/filtered_masks/3704164, footage of the sea waves,117.6101303100586
+5289475,1,/datadrive2/lqh/testset_data/resized_videos/5289475.mp4,/datadrive2/lqh/testset_data/filtered_masks/5289475, beautiful scenery of the ocean,89.8732681274414
+4144985,1,/datadrive2/lqh/testset_data/resized_videos/4144985.mp4,/datadrive2/lqh/testset_data/filtered_masks/4144985, spray one person virus wipe,85.18157958984375
+4733114,1,/datadrive2/lqh/testset_data/resized_videos/4733114.mp4,/datadrive2/lqh/testset_data/filtered_masks/4733114, close up of a person using a water color,84.13556671142578
+4742386,1,/datadrive2/lqh/testset_data/resized_videos/4742386.mp4,/datadrive2/lqh/testset_data/filtered_masks/4742386, man playing basketball at the playground,80.50996398925781
+3970141,1,/datadrive2/lqh/testset_data/resized_videos/3970141.mp4,/datadrive2/lqh/testset_data/filtered_masks/3970141, person putting ice in a drinking glass,76.70716094970703
+10039840,1,/datadrive2/lqh/testset_data/resized_videos/10039840.mp4,/datadrive2/lqh/testset_data/filtered_masks/10039840, a person sharpening his knife,74.40476989746094
+6798929,1,/datadrive2/lqh/testset_data/resized_videos/6798929.mp4,/datadrive2/lqh/testset_data/filtered_masks/6798929, woman dancing and playing the tambourine on beach,73.26680755615234
+6774634,1,/datadrive2/lqh/testset_data/resized_videos/6774634.mp4,/datadrive2/lqh/testset_data/filtered_masks/6774634, a man smiling while talking in a business meeting,68.66279602050781
+4779526,1,/datadrive2/lqh/testset_data/resized_videos/4779526.mp4,/datadrive2/lqh/testset_data/filtered_masks/4779526,"A person in a white shirt embraces their knees, suggesting a moment of contemplation or emotional distress.",63.982696533203125
+5286378,1,/datadrive2/lqh/testset_data/resized_videos/5286378.mp4,/datadrive2/lqh/testset_data/filtered_masks/5286378,"A determined crowd raises signs and fists, uniting in a protest against racism, demanding justice and peace.",61.79668045043945
+6396993,1,/datadrive2/lqh/testset_data/resized_videos/6396993.mp4,/datadrive2/lqh/testset_data/filtered_masks/6396993, waves crashing on a shore,61.37971496582031
+4927727,1,/datadrive2/lqh/testset_data/resized_videos/4927727.mp4,/datadrive2/lqh/testset_data/filtered_masks/4927727,"A close-up view of a cluster of white, hexagonal-shaped bubbles floating on a blue liquid surface, creating a serene and peaceful scene.",59.5933723449707
+15304424,1,/datadrive2/lqh/testset_data/resized_videos/15304424.mp4,/datadrive2/lqh/testset_data/filtered_masks/15304424, drone footage of breaking waves and a sandy beach,58.13336563110352
+6688354,1,/datadrive2/lqh/testset_data/resized_videos/6688354.mp4,/datadrive2/lqh/testset_data/filtered_masks/6688354, male model in artistic makeup posing with chess piece,57.53691482543945
+5155852,1,/datadrive2/lqh/testset_data/resized_videos/5155852.mp4,/datadrive2/lqh/testset_data/filtered_masks/5155852,"A person stands near a curved wall, casting a shadow on its cracked surface from the sun's rays.",56.32648849487305
+5359139,1,/datadrive2/lqh/testset_data/resized_videos/5359139.mp4,/datadrive2/lqh/testset_data/filtered_masks/5359139, woman doing modern dance,55.79481887817383
+12901553,1,/datadrive2/lqh/testset_data/resized_videos/12901553.mp4,/datadrive2/lqh/testset_data/filtered_masks/12901553, drone shot of a desert at dawn,55.28621292114258
+4185305,1,/datadrive2/lqh/testset_data/resized_videos/4185305.mp4,/datadrive2/lqh/testset_data/filtered_masks/4185305, baby laughter playful crawling,52.99702453613281
+5607992,1,/datadrive2/lqh/testset_data/resized_videos/5607992.mp4,/datadrive2/lqh/testset_data/filtered_masks/5607992, a pod of dolphins hunting a school of sardines,52.06950378417969
+4259000,1,/datadrive2/lqh/testset_data/resized_videos/4259000.mp4,/datadrive2/lqh/testset_data/filtered_masks/4259000, man doing sit ups,52.05447006225586
+3998443,1,/datadrive2/lqh/testset_data/resized_videos/3998443.mp4,/datadrive2/lqh/testset_data/filtered_masks/3998443,"A barber's hand, grasping a straight razor, carefully trims a man's beard with precision and focus.",51.40895462036133
+10397583,1,/datadrive2/lqh/testset_data/resized_videos/10397583.mp4,/datadrive2/lqh/testset_data/filtered_masks/10397583, aerial view of seaside scenery at sunrise,51.060089111328125
+15686379,1,/datadrive2/lqh/testset_data/resized_videos/15686379.mp4,/datadrive2/lqh/testset_data/filtered_masks/15686379,A blue car crosses a bridge over a rocky riverbed surrounded by lush green forests.,50.91215896606445
+2355571,1,/datadrive2/lqh/testset_data/resized_videos/2355571.mp4,/datadrive2/lqh/testset_data/filtered_masks/2355571, a grass field over looking the sea,50.72342300415039
+10740325,1,/datadrive2/lqh/testset_data/resized_videos/10740325.mp4,/datadrive2/lqh/testset_data/filtered_masks/10740325, close up on woman breaking egg,49.44236755371094
+5480025,1,/datadrive2/lqh/testset_data/resized_videos/5480025.mp4,/datadrive2/lqh/testset_data/filtered_masks/5480025, orange flower petals in the bowl,49.028541564941406
+3998956,1,/datadrive2/lqh/testset_data/resized_videos/3998956.mp4,/datadrive2/lqh/testset_data/filtered_masks/3998956, close up shot of american flag swaying,48.93179702758789
+5585328,1,/datadrive2/lqh/testset_data/resized_videos/5585328.mp4,/datadrive2/lqh/testset_data/filtered_masks/5585328, time lapse video of a woman swimming in infinity pool,48.09330368041992
+5045065,1,/datadrive2/lqh/testset_data/resized_videos/5045065.mp4,/datadrive2/lqh/testset_data/filtered_masks/5045065,"Two individuals are intimately seated beside each other, one with a neatly braided long white hair and the other showing a bare shoulder, amidst a blurred green backdrop.",47.45060729980469
+11627817,1,/datadrive2/lqh/testset_data/resized_videos/11627817.mp4,/datadrive2/lqh/testset_data/filtered_masks/11627817, top view of sea waves on beach,46.596824645996094
+10397586,1,/datadrive2/lqh/testset_data/resized_videos/10397586.mp4,/datadrive2/lqh/testset_data/filtered_masks/10397586, storm clouds over sea coast,46.033912658691406
+5146012,1,/datadrive2/lqh/testset_data/resized_videos/5146012.mp4,/datadrive2/lqh/testset_data/filtered_masks/5146012, a ballerina practicing in the dance studio,45.99379348754883
+4502519,1,/datadrive2/lqh/testset_data/resized_videos/4502519.mp4,/datadrive2/lqh/testset_data/filtered_masks/4502519, cyclone in the middle of the ocean,45.27266693115234
+10265180,1,/datadrive2/lqh/testset_data/resized_videos/10265180.mp4,/datadrive2/lqh/testset_data/filtered_masks/10265180, close up on man finger tutting,44.85483169555664
+5127006,1,/datadrive2/lqh/testset_data/resized_videos/5127006.mp4,/datadrive2/lqh/testset_data/filtered_masks/5127006,"A lone swimmer equipped with blue flippers dives deeper into the crystal clear waters, stirring up the sandy ocean floor as they go.",44.83356094360352
+13728896,1,/datadrive2/lqh/testset_data/resized_videos/13728896.mp4,/datadrive2/lqh/testset_data/filtered_masks/13728896, turquoise water in resort,44.32217788696289
+17892955,1,/datadrive2/lqh/testset_data/resized_videos/17892955.mp4,/datadrive2/lqh/testset_data/filtered_masks/17892955, bosphorus sea boat to karakoy,44.067138671875
+5833000,1,/datadrive2/lqh/testset_data/resized_videos/5833000.mp4,/datadrive2/lqh/testset_data/filtered_masks/5833000, person walking on a rocky pathway,42.40180969238281
+17143337,1,/datadrive2/lqh/testset_data/resized_videos/17143337.mp4,/datadrive2/lqh/testset_data/filtered_masks/17143337, fashion man sunglasses people,42.37141418457031
+4196252,1,/datadrive2/lqh/testset_data/resized_videos/4196252.mp4,/datadrive2/lqh/testset_data/filtered_masks/4196252, skipping stones on the deep water of a river,42.09881210327149
+4823200,1,/datadrive2/lqh/testset_data/resized_videos/4823200.mp4,/datadrive2/lqh/testset_data/filtered_masks/4823200, a man dancing at home,41.03802490234375
+6714788,1,/datadrive2/lqh/testset_data/resized_videos/6714788.mp4,/datadrive2/lqh/testset_data/filtered_masks/6714788, couple walking in the woods with their dog while holding hands,40.50166702270508
+6654160,1,/datadrive2/lqh/testset_data/resized_videos/6654160.mp4,/datadrive2/lqh/testset_data/filtered_masks/6654160, woman opening the faucet,40.16520690917969
+6572844,1,/datadrive2/lqh/testset_data/resized_videos/6572844.mp4,/datadrive2/lqh/testset_data/filtered_masks/6572844, close up shot of a man holding on pommel horse grip,40.154293060302734
+1345911,1,/datadrive2/lqh/testset_data/resized_videos/1345911.mp4,/datadrive2/lqh/testset_data/filtered_masks/1345911, close up shot of grass,39.95170593261719
+4088836,1,/datadrive2/lqh/testset_data/resized_videos/4088836.mp4,/datadrive2/lqh/testset_data/filtered_masks/4088836, music musician lifestyle sound,39.5662956237793
+4091648,1,/datadrive2/lqh/testset_data/resized_videos/4091648.mp4,/datadrive2/lqh/testset_data/filtered_masks/4091648, a boat with tourists getting ready to dock,39.47071075439453
+3029453,1,/datadrive2/lqh/testset_data/resized_videos/3029453.mp4,/datadrive2/lqh/testset_data/filtered_masks/3029453, a man and a woman on a building view dwck,39.43059539794922
+4334124,1,/datadrive2/lqh/testset_data/resized_videos/4334124.mp4,/datadrive2/lqh/testset_data/filtered_masks/4334124, a man thoroughly washing his hands,38.37645721435547
+12759422,1,/datadrive2/lqh/testset_data/resized_videos/12759422.mp4,/datadrive2/lqh/testset_data/filtered_masks/12759422, bird chick grooming itself,37.063114166259766
+6557764,1,/datadrive2/lqh/testset_data/resized_videos/6557764.mp4,/datadrive2/lqh/testset_data/filtered_masks/6557764, people playing table hockey,36.176300048828125
+6602509,1,/datadrive2/lqh/testset_data/resized_videos/6602509.mp4,/datadrive2/lqh/testset_data/filtered_masks/6602509, drone footage of a moving train crossing a farmland,35.673179626464844
+7055400,1,/datadrive2/lqh/testset_data/resized_videos/7055400.mp4,/datadrive2/lqh/testset_data/filtered_masks/7055400, woman typing on laptop,35.34918975830078
+6022791,1,/datadrive2/lqh/testset_data/resized_videos/6022791.mp4,/datadrive2/lqh/testset_data/filtered_masks/6022791,"A person with a prosthetic leg is jumping rope in a park, surrounded by trees and a clear blue sky.",34.94513702392578
+16817285,1,/datadrive2/lqh/testset_data/resized_videos/16817285.mp4,/datadrive2/lqh/testset_data/filtered_masks/16817285,"A vibrant cultural procession unfolds in a square with historical architecture, against a backdrop of mountains under a blue sky with scattered clouds.",34.74095916748047
+4866633,1,/datadrive2/lqh/testset_data/resized_videos/4866633.mp4,/datadrive2/lqh/testset_data/filtered_masks/4866633,"A person in a wetsuit diving underwater, with sunlight penetrating the ocean surface creating a serene scene.",34.48094940185547
+6053510,1,/datadrive2/lqh/testset_data/resized_videos/6053510.mp4,/datadrive2/lqh/testset_data/filtered_masks/6053510, woman exercising in a walking machine,34.47467422485352
+5592507,1,/datadrive2/lqh/testset_data/resized_videos/5592507.mp4,/datadrive2/lqh/testset_data/filtered_masks/5592507, person wearing pink gloves,34.30171585083008
+5451388,1,/datadrive2/lqh/testset_data/resized_videos/5451388.mp4,/datadrive2/lqh/testset_data/filtered_masks/5451388, a person getting water from the water dispenser,34.2061653137207
+10106523,1,/datadrive2/lqh/testset_data/resized_videos/10106523.mp4,/datadrive2/lqh/testset_data/filtered_masks/10106523, dolphins doing tricks at a water park,34.056278228759766
+18101986,1,/datadrive2/lqh/testset_data/resized_videos/18101986.mp4,/datadrive2/lqh/testset_data/filtered_masks/18101986,A worker wearing a blue glove adjusts a component on a green and black machine in a manufacturing setting.,33.41422653198242
+3327657,1,/datadrive2/lqh/testset_data/resized_videos/3327657.mp4,/datadrive2/lqh/testset_data/filtered_masks/3327657, a man holds a woman hand while sitting down,32.593467712402344
+3192361,1,/datadrive2/lqh/testset_data/resized_videos/3192361.mp4,/datadrive2/lqh/testset_data/filtered_masks/3192361, mother and child having fun in the pool,32.410858154296875
+3048203,1,/datadrive2/lqh/testset_data/resized_videos/3048203.mp4,/datadrive2/lqh/testset_data/filtered_masks/3048203, woman running and checking on her tracker,31.41302490234375
+4360171,1,/datadrive2/lqh/testset_data/resized_videos/4360171.mp4,/datadrive2/lqh/testset_data/filtered_masks/4360171,"An array of paintbrushes stands in a glass jar amidst a cluttered desk with a ruler, a lampshade, and art supplies scattered around.",31.3270263671875
+5354968,1,/datadrive2/lqh/testset_data/resized_videos/5354968.mp4,/datadrive2/lqh/testset_data/filtered_masks/5354968, woman exiting the the subway station,30.500003814697266
+12130356,1,/datadrive2/lqh/testset_data/resized_videos/12130356.mp4,/datadrive2/lqh/testset_data/filtered_masks/12130356, a dog running after its toy,30.469911575317383
+4215907,1,/datadrive2/lqh/testset_data/resized_videos/4215907.mp4,/datadrive2/lqh/testset_data/filtered_masks/4215907, person rubbing hands together,30.44512367248535
+10611146,1,/datadrive2/lqh/testset_data/resized_videos/10611146.mp4,/datadrive2/lqh/testset_data/filtered_masks/10611146, drone footage of a mountain village,30.43802070617676
+15622734,1,/datadrive2/lqh/testset_data/resized_videos/15622734.mp4,/datadrive2/lqh/testset_data/filtered_masks/15622734, close up view of a person writing on a notebook,30.185646057128903
+4684304,1,/datadrive2/lqh/testset_data/resized_videos/4684304.mp4,/datadrive2/lqh/testset_data/filtered_masks/4684304, women walking on the dirt road,29.64919090270996
+18686281,1,/datadrive2/lqh/testset_data/resized_videos/18686281.mp4,/datadrive2/lqh/testset_data/filtered_masks/18686281,"Fireworks exploding in the night sky, scattering golden sparks in all directions.",29.45858764648437
+4936438,1,/datadrive2/lqh/testset_data/resized_videos/4936438.mp4,/datadrive2/lqh/testset_data/filtered_masks/4936438,"A person in a white shirt and black pants stands in front of a grand building with ornate doors and a classic street lamp, near a statue and greenery.",28.76187515258789
+4127749,1,/datadrive2/lqh/testset_data/resized_videos/4127749.mp4,/datadrive2/lqh/testset_data/filtered_masks/4127749,"Layers of pink and blue disposable face masks lay still on a beige surface, their elastic ear loops creating soft curves.",28.498369216918945
+4823673,1,/datadrive2/lqh/testset_data/resized_videos/4823673.mp4,/datadrive2/lqh/testset_data/filtered_masks/4823673, a man cleaning a car,28.24514961242676
+4464038,1,/datadrive2/lqh/testset_data/resized_videos/4464038.mp4,/datadrive2/lqh/testset_data/filtered_masks/4464038, clouds in the sky,28.044919967651367
+4592359,1,/datadrive2/lqh/testset_data/resized_videos/4592359.mp4,/datadrive2/lqh/testset_data/filtered_masks/4592359, video of a under the sea with dolphins,28.01150894165039
+4264960,1,/datadrive2/lqh/testset_data/resized_videos/4264960.mp4,/datadrive2/lqh/testset_data/filtered_masks/4264960, man playing the guitar,27.8878116607666
+17722498,1,/datadrive2/lqh/testset_data/resized_videos/17722498.mp4,/datadrive2/lqh/testset_data/filtered_masks/17722498,"A serene lake with ripples, surrounded by a forest under a clear blue sky.",27.55448341369629
+6698661,1,/datadrive2/lqh/testset_data/resized_videos/6698661.mp4,/datadrive2/lqh/testset_data/filtered_masks/6698661, brothers and sisters playfully laughing in bed,27.49339485168457
+17234393,1,/datadrive2/lqh/testset_data/resized_videos/17234393.mp4,/datadrive2/lqh/testset_data/filtered_masks/17234393, red opium poppy flower,27.45824432373047
+5905102,1,/datadrive2/lqh/testset_data/resized_videos/5905102.mp4,/datadrive2/lqh/testset_data/filtered_masks/5905102, a man walking on the seashore while holding a surf board,27.429292678833008
+16923290,1,/datadrive2/lqh/testset_data/resized_videos/16923290.mp4,/datadrive2/lqh/testset_data/filtered_masks/16923290, wood bench fashion man,27.42545318603516
+12350428,1,/datadrive2/lqh/testset_data/resized_videos/12350428.mp4,/datadrive2/lqh/testset_data/filtered_masks/12350428,"The interior of a church is illuminated by stained glass windows and chandeliers, with a wooden pulpit and altar adorned with white flowers.",27.419307708740234
+4405571,1,/datadrive2/lqh/testset_data/resized_videos/4405571.mp4,/datadrive2/lqh/testset_data/filtered_masks/4405571, top angle of a person feet walking on the ground,27.309518814086918
+10601403,1,/datadrive2/lqh/testset_data/resized_videos/10601403.mp4,/datadrive2/lqh/testset_data/filtered_masks/10601403, a teen girl in a floral dress hanging out in a park,27.309431076049805
+4983696,1,/datadrive2/lqh/testset_data/resized_videos/4983696.mp4,/datadrive2/lqh/testset_data/filtered_masks/4983696, person cooking a fish,26.87232208251953
+5174160,1,/datadrive2/lqh/testset_data/resized_videos/5174160.mp4,/datadrive2/lqh/testset_data/filtered_masks/5174160, man with his canon camera taking pictures,26.719438552856445
+5423855,1,/datadrive2/lqh/testset_data/resized_videos/5423855.mp4,/datadrive2/lqh/testset_data/filtered_masks/5423855, close up of a hickory horned devil,26.408016204833984
+10433379,1,/datadrive2/lqh/testset_data/resized_videos/10433379.mp4,/datadrive2/lqh/testset_data/filtered_masks/10433379, a man drinking coffee at a campsite,26.3876953125
+5614323,1,/datadrive2/lqh/testset_data/resized_videos/5614323.mp4,/datadrive2/lqh/testset_data/filtered_masks/5614323, cook hands kneading dough,26.328256607055664
+4011754,1,/datadrive2/lqh/testset_data/resized_videos/4011754.mp4,/datadrive2/lqh/testset_data/filtered_masks/4011754, cargo ship traveling the east river,26.32118225097656
+1094478,1,/datadrive2/lqh/testset_data/resized_videos/1094478.mp4,/datadrive2/lqh/testset_data/filtered_masks/1094478, man in red shirt passing by a art shop,26.063142776489254
+5039715,1,/datadrive2/lqh/testset_data/resized_videos/5039715.mp4,/datadrive2/lqh/testset_data/filtered_masks/5039715, man riding a skateboard in a skatepark,26.014636993408203
+12444626,1,/datadrive2/lqh/testset_data/resized_videos/12444626.mp4,/datadrive2/lqh/testset_data/filtered_masks/12444626,A wooden boardwalk stretches through a field of tall grass towards a dense forest under a clear blue sky.,25.87575912475586
+3829707,1,/datadrive2/lqh/testset_data/resized_videos/3829707.mp4,/datadrive2/lqh/testset_data/filtered_masks/3829707,"A serene lake surrounded by lush greenery and a historic building in the background, under a cloudy sky.",25.72672462463379
+6388877,1,/datadrive2/lqh/testset_data/resized_videos/6388877.mp4,/datadrive2/lqh/testset_data/filtered_masks/6388877, woman doing box jump,25.719417572021484
+3010216,1,/datadrive2/lqh/testset_data/resized_videos/3010216.mp4,/datadrive2/lqh/testset_data/filtered_masks/3010216, a person making hand gestures and pointing at a map,24.79794311523437
+17833704,1,/datadrive2/lqh/testset_data/resized_videos/17833704.mp4,/datadrive2/lqh/testset_data/filtered_masks/17833704, aerial view of dunes lighted by the sunset in a desert located near the sea gran canaria,24.714282989501957
+4281280,1,/datadrive2/lqh/testset_data/resized_videos/4281280.mp4,/datadrive2/lqh/testset_data/filtered_masks/4281280, a man inside the car holding the steering wheel,24.61892318725586
+5601396,1,/datadrive2/lqh/testset_data/resized_videos/5601396.mp4,/datadrive2/lqh/testset_data/filtered_masks/5601396, a woman walking barefooted on the sand,24.60296630859375
+5068257,1,/datadrive2/lqh/testset_data/resized_videos/5068257.mp4,/datadrive2/lqh/testset_data/filtered_masks/5068257, woman wearing a wig and makeup,24.52583885192871
+17608437,1,/datadrive2/lqh/testset_data/resized_videos/17608437.mp4,/datadrive2/lqh/testset_data/filtered_masks/17608437,Two pairs of hands raise drumsticks in the air at a crowded night market with glowing neon signs.,24.427215576171875
+5039815,1,/datadrive2/lqh/testset_data/resized_videos/5039815.mp4,/datadrive2/lqh/testset_data/filtered_masks/5039815, teen having fun riding a skateboard in a skatepark,24.126279830932617
+4519567,1,/datadrive2/lqh/testset_data/resized_videos/4519567.mp4,/datadrive2/lqh/testset_data/filtered_masks/4519567, woman wearing gray undergarments,24.048141479492188
+5039835,1,/datadrive2/lqh/testset_data/resized_videos/5039835.mp4,/datadrive2/lqh/testset_data/filtered_masks/5039835, tracking shot of teens riding a skateboard in a skatepark,23.915111541748047
+3740035,1,/datadrive2/lqh/testset_data/resized_videos/3740035.mp4,/datadrive2/lqh/testset_data/filtered_masks/3740035, a man standing on the escalator,23.80970001220703
+5418380,1,/datadrive2/lqh/testset_data/resized_videos/5418380.mp4,/datadrive2/lqh/testset_data/filtered_masks/5418380, woman on top of a mountain cliff overlooking the ocean,23.755414962768555
+5197614,1,/datadrive2/lqh/testset_data/resized_videos/5197614.mp4,/datadrive2/lqh/testset_data/filtered_masks/5197614,"A student with a backpack stands in a classroom filled with desks, papers, and a bookshelf crammed with varied reading materials.",23.368009567260746
+10544168,1,/datadrive2/lqh/testset_data/resized_videos/10544168.mp4,/datadrive2/lqh/testset_data/filtered_masks/10544168, a smiling woman in a flowery dress running in a meadow,23.08957862854004
+6577822,1,/datadrive2/lqh/testset_data/resized_videos/6577822.mp4,/datadrive2/lqh/testset_data/filtered_masks/6577822, drone footage of beach,22.933238983154297
+6136996,1,/datadrive2/lqh/testset_data/resized_videos/6136996.mp4,/datadrive2/lqh/testset_data/filtered_masks/6136996,"A person stands by a marble counter under directional signage, next to a row of polished stone columns in a grand hallway.",22.743385314941406
+15809779,1,/datadrive2/lqh/testset_data/resized_videos/15809779.mp4,/datadrive2/lqh/testset_data/filtered_masks/15809779, drone footage of a passenger train crossing a viaduct,22.595304489135746
+4180659,1,/datadrive2/lqh/testset_data/resized_videos/4180659.mp4,/datadrive2/lqh/testset_data/filtered_masks/4180659, pan shot of the lake during sunset,22.193397521972656
+11599395,1,/datadrive2/lqh/testset_data/resized_videos/11599395.mp4,/datadrive2/lqh/testset_data/filtered_masks/11599395, close up view of preparing rolled ice cream,22.12892341613769
+3987788,1,/datadrive2/lqh/testset_data/resized_videos/3987788.mp4,/datadrive2/lqh/testset_data/filtered_masks/3987788,"A person in an orange jacket stands outdoors with a hand raised to their head, overlooking a grassy landscape with a water body in the background.",22.127582550048828
+4115682,1,/datadrive2/lqh/testset_data/resized_videos/4115682.mp4,/datadrive2/lqh/testset_data/filtered_masks/4115682, close up shot of a tree,22.03777885437012
+3191807,1,/datadrive2/lqh/testset_data/resized_videos/3191807.mp4,/datadrive2/lqh/testset_data/filtered_masks/3191807, kids riding a carriage pulled by a horse,21.97795867919922
+2772887,1,/datadrive2/lqh/testset_data/resized_videos/2772887.mp4,/datadrive2/lqh/testset_data/filtered_masks/2772887,"A lone surfer rides a wave, carving a path through the foamy white water.",21.743223190307617
+4166343,1,/datadrive2/lqh/testset_data/resized_videos/4166343.mp4,/datadrive2/lqh/testset_data/filtered_masks/4166343, a dog running in a grass field,21.70895004272461
+17284758,1,/datadrive2/lqh/testset_data/resized_videos/17284758.mp4,/datadrive2/lqh/testset_data/filtered_masks/17284758, sea city landscape water,21.6822452545166
+10159565,1,/datadrive2/lqh/testset_data/resized_videos/10159565.mp4,/datadrive2/lqh/testset_data/filtered_masks/10159565, woman sitting on a chair with cross legs smiling at the camera,21.63252830505371
+4919748,1,/datadrive2/lqh/testset_data/resized_videos/4919748.mp4,/datadrive2/lqh/testset_data/filtered_masks/4919748, a woman running in the field,21.506664276123047
+3873088,1,/datadrive2/lqh/testset_data/resized_videos/3873088.mp4,/datadrive2/lqh/testset_data/filtered_masks/3873088,"A woman in a white tank top and red belt twirls energetically, her hair flying in motion against a marbled background.",21.43153190612793
+4912529,1,/datadrive2/lqh/testset_data/resized_videos/4912529.mp4,/datadrive2/lqh/testset_data/filtered_masks/4912529,"A person in a pink headscarf holds a makeup brush near a mirror, with exposed brickwork in the background.",21.371225357055664
+11295197,1,/datadrive2/lqh/testset_data/resized_videos/11295197.mp4,/datadrive2/lqh/testset_data/filtered_masks/11295197,"A partly frozen lake reflects the hillside and sky, surrounded by golden marshland, with houses dotted in the background.",21.33395767211914
+3969240,1,/datadrive2/lqh/testset_data/resized_videos/3969240.mp4,/datadrive2/lqh/testset_data/filtered_masks/3969240, carabaos at a farm,21.13516616821289
+10304640,1,/datadrive2/lqh/testset_data/resized_videos/10304640.mp4,/datadrive2/lqh/testset_data/filtered_masks/10304640, time lapse footage of moving clouds in the sky,21.057899475097656
+5146511,1,/datadrive2/lqh/testset_data/resized_videos/5146511.mp4,/datadrive2/lqh/testset_data/filtered_masks/5146511, young girl dancing a ballet,21.01692008972168
+4117439,1,/datadrive2/lqh/testset_data/resized_videos/4117439.mp4,/datadrive2/lqh/testset_data/filtered_masks/4117439, windy day at the wheat field,20.97282218933105
+5262570,1,/datadrive2/lqh/testset_data/resized_videos/5262570.mp4,/datadrive2/lqh/testset_data/filtered_masks/5262570, woman swimming on the pool,20.89190101623535
+6498976,1,/datadrive2/lqh/testset_data/resized_videos/6498976.mp4,/datadrive2/lqh/testset_data/filtered_masks/6498976, young man playing virtual reality game,20.657827377319336
+19401541,1,/datadrive2/lqh/testset_data/resized_videos/19401541.mp4,/datadrive2/lqh/testset_data/filtered_masks/19401541,A towering palm tree sways gently in the breeze against a sky transitioning from day to night.,20.655010223388672
+5778859,1,/datadrive2/lqh/testset_data/resized_videos/5778859.mp4,/datadrive2/lqh/testset_data/filtered_masks/5778859, business people in private jet,20.538122177124023
+4301031,1,/datadrive2/lqh/testset_data/resized_videos/4301031.mp4,/datadrive2/lqh/testset_data/filtered_masks/4301031,A person in a vibrant blue traditional costume with floral patterns twirls during an outdoor cultural performance.,20.50264358520508
+6192899,1,/datadrive2/lqh/testset_data/resized_videos/6192899.mp4,/datadrive2/lqh/testset_data/filtered_masks/6192899, a woman dancing in celebration of kwanzaa,20.49099922180176
+6005174,1,/datadrive2/lqh/testset_data/resized_videos/6005174.mp4,/datadrive2/lqh/testset_data/filtered_masks/6005174, food woman tomatoes fruits,20.268985748291016
+6788026,1,/datadrive2/lqh/testset_data/resized_videos/6788026.mp4,/datadrive2/lqh/testset_data/filtered_masks/6788026, couple filming their kissing,20.24451065063477
+4260132,1,/datadrive2/lqh/testset_data/resized_videos/4260132.mp4,/datadrive2/lqh/testset_data/filtered_masks/4260132,"A person in a blue shirt exercises indoors with hand-held weights, surrounded by home decor and plants.",20.165830612182617
+4332657,1,/datadrive2/lqh/testset_data/resized_videos/4332657.mp4,/datadrive2/lqh/testset_data/filtered_masks/4332657, a couple having a conversation in the bed,20.095836639404297
+15717626,1,/datadrive2/lqh/testset_data/resized_videos/15717626.mp4,/datadrive2/lqh/testset_data/filtered_masks/15717626,"A person in boardshorts wakeboards on turbulent ocean waves, tethered to an unseen point off-camera.",19.73558235168457
+3755533,1,/datadrive2/lqh/testset_data/resized_videos/3755533.mp4,/datadrive2/lqh/testset_data/filtered_masks/3755533, sewing a piece of fabric using a sewing machine,19.705480575561523
+6235160,1,/datadrive2/lqh/testset_data/resized_videos/6235160.mp4,/datadrive2/lqh/testset_data/filtered_masks/6235160, close up of a snow covered pine tree branch,19.67738914489746
+3335461,1,/datadrive2/lqh/testset_data/resized_videos/3335461.mp4,/datadrive2/lqh/testset_data/filtered_masks/3335461, waves of the beach using drone,19.67105484008789
+5565597,1,/datadrive2/lqh/testset_data/resized_videos/5565597.mp4,/datadrive2/lqh/testset_data/filtered_masks/5565597, man sitting on the street,19.62190055847168
+6631722,1,/datadrive2/lqh/testset_data/resized_videos/6631722.mp4,/datadrive2/lqh/testset_data/filtered_masks/6631722,"A person in a white coat stands near a staircase, hinting at movement either towards the clinical rooms ahead or returning from them.",19.591781616210938
+5981599,1,/datadrive2/lqh/testset_data/resized_videos/5981599.mp4,/datadrive2/lqh/testset_data/filtered_masks/5981599, a young man meeting a woman in the office lobby,19.50653839111328
+4361065,1,/datadrive2/lqh/testset_data/resized_videos/4361065.mp4,/datadrive2/lqh/testset_data/filtered_masks/4361065,"A person stands at a wooden kitchen table, stirring a bowl, with a smartphone on a tripod capturing the action, surrounded by potted plants and a minimalist kitchen setup.",19.489185333251957
+4504646,1,/datadrive2/lqh/testset_data/resized_videos/4504646.mp4,/datadrive2/lqh/testset_data/filtered_masks/4504646, woman playing with green leaf,19.464763641357425
+5243235,2,/datadrive2/lqh/testset_data/resized_videos/5243235.mp4,/datadrive2/lqh/testset_data/filtered_masks/5243235, crashing waves on seashore,67.6739730834961
+5422239,2,/datadrive2/lqh/testset_data/resized_videos/5422239.mp4,/datadrive2/lqh/testset_data/filtered_masks/5422239, woman looking in mirror using hair straightener,66.4981460571289
+15196738,2,/datadrive2/lqh/testset_data/resized_videos/15196738.mp4,/datadrive2/lqh/testset_data/filtered_masks/15196738, 3d animation of a dynamic textured surface,66.24797058105469
+3273637,2,/datadrive2/lqh/testset_data/resized_videos/3273637.mp4,/datadrive2/lqh/testset_data/filtered_masks/3273637, a bullet train traveling fast above the rail tracks,62.87544250488281
+4021633,2,/datadrive2/lqh/testset_data/resized_videos/4021633.mp4,/datadrive2/lqh/testset_data/filtered_masks/4021633,A freight train with rust-colored containers and graffiti-covered tank cars moves past a red signal light on a sunny day.,60.43719482421875
+5700357,2,/datadrive2/lqh/testset_data/resized_videos/5700357.mp4,/datadrive2/lqh/testset_data/filtered_masks/5700357, close up of a person using an atm machine,58.4039192199707
+5272509,2,/datadrive2/lqh/testset_data/resized_videos/5272509.mp4,/datadrive2/lqh/testset_data/filtered_masks/5272509, two girls running inside the playground,58.20221328735352
+6739971,2,/datadrive2/lqh/testset_data/resized_videos/6739971.mp4,/datadrive2/lqh/testset_data/filtered_masks/6739971, a woman exercising using an exercise ball,50.2071533203125
+14058786,2,/datadrive2/lqh/testset_data/resized_videos/14058786.mp4,/datadrive2/lqh/testset_data/filtered_masks/14058786, a barman sliding a bottle of whiskey on the bar counter,48.9668083190918
+5639717,2,/datadrive2/lqh/testset_data/resized_videos/5639717.mp4,/datadrive2/lqh/testset_data/filtered_masks/5639717, a woman rising from under the water,48.42986297607422
+6212366,2,/datadrive2/lqh/testset_data/resized_videos/6212366.mp4,/datadrive2/lqh/testset_data/filtered_masks/6212366, man in santa costume teaching teenager to dance,47.75449752807617
+5526384,2,/datadrive2/lqh/testset_data/resized_videos/5526384.mp4,/datadrive2/lqh/testset_data/filtered_masks/5526384, sunset and moving clouds time lapse,47.12645721435547
+4107606,2,/datadrive2/lqh/testset_data/resized_videos/4107606.mp4,/datadrive2/lqh/testset_data/filtered_masks/4107606, woman practicing boxing with a personal trainer,46.72110748291016
+18688943,2,/datadrive2/lqh/testset_data/resized_videos/18688943.mp4,/datadrive2/lqh/testset_data/filtered_masks/18688943,"A sculptor works diligently on a clay statue, intricately shaping the figures and details of what appears to be a mythological scene.",46.57082748413086
+10653833,2,/datadrive2/lqh/testset_data/resized_videos/10653833.mp4,/datadrive2/lqh/testset_data/filtered_masks/10653833, two smiling little girls playing in a park,45.38985443115234
+5544711,2,/datadrive2/lqh/testset_data/resized_videos/5544711.mp4,/datadrive2/lqh/testset_data/filtered_masks/5544711,"A man in a floral shirt and dark pants sits on a concrete ledge, his hands in motion as dusk settles over the cityscape behind him.",44.80242156982422
+18904898,2,/datadrive2/lqh/testset_data/resized_videos/18904898.mp4,/datadrive2/lqh/testset_data/filtered_masks/18904898,"The tall coconut trees sway gently with the breeze, as the pinkish sky suggests the sun is setting behind the dense, green foliage.",43.42839813232422
+5320236,2,/datadrive2/lqh/testset_data/resized_videos/5320236.mp4,/datadrive2/lqh/testset_data/filtered_masks/5320236, a man jogging on a treadmill,43.31964874267578
+3845152,2,/datadrive2/lqh/testset_data/resized_videos/3845152.mp4,/datadrive2/lqh/testset_data/filtered_masks/3845152,"A mosque with towering minarets watches over a plaza where pigeons gather and people stroll under the bright, clear sky.",43.15321350097656
+2795737,2,/datadrive2/lqh/testset_data/resized_videos/2795737.mp4,/datadrive2/lqh/testset_data/filtered_masks/2795737,"A person stands in front of a large mural on a building, featuring a figure holding a camera, painted in green hues amidst urban decay.",39.78293228149414
+5401753,2,/datadrive2/lqh/testset_data/resized_videos/5401753.mp4,/datadrive2/lqh/testset_data/filtered_masks/5401753,A dog wearing a blue harness is being walked on a leash near a parked blue truck with an open door and a person sitting inside.,38.86703872680664
+3722527,2,/datadrive2/lqh/testset_data/resized_videos/3722527.mp4,/datadrive2/lqh/testset_data/filtered_masks/3722527, footage of the vehicle crossing the street in time lapse,38.52823257446289
+4754211,2,/datadrive2/lqh/testset_data/resized_videos/4754211.mp4,/datadrive2/lqh/testset_data/filtered_masks/4754211,"A boxer, wearing boxing gloves, rests against the ropes of a boxing ring in a dimly lit, atmospheric gym.",38.32281494140625
+4230560,2,/datadrive2/lqh/testset_data/resized_videos/4230560.mp4,/datadrive2/lqh/testset_data/filtered_masks/4230560, grass on a windy day,38.1492919921875
+6860811,2,/datadrive2/lqh/testset_data/resized_videos/6860811.mp4,/datadrive2/lqh/testset_data/filtered_masks/6860811,A person gesturing during a discussion in a room with a round mirror on the wall.,37.24600982666016
+10250520,2,/datadrive2/lqh/testset_data/resized_videos/10250520.mp4,/datadrive2/lqh/testset_data/filtered_masks/10250520, a man posing for a female photographer,35.18240737915039
+4811481,2,/datadrive2/lqh/testset_data/resized_videos/4811481.mp4,/datadrive2/lqh/testset_data/filtered_masks/4811481, man doing knee kick,35.050315856933594
+10692794,2,/datadrive2/lqh/testset_data/resized_videos/10692794.mp4,/datadrive2/lqh/testset_data/filtered_masks/10692794, close up on picking fruit,34.8627815246582
+6539510,2,/datadrive2/lqh/testset_data/resized_videos/6539510.mp4,/datadrive2/lqh/testset_data/filtered_masks/6539510,"A diver plunges into the water, creating a trail of bubbles in the tranquil blue pool.",34.35872268676758
+3192360,2,/datadrive2/lqh/testset_data/resized_videos/3192360.mp4,/datadrive2/lqh/testset_data/filtered_masks/3192360, cooking food by deep frying in a hot cooking oil,34.21299362182617
+4236743,2,/datadrive2/lqh/testset_data/resized_videos/4236743.mp4,/datadrive2/lqh/testset_data/filtered_masks/4236743, woman posing on a sofa,34.034767150878906
+6168161,2,/datadrive2/lqh/testset_data/resized_videos/6168161.mp4,/datadrive2/lqh/testset_data/filtered_masks/6168161, a little girl jumping on the sofa with supervision of a woman,33.195777893066406
+5697569,2,/datadrive2/lqh/testset_data/resized_videos/5697569.mp4,/datadrive2/lqh/testset_data/filtered_masks/5697569, timelapse sunset in cloudy skies,32.53162384033203
+6620530,2,/datadrive2/lqh/testset_data/resized_videos/6620530.mp4,/datadrive2/lqh/testset_data/filtered_masks/6620530, a man lying down on the bed,32.28032302856445
+4101789,2,/datadrive2/lqh/testset_data/resized_videos/4101789.mp4,/datadrive2/lqh/testset_data/filtered_masks/4101789, a man closing his car engine cover,30.99359893798828
+5266798,2,/datadrive2/lqh/testset_data/resized_videos/5266798.mp4,/datadrive2/lqh/testset_data/filtered_masks/5266798,"A red bus speeds by, blurring the view of the city street and its surroundings.",30.985822677612305
+4122394,2,/datadrive2/lqh/testset_data/resized_videos/4122394.mp4,/datadrive2/lqh/testset_data/filtered_masks/4122394, woman holding a mixing bowl,30.74326515197754
+5266801,2,/datadrive2/lqh/testset_data/resized_videos/5266801.mp4,/datadrive2/lqh/testset_data/filtered_masks/5266801, video of wet road with cars passing by,30.647844314575195
+4305144,2,/datadrive2/lqh/testset_data/resized_videos/4305144.mp4,/datadrive2/lqh/testset_data/filtered_masks/4305144, aerial view of the mountains on cable cart,30.439647674560547
+6756531,2,/datadrive2/lqh/testset_data/resized_videos/6756531.mp4,/datadrive2/lqh/testset_data/filtered_masks/6756531, person walking on seashore,30.07914924621582
+3444517,2,/datadrive2/lqh/testset_data/resized_videos/3444517.mp4,/datadrive2/lqh/testset_data/filtered_masks/3444517, a man training a woman in boxing,29.411827087402344
+5901661,2,/datadrive2/lqh/testset_data/resized_videos/5901661.mp4,/datadrive2/lqh/testset_data/filtered_masks/5901661, close up ironing clothes,29.334184646606445
+12340481,2,/datadrive2/lqh/testset_data/resized_videos/12340481.mp4,/datadrive2/lqh/testset_data/filtered_masks/12340481, couple kissing in park,28.86686897277832
+5752172,2,/datadrive2/lqh/testset_data/resized_videos/5752172.mp4,/datadrive2/lqh/testset_data/filtered_masks/5752172, people boxing in a ring,28.44530487060547
+6254168,2,/datadrive2/lqh/testset_data/resized_videos/6254168.mp4,/datadrive2/lqh/testset_data/filtered_masks/6254168, woman striking pool balls,28.0494327545166
+4725048,2,/datadrive2/lqh/testset_data/resized_videos/4725048.mp4,/datadrive2/lqh/testset_data/filtered_masks/4725048,"The muddy water flows swiftly, with white foam bubbling on its surface as it moves downstream.",27.84133720397949
+5530854,2,/datadrive2/lqh/testset_data/resized_videos/5530854.mp4,/datadrive2/lqh/testset_data/filtered_masks/5530854, a couple reading a book,26.71270179748535
+15540590,2,/datadrive2/lqh/testset_data/resized_videos/15540590.mp4,/datadrive2/lqh/testset_data/filtered_masks/15540590, two people riding a motorbike on a dirt road in a mountain area,26.610429763793945
+6222565,2,/datadrive2/lqh/testset_data/resized_videos/6222565.mp4,/datadrive2/lqh/testset_data/filtered_masks/6222565, a person preparing dough,25.913782119750977
+5219155,2,/datadrive2/lqh/testset_data/resized_videos/5219155.mp4,/datadrive2/lqh/testset_data/filtered_masks/5219155, couple walking on the park,25.86568069458008
+5704945,2,/datadrive2/lqh/testset_data/resized_videos/5704945.mp4,/datadrive2/lqh/testset_data/filtered_masks/5704945, grandmother and granddaughter spending time together,25.74138832092285
+6338349,2,/datadrive2/lqh/testset_data/resized_videos/6338349.mp4,/datadrive2/lqh/testset_data/filtered_masks/6338349, player scoring in ice hockey,25.569583892822266
+4621694,2,/datadrive2/lqh/testset_data/resized_videos/4621694.mp4,/datadrive2/lqh/testset_data/filtered_masks/4621694,A person in a brown sweater is smoothing out a large white textile with their hands on a table.,25.43124771118164
+6296640,2,/datadrive2/lqh/testset_data/resized_videos/6296640.mp4,/datadrive2/lqh/testset_data/filtered_masks/6296640,"Two people perform yoga poses in a studio, their bare feet gliding across the smooth floor.",24.982345581054688
+4874688,2,/datadrive2/lqh/testset_data/resized_videos/4874688.mp4,/datadrive2/lqh/testset_data/filtered_masks/4874688, two women going up in the train,24.782072067260746
+4169122,2,/datadrive2/lqh/testset_data/resized_videos/4169122.mp4,/datadrive2/lqh/testset_data/filtered_masks/4169122, close up shot of a moving pendulum,23.65591812133789
+6377452,2,/datadrive2/lqh/testset_data/resized_videos/6377452.mp4,/datadrive2/lqh/testset_data/filtered_masks/6377452, woman clicking pictures on phone from her window,23.4110107421875
+4475818,2,/datadrive2/lqh/testset_data/resized_videos/4475818.mp4,/datadrive2/lqh/testset_data/filtered_masks/4475818, different vintage cars on display in the street,23.282644271850582
+4504394,2,/datadrive2/lqh/testset_data/resized_videos/4504394.mp4,/datadrive2/lqh/testset_data/filtered_masks/4504394, man putting flower on woman s hair,22.915515899658203
+4555820,2,/datadrive2/lqh/testset_data/resized_videos/4555820.mp4,/datadrive2/lqh/testset_data/filtered_masks/4555820, person putting flour on his hands,22.8751163482666
+4181142,2,/datadrive2/lqh/testset_data/resized_videos/4181142.mp4,/datadrive2/lqh/testset_data/filtered_masks/4181142, a man posing to the mobile camera using timer,22.865949630737305
+6740728,2,/datadrive2/lqh/testset_data/resized_videos/6740728.mp4,/datadrive2/lqh/testset_data/filtered_masks/6740728, a woman clipping her hair,22.721555709838867
+5837630,2,/datadrive2/lqh/testset_data/resized_videos/5837630.mp4,/datadrive2/lqh/testset_data/filtered_masks/5837630,"A dynamic dog leaps across an empty basketball court, while distant figures engage in various activities near vibrant storefronts and under the afternoon sky.",22.309993743896484
+6830129,2,/datadrive2/lqh/testset_data/resized_videos/6830129.mp4,/datadrive2/lqh/testset_data/filtered_masks/6830129, people picking domino tiles,22.30582046508789
+5935388,2,/datadrive2/lqh/testset_data/resized_videos/5935388.mp4,/datadrive2/lqh/testset_data/filtered_masks/5935388, group of girls meeting together,22.11166381835937
+6813385,2,/datadrive2/lqh/testset_data/resized_videos/6813385.mp4,/datadrive2/lqh/testset_data/filtered_masks/6813385,A person's hands holding coffee beans with a blurred background.,21.68973159790039
+16923193,2,/datadrive2/lqh/testset_data/resized_videos/16923193.mp4,/datadrive2/lqh/testset_data/filtered_masks/16923193,A person wearing grey sneakers and black pants is walking on a concrete path surrounded by green plants.,21.525583267211918
+18169527,2,/datadrive2/lqh/testset_data/resized_videos/18169527.mp4,/datadrive2/lqh/testset_data/filtered_masks/18169527,The forest floor is covered in fallen leaves and branches while shafts of sunlight peek through the densely packed trees.,21.423099517822266
+4443738,2,/datadrive2/lqh/testset_data/resized_videos/4443738.mp4,/datadrive2/lqh/testset_data/filtered_masks/4443738,"A person's foot is visible in the foreground, set against a dark and cloudy sky over a calm sea.",21.33831787109375
+4292582,2,/datadrive2/lqh/testset_data/resized_videos/4292582.mp4,/datadrive2/lqh/testset_data/filtered_masks/4292582, man doing inventory at the warehouse in his digital tablet,21.04654693603516
+6340063,2,/datadrive2/lqh/testset_data/resized_videos/6340063.mp4,/datadrive2/lqh/testset_data/filtered_masks/6340063,"A hockey goalie crouches by the net, anticipating a shot, as players clash sticks on the ice rink.",20.64379501342773
+6564894,2,/datadrive2/lqh/testset_data/resized_videos/6564894.mp4,/datadrive2/lqh/testset_data/filtered_masks/6564894, a dog running while biting a frisbee,20.436203002929688
+10273919,2,/datadrive2/lqh/testset_data/resized_videos/10273919.mp4,/datadrive2/lqh/testset_data/filtered_masks/10273919, man and woman dancing,20.318662643432617
+10609741,2,/datadrive2/lqh/testset_data/resized_videos/10609741.mp4,/datadrive2/lqh/testset_data/filtered_masks/10609741, a woman wrapped in a towel looking in the mirror,20.18909454345703
+5531652,2,/datadrive2/lqh/testset_data/resized_videos/5531652.mp4,/datadrive2/lqh/testset_data/filtered_masks/5531652, two couple having fun while holding books,20.139354705810547
+1596893,2,/datadrive2/lqh/testset_data/resized_videos/1596893.mp4,/datadrive2/lqh/testset_data/filtered_masks/1596893, woman putting lip gloss,20.031269073486328
+18106001,2,/datadrive2/lqh/testset_data/resized_videos/18106001.mp4,/datadrive2/lqh/testset_data/filtered_masks/18106001, cat stretching on table,19.848766326904297
+10914362,2,/datadrive2/lqh/testset_data/resized_videos/10914362.mp4,/datadrive2/lqh/testset_data/filtered_masks/10914362, drops of oil mixing with colorful paint,19.81401824951172
+3044653,2,/datadrive2/lqh/testset_data/resized_videos/3044653.mp4,/datadrive2/lqh/testset_data/filtered_masks/3044653, a woman seated in a sofa is eating a candy bar while working on her laptop,19.722923278808597
+6784504,2,/datadrive2/lqh/testset_data/resized_videos/6784504.mp4,/datadrive2/lqh/testset_data/filtered_masks/6784504, a woman modeling an eye shadow palette,19.69500160217285
+6765431,2,/datadrive2/lqh/testset_data/resized_videos/6765431.mp4,/datadrive2/lqh/testset_data/filtered_masks/6765431, two fighters practicing judo,19.67904090881348
+5272731,2,/datadrive2/lqh/testset_data/resized_videos/5272731.mp4,/datadrive2/lqh/testset_data/filtered_masks/5272731, little girl jumping in front of a mirror,19.5911865234375
+4109280,2,/datadrive2/lqh/testset_data/resized_videos/4109280.mp4,/datadrive2/lqh/testset_data/filtered_masks/4109280, blazing fire on a black background,19.553598403930664
+6684685,2,/datadrive2/lqh/testset_data/resized_videos/6684685.mp4,/datadrive2/lqh/testset_data/filtered_masks/6684685, a boy doing martial arts and a girl coloring on a bed,19.368263244628903
+6601568,2,/datadrive2/lqh/testset_data/resized_videos/6601568.mp4,/datadrive2/lqh/testset_data/filtered_masks/6601568, father and daughter playing ukulele,19.267576217651367
+5752374,2,/datadrive2/lqh/testset_data/resized_videos/5752374.mp4,/datadrive2/lqh/testset_data/filtered_masks/5752374,A person in a gym is flipping a large tire as part of their workout routine.,19.08092498779297
+6758573,2,/datadrive2/lqh/testset_data/resized_videos/6758573.mp4,/datadrive2/lqh/testset_data/filtered_masks/6758573,A steady stream of frothy milk creates an intricate latte art design on a steaming cup of coffee.,18.90853881835937
+4667157,2,/datadrive2/lqh/testset_data/resized_videos/4667157.mp4,/datadrive2/lqh/testset_data/filtered_masks/4667157, alcohol bar barman drinks,18.89675521850586
+6390399,2,/datadrive2/lqh/testset_data/resized_videos/6390399.mp4,/datadrive2/lqh/testset_data/filtered_masks/6390399, man and woman doing single unders,18.81105232238769
+4945129,2,/datadrive2/lqh/testset_data/resized_videos/4945129.mp4,/datadrive2/lqh/testset_data/filtered_masks/4945129, couple working out at the gym,18.713258743286133
+6123059,2,/datadrive2/lqh/testset_data/resized_videos/6123059.mp4,/datadrive2/lqh/testset_data/filtered_masks/6123059, a man visiting family during hanukkah,18.67793273925781
+6774106,2,/datadrive2/lqh/testset_data/resized_videos/6774106.mp4,/datadrive2/lqh/testset_data/filtered_masks/6774106,"A diverse group of individuals come together, placing their hands on top of each other's, displaying unity and teamwork.",18.47590446472168
+14259375,2,/datadrive2/lqh/testset_data/resized_videos/14259375.mp4,/datadrive2/lqh/testset_data/filtered_masks/14259375, train arriving to station,18.43687057495117
+4820877,2,/datadrive2/lqh/testset_data/resized_videos/4820877.mp4,/datadrive2/lqh/testset_data/filtered_masks/4820877, a father and daughter artworks at home,17.981172561645508
+6133260,2,/datadrive2/lqh/testset_data/resized_videos/6133260.mp4,/datadrive2/lqh/testset_data/filtered_masks/6133260, an elderly man wearing a compass on his grandchild s wrist,17.9486141204834
+5993662,2,/datadrive2/lqh/testset_data/resized_videos/5993662.mp4,/datadrive2/lqh/testset_data/filtered_masks/5993662,"A person in a pink top is embracing someone seated on a red couch, in a room with a white wall and a painting.",17.92586898803711
+5891314,2,/datadrive2/lqh/testset_data/resized_videos/5891314.mp4,/datadrive2/lqh/testset_data/filtered_masks/5891314, a man having a bubble bath,17.837419509887695
+3873095,2,/datadrive2/lqh/testset_data/resized_videos/3873095.mp4,/datadrive2/lqh/testset_data/filtered_masks/3873095,"A woman wearing a white top and black pants with a red belt stands in front of a gray wall, her hand in motion.",17.82323455810547
+4124190,2,/datadrive2/lqh/testset_data/resized_videos/4124190.mp4,/datadrive2/lqh/testset_data/filtered_masks/4124190,"A tattoo artist, wearing black gloves, prepares his tattoo gun before inking the bare skin of a client.",17.695632934570312
+5383111,2,/datadrive2/lqh/testset_data/resized_videos/5383111.mp4,/datadrive2/lqh/testset_data/filtered_masks/5383111, woman going down from the climbing wall,17.160572052001953
+6657751,2,/datadrive2/lqh/testset_data/resized_videos/6657751.mp4,/datadrive2/lqh/testset_data/filtered_masks/6657751, collection of stamps on an album,17.139909744262695
+18512155,2,/datadrive2/lqh/testset_data/resized_videos/18512155.mp4,/datadrive2/lqh/testset_data/filtered_masks/18512155,"A long train of freight cars moves slowly along the tracks, the sunlight casting a warm glow on the scene.",17.067045211791992
+6022790,2,/datadrive2/lqh/testset_data/resized_videos/6022790.mp4,/datadrive2/lqh/testset_data/filtered_masks/6022790,"A person with a prosthetic leg is walking on a sunny day, casting a shadow on the pavement.",17.014070510864258
+4702346,2,/datadrive2/lqh/testset_data/resized_videos/4702346.mp4,/datadrive2/lqh/testset_data/filtered_masks/4702346, man and dog running,16.9411563873291
+3682358,2,/datadrive2/lqh/testset_data/resized_videos/3682358.mp4,/datadrive2/lqh/testset_data/filtered_masks/3682358, two young girls playing with stuffed toys in the playroom,16.88690948486328
+6101001,2,/datadrive2/lqh/testset_data/resized_videos/6101001.mp4,/datadrive2/lqh/testset_data/filtered_masks/6101001,"The setting sun casts a golden glow over a serene landscape of lush greenery, clouds drifting lazily across the sky.",16.866254806518555
+12989157,2,/datadrive2/lqh/testset_data/resized_videos/12989157.mp4,/datadrive2/lqh/testset_data/filtered_masks/12989157, animation of blue kaleidoscope,16.845108032226562
+10045009,2,/datadrive2/lqh/testset_data/resized_videos/10045009.mp4,/datadrive2/lqh/testset_data/filtered_masks/10045009, women wearing a hat on their daughter,16.529813766479492
+2035977,2,/datadrive2/lqh/testset_data/resized_videos/2035977.mp4,/datadrive2/lqh/testset_data/filtered_masks/2035977,"An aerial view of a circular brick structure surrounded by greenery, with a person walking along the perimeter.",16.520397186279297
+4912013,2,/datadrive2/lqh/testset_data/resized_videos/4912013.mp4,/datadrive2/lqh/testset_data/filtered_masks/4912013, woman applying make up in another woman,16.491405487060547
+6531708,2,/datadrive2/lqh/testset_data/resized_videos/6531708.mp4,/datadrive2/lqh/testset_data/filtered_masks/6531708, a camera recording a man sitting,16.472991943359375
+5422332,2,/datadrive2/lqh/testset_data/resized_videos/5422332.mp4,/datadrive2/lqh/testset_data/filtered_masks/5422332, spiderweb on window close up,16.43651580810547
+6153453,2,/datadrive2/lqh/testset_data/resized_videos/6153453.mp4,/datadrive2/lqh/testset_data/filtered_masks/6153453, a human hand touching prosthetic arm,16.320009231567383
+6900581,2,/datadrive2/lqh/testset_data/resized_videos/6900581.mp4,/datadrive2/lqh/testset_data/filtered_masks/6900581, a woman pouring coffee from a moka pot into a cup,16.284631729125977
+6141409,2,/datadrive2/lqh/testset_data/resized_videos/6141409.mp4,/datadrive2/lqh/testset_data/filtered_masks/6141409, dad and daughter having fun playing,16.27436065673828
+6697846,2,/datadrive2/lqh/testset_data/resized_videos/6697846.mp4,/datadrive2/lqh/testset_data/filtered_masks/6697846, two men doing yoga,16.190486907958984
+6250005,2,/datadrive2/lqh/testset_data/resized_videos/6250005.mp4,/datadrive2/lqh/testset_data/filtered_masks/6250005, close up of tree branches,16.10972785949707
+5355805,2,/datadrive2/lqh/testset_data/resized_videos/5355805.mp4,/datadrive2/lqh/testset_data/filtered_masks/5355805, young woman posing with umbrella,16.027420043945312
+5365217,2,/datadrive2/lqh/testset_data/resized_videos/5365217.mp4,/datadrive2/lqh/testset_data/filtered_masks/5365217,"A person holds a lavender sprig, sitting by a canvas tent with warm lights in a forest at dusk.",15.989062309265137
+10660697,2,/datadrive2/lqh/testset_data/resized_videos/10660697.mp4,/datadrive2/lqh/testset_data/filtered_masks/10660697, a woman reading an old letter while sitting in a park,15.94529628753662
+6339362,2,/datadrive2/lqh/testset_data/resized_videos/6339362.mp4,/datadrive2/lqh/testset_data/filtered_masks/6339362,"A group of ice hockey players gathered on the rink, forming a circle with their hockey sticks pointed towards the center.",15.712013244628906
+6386891,2,/datadrive2/lqh/testset_data/resized_videos/6386891.mp4,/datadrive2/lqh/testset_data/filtered_masks/6386891, a girl playing beside the christmas tree,15.579545021057127
+17314241,2,/datadrive2/lqh/testset_data/resized_videos/17314241.mp4,/datadrive2/lqh/testset_data/filtered_masks/17314241,"Aerial view of a woman standing alone on a sandy beach as gentle waves roll in, with a palm tree shadow stretching across the sand.",15.52849006652832
+6940546,2,/datadrive2/lqh/testset_data/resized_videos/6940546.mp4,/datadrive2/lqh/testset_data/filtered_masks/6940546, couple dancing in the dance studio,15.47629165649414
+3918001,2,/datadrive2/lqh/testset_data/resized_videos/3918001.mp4,/datadrive2/lqh/testset_data/filtered_masks/3918001,"The image shows a spacious outdoor area with piles of construction materials, people walking, and vehicles parked near a building with a large metal roof.",15.255199432373049
+6944458,2,/datadrive2/lqh/testset_data/resized_videos/6944458.mp4,/datadrive2/lqh/testset_data/filtered_masks/6944458, a dancing woman in a futuristic clothing,15.228384971618652
+13648583,2,/datadrive2/lqh/testset_data/resized_videos/13648583.mp4,/datadrive2/lqh/testset_data/filtered_masks/13648583,"Two individuals appear in motion against a curved white wall with an arched doorway, under a night sky.",15.20697021484375
+4474880,2,/datadrive2/lqh/testset_data/resized_videos/4474880.mp4,/datadrive2/lqh/testset_data/filtered_masks/4474880, person using her macbook,15.009437561035156
+4912366,2,/datadrive2/lqh/testset_data/resized_videos/4912366.mp4,/datadrive2/lqh/testset_data/filtered_masks/4912366, a woman reading a book,15.002817153930664
+5487996,2,/datadrive2/lqh/testset_data/resized_videos/5487996.mp4,/datadrive2/lqh/testset_data/filtered_masks/5487996, person holding a wine bottle,14.96542739868164
+6636879,2,/datadrive2/lqh/testset_data/resized_videos/6636879.mp4,/datadrive2/lqh/testset_data/filtered_masks/6636879, a man breakdancing on a wet pavement,14.749677658081056
+5728448,2,/datadrive2/lqh/testset_data/resized_videos/5728448.mp4,/datadrive2/lqh/testset_data/filtered_masks/5728448, woman petting a dog with city in the background,14.734905242919922
+3064249,2,/datadrive2/lqh/testset_data/resized_videos/3064249.mp4,/datadrive2/lqh/testset_data/filtered_masks/3064249, person playing a guitar,14.622532844543455
+4081311,2,/datadrive2/lqh/testset_data/resized_videos/4081311.mp4,/datadrive2/lqh/testset_data/filtered_masks/4081311, person slicing a strawberry in close up view,14.572105407714844
+4174393,2,/datadrive2/lqh/testset_data/resized_videos/4174393.mp4,/datadrive2/lqh/testset_data/filtered_masks/4174393, a view of the desert on a sunny day,14.51033878326416
+5170027,2,/datadrive2/lqh/testset_data/resized_videos/5170027.mp4,/datadrive2/lqh/testset_data/filtered_masks/5170027, couple taking a selfie,14.48684310913086
+6517446,2,/datadrive2/lqh/testset_data/resized_videos/6517446.mp4,/datadrive2/lqh/testset_data/filtered_masks/6517446,"A person in a cozy fleece stands by an open door, glancing at a laptop screen against a backdrop of an interior space.",14.470211029052734
+5793722,2,/datadrive2/lqh/testset_data/resized_videos/5793722.mp4,/datadrive2/lqh/testset_data/filtered_masks/5793722, close up video of a person slicing carrots,14.34453010559082
+13024528,2,/datadrive2/lqh/testset_data/resized_videos/13024528.mp4,/datadrive2/lqh/testset_data/filtered_masks/13024528,"Dried red chilies are being stir-fried in a hot wok, releasing fragrant and spicy aromas in an active cooking process.",14.2571439743042
+4961501,2,/datadrive2/lqh/testset_data/resized_videos/4961501.mp4,/datadrive2/lqh/testset_data/filtered_masks/4961501, father and son spending time together,14.22649097442627
+4486542,2,/datadrive2/lqh/testset_data/resized_videos/4486542.mp4,/datadrive2/lqh/testset_data/filtered_masks/4486542, close up video of man wearing face mask,14.214751243591309
+5916205,2,/datadrive2/lqh/testset_data/resized_videos/5916205.mp4,/datadrive2/lqh/testset_data/filtered_masks/5916205, close up of a boy rock climbing,14.207698822021484
+6121197,2,/datadrive2/lqh/testset_data/resized_videos/6121197.mp4,/datadrive2/lqh/testset_data/filtered_masks/6121197, family playing dreidel game,14.127671241760254
+4936278,2,/datadrive2/lqh/testset_data/resized_videos/4936278.mp4,/datadrive2/lqh/testset_data/filtered_masks/4936278,"A person with blonde hair is wearing a white shirt, set against a soft-focus background.",13.990912437438965
+3831899,2,/datadrive2/lqh/testset_data/resized_videos/3831899.mp4,/datadrive2/lqh/testset_data/filtered_masks/3831899, a woman writing girl power on the mirror using a lip stick,13.986198425292969
+12551438,2,/datadrive2/lqh/testset_data/resized_videos/12551438.mp4,/datadrive2/lqh/testset_data/filtered_masks/12551438,"Two people parasail through a cloudy sky, suspended by a colorful parachute with a string of numbers on it.",13.954439163208008
+5091924,2,/datadrive2/lqh/testset_data/resized_videos/5091924.mp4,/datadrive2/lqh/testset_data/filtered_masks/5091924, man clicking pictures of his friend in lawn,13.765039443969728
+14171491,2,/datadrive2/lqh/testset_data/resized_videos/14171491.mp4,/datadrive2/lqh/testset_data/filtered_masks/14171491, flame in wax candle,13.502901077270508
+6293127,2,/datadrive2/lqh/testset_data/resized_videos/6293127.mp4,/datadrive2/lqh/testset_data/filtered_masks/6293127,"A bare-chested individual executes an abdominal exercise, lifting legs and torso against a lakeside backdrop on a wooden platform.",13.4642972946167
+5847997,2,/datadrive2/lqh/testset_data/resized_videos/5847997.mp4,/datadrive2/lqh/testset_data/filtered_masks/5847997, ground level shot of a woman walking in the forest,13.393051147460938
+1757795,3,/datadrive2/lqh/testset_data/resized_videos/1757795.mp4,/datadrive2/lqh/testset_data/filtered_masks/1757795, big waves rushing to the shore,111.15380859375
+5803088,3,/datadrive2/lqh/testset_data/resized_videos/5803088.mp4,/datadrive2/lqh/testset_data/filtered_masks/5803088, areial footage of two motorcyclists in the woods,64.18953704833984
+17647957,3,/datadrive2/lqh/testset_data/resized_videos/17647957.mp4,/datadrive2/lqh/testset_data/filtered_masks/17647957, marketing banner internet poster,57.68341445922852
+1249415,3,/datadrive2/lqh/testset_data/resized_videos/1249415.mp4,/datadrive2/lqh/testset_data/filtered_masks/1249415,"A person with a backpack is leaning on a railing, looking down a set of stairs with metal railings.",51.69009017944336
+6654772,3,/datadrive2/lqh/testset_data/resized_videos/6654772.mp4,/datadrive2/lqh/testset_data/filtered_masks/6654772, person making leather belt,51.01604461669922
+5203510,3,/datadrive2/lqh/testset_data/resized_videos/5203510.mp4,/datadrive2/lqh/testset_data/filtered_masks/5203510, an empty hospital hallway,50.206298828125
+5894892,3,/datadrive2/lqh/testset_data/resized_videos/5894892.mp4,/datadrive2/lqh/testset_data/filtered_masks/5894892, a girl covering blanket while on the bed,40.297061920166016
+5407527,3,/datadrive2/lqh/testset_data/resized_videos/5407527.mp4,/datadrive2/lqh/testset_data/filtered_masks/5407527, drone footage of an abandoned building,39.67466354370117
+4870891,3,/datadrive2/lqh/testset_data/resized_videos/4870891.mp4,/datadrive2/lqh/testset_data/filtered_masks/4870891, person playing with her dog,39.647735595703125
+6615568,3,/datadrive2/lqh/testset_data/resized_videos/6615568.mp4,/datadrive2/lqh/testset_data/filtered_masks/6615568, video of a train moving side view,36.692176818847656
+5894179,3,/datadrive2/lqh/testset_data/resized_videos/5894179.mp4,/datadrive2/lqh/testset_data/filtered_masks/5894179, a woman having a massage,36.298038482666016
+11011917,3,/datadrive2/lqh/testset_data/resized_videos/11011917.mp4,/datadrive2/lqh/testset_data/filtered_masks/11011917, horses running in the countryside,34.859214782714844
+6792654,3,/datadrive2/lqh/testset_data/resized_videos/6792654.mp4,/datadrive2/lqh/testset_data/filtered_masks/6792654, honey dripping from a metal container,34.14801025390625
+6944411,3,/datadrive2/lqh/testset_data/resized_videos/6944411.mp4,/datadrive2/lqh/testset_data/filtered_masks/6944411,A young woman in a club illuminated by blue neon lights moves to the rhythm of the music while wearing reflective sunglasses.,33.961891174316406
+5531572,3,/datadrive2/lqh/testset_data/resized_videos/5531572.mp4,/datadrive2/lqh/testset_data/filtered_masks/5531572, a man reading a book outdoors,32.62092208862305
+5699988,3,/datadrive2/lqh/testset_data/resized_videos/5699988.mp4,/datadrive2/lqh/testset_data/filtered_masks/5699988, people walking on the street,32.30416488647461
+6138258,3,/datadrive2/lqh/testset_data/resized_videos/6138258.mp4,/datadrive2/lqh/testset_data/filtered_masks/6138258, kneading a chocolate dough by hands,30.7064208984375
+3773324,3,/datadrive2/lqh/testset_data/resized_videos/3773324.mp4,/datadrive2/lqh/testset_data/filtered_masks/3773324, cars passing by and people walking at a street in new york,29.713417053222656
+3205451,3,/datadrive2/lqh/testset_data/resized_videos/3205451.mp4,/datadrive2/lqh/testset_data/filtered_masks/3205451, people visiting the louvre museum in france,29.377105712890625
+5227228,3,/datadrive2/lqh/testset_data/resized_videos/5227228.mp4,/datadrive2/lqh/testset_data/filtered_masks/5227228, a person holding a sliced peach,29.346174240112305
+4840259,3,/datadrive2/lqh/testset_data/resized_videos/4840259.mp4,/datadrive2/lqh/testset_data/filtered_masks/4840259, an aerial footage of a mosque,28.95323181152344
+5780024,3,/datadrive2/lqh/testset_data/resized_videos/5780024.mp4,/datadrive2/lqh/testset_data/filtered_masks/5780024, cook putting gloves on,28.03071594238281
+4369669,3,/datadrive2/lqh/testset_data/resized_videos/4369669.mp4,/datadrive2/lqh/testset_data/filtered_masks/4369669, person getting ground coffee,24.95494079589844
+6684676,3,/datadrive2/lqh/testset_data/resized_videos/6684676.mp4,/datadrive2/lqh/testset_data/filtered_masks/6684676,"Two individuals in white are playfully engaged on a bed surrounded by plush toys and pillows, with one in a defensive martial arts posture.",24.485897064208984
+1482055,3,/datadrive2/lqh/testset_data/resized_videos/1482055.mp4,/datadrive2/lqh/testset_data/filtered_masks/1482055, vehicles on the road,23.957908630371094
+6658856,3,/datadrive2/lqh/testset_data/resized_videos/6658856.mp4,/datadrive2/lqh/testset_data/filtered_masks/6658856,A close-up of hands with red nail polish grating cheese using a golden grater over a white countertop.,23.69251823425293
+5674626,3,/datadrive2/lqh/testset_data/resized_videos/5674626.mp4,/datadrive2/lqh/testset_data/filtered_masks/5674626, a person kneading a dough,23.653440475463867
+5174174,3,/datadrive2/lqh/testset_data/resized_videos/5174174.mp4,/datadrive2/lqh/testset_data/filtered_masks/5174174,"Two individuals are engaged in conversation at an outdoor table adorned with coffee cups, bathed in sunlight.",23.292469024658203
+5488025,3,/datadrive2/lqh/testset_data/resized_videos/5488025.mp4,/datadrive2/lqh/testset_data/filtered_masks/5488025, three freshly cooked hamburgers,22.742982864379883
+6168529,3,/datadrive2/lqh/testset_data/resized_videos/6168529.mp4,/datadrive2/lqh/testset_data/filtered_masks/6168529, toddler playing with musical instrument,22.73558235168457
+10639403,3,/datadrive2/lqh/testset_data/resized_videos/10639403.mp4,/datadrive2/lqh/testset_data/filtered_masks/10639403, man stretching by bar,21.554155349731445
+4928274,3,/datadrive2/lqh/testset_data/resized_videos/4928274.mp4,/datadrive2/lqh/testset_data/filtered_masks/4928274,A person in a white sailing jacket adjusts the ropes of a white sail against a cloudy sky backdrop.,21.54094123840332
+18196204,3,/datadrive2/lqh/testset_data/resized_videos/18196204.mp4,/datadrive2/lqh/testset_data/filtered_masks/18196204, wood flight landscape fashion,21.529373168945312
+11025401,3,/datadrive2/lqh/testset_data/resized_videos/11025401.mp4,/datadrive2/lqh/testset_data/filtered_masks/11025401, zebras on dirt road in savannah,21.06918716430664
+15606178,3,/datadrive2/lqh/testset_data/resized_videos/15606178.mp4,/datadrive2/lqh/testset_data/filtered_masks/15606178,The image depicts a serene landscape of a dense pine forest with mountain ranges in the background and a clear blue sky above.,20.920991897583008
+6657662,3,/datadrive2/lqh/testset_data/resized_videos/6657662.mp4,/datadrive2/lqh/testset_data/filtered_masks/6657662, person pouring out dried strawberries from the pouch,20.70049095153809
+6274805,3,/datadrive2/lqh/testset_data/resized_videos/6274805.mp4,/datadrive2/lqh/testset_data/filtered_masks/6274805, close up footage of a musician playing electric guitar,20.3739013671875
+10790999,3,/datadrive2/lqh/testset_data/resized_videos/10790999.mp4,/datadrive2/lqh/testset_data/filtered_masks/10790999, close up on hand holding small apple,20.22694206237793
+6668577,3,/datadrive2/lqh/testset_data/resized_videos/6668577.mp4,/datadrive2/lqh/testset_data/filtered_masks/6668577, woman removing arrows from bullseye,19.8763427734375
+5648485,3,/datadrive2/lqh/testset_data/resized_videos/5648485.mp4,/datadrive2/lqh/testset_data/filtered_masks/5648485, music band playing at recording studio,18.960599899291992
+12336237,3,/datadrive2/lqh/testset_data/resized_videos/12336237.mp4,/datadrive2/lqh/testset_data/filtered_masks/12336237, pianist playing on piano,18.475685119628903
+6740238,3,/datadrive2/lqh/testset_data/resized_videos/6740238.mp4,/datadrive2/lqh/testset_data/filtered_masks/6740238, a man and a woman conversing in the gym,18.405635833740234
+5536731,3,/datadrive2/lqh/testset_data/resized_videos/5536731.mp4,/datadrive2/lqh/testset_data/filtered_masks/5536731, a person using pink highlighter for her notes,17.916860580444336
+6004988,3,/datadrive2/lqh/testset_data/resized_videos/6004988.mp4,/datadrive2/lqh/testset_data/filtered_masks/6004988, a person putting cheese on a platter,17.648025512695312
+2871925,3,/datadrive2/lqh/testset_data/resized_videos/2871925.mp4,/datadrive2/lqh/testset_data/filtered_masks/2871925, a river of ice flows down from the mountain,17.569211959838867
+10602053,3,/datadrive2/lqh/testset_data/resized_videos/10602053.mp4,/datadrive2/lqh/testset_data/filtered_masks/10602053, girls sitting on the grass while wearing a beaded bracelet,17.42119789123535
+12251733,3,/datadrive2/lqh/testset_data/resized_videos/12251733.mp4,/datadrive2/lqh/testset_data/filtered_masks/12251733,"An abandoned, rusted chairlift sits idle amidst the overgrown trees and fallen leaves of a forgotten forest.",17.34652328491211
+10634738,3,/datadrive2/lqh/testset_data/resized_videos/10634738.mp4,/datadrive2/lqh/testset_data/filtered_masks/10634738,"A person in a laced sleeve hands a small glass to someone reaching out, creating a sense of an intimate or ceremonial exchange.",16.92586898803711
+5660493,3,/datadrive2/lqh/testset_data/resized_videos/5660493.mp4,/datadrive2/lqh/testset_data/filtered_masks/5660493, close up view of a person spreading a whipped cream by using a spatula,16.72257423400879
+6889590,3,/datadrive2/lqh/testset_data/resized_videos/6889590.mp4,/datadrive2/lqh/testset_data/filtered_masks/6889590, man and woman using one laptop,16.42298698425293
+19274370,3,/datadrive2/lqh/testset_data/resized_videos/19274370.mp4,/datadrive2/lqh/testset_data/filtered_masks/19274370,An aerial view of a coastal town with boats docked in a marina and buildings nestled among greenery.,16.258567810058594
+10536903,3,/datadrive2/lqh/testset_data/resized_videos/10536903.mp4,/datadrive2/lqh/testset_data/filtered_masks/10536903, a person grinding flower petals in a mortar and pestle,15.935988426208496
+6844208,3,/datadrive2/lqh/testset_data/resized_videos/6844208.mp4,/datadrive2/lqh/testset_data/filtered_masks/6844208,"A person in a ruffled white garment rests against a red cushion, with a focus on their wavy hair and a decorative brooch.",15.88588523864746
+5703660,3,/datadrive2/lqh/testset_data/resized_videos/5703660.mp4,/datadrive2/lqh/testset_data/filtered_masks/5703660, musicians talking with each other,15.699081420898438
+6761224,3,/datadrive2/lqh/testset_data/resized_videos/6761224.mp4,/datadrive2/lqh/testset_data/filtered_masks/6761224, adults dancing and drinking wine,15.561707496643066
+6724616,3,/datadrive2/lqh/testset_data/resized_videos/6724616.mp4,/datadrive2/lqh/testset_data/filtered_masks/6724616, a close up video person applying lotion,15.364211082458496
+17574207,3,/datadrive2/lqh/testset_data/resized_videos/17574207.mp4,/datadrive2/lqh/testset_data/filtered_masks/17574207,Metallic confetti in the shape of stars and hexagons float on a swirling black and red liquid surface.,15.053083419799805
+6840681,3,/datadrive2/lqh/testset_data/resized_videos/6840681.mp4,/datadrive2/lqh/testset_data/filtered_masks/6840681, tombstones in the cemetery,14.93854522705078
+5586821,3,/datadrive2/lqh/testset_data/resized_videos/5586821.mp4,/datadrive2/lqh/testset_data/filtered_masks/5586821, unripe citrus fruits on the tree,14.928865432739258
+3877706,3,/datadrive2/lqh/testset_data/resized_videos/3877706.mp4,/datadrive2/lqh/testset_data/filtered_masks/3877706, a mother and her kids strolling at the park,14.761673927307127
+5229588,3,/datadrive2/lqh/testset_data/resized_videos/5229588.mp4,/datadrive2/lqh/testset_data/filtered_masks/5229588, beautiful young girl kissing her dog with love,14.734764099121094
+2084060,3,/datadrive2/lqh/testset_data/resized_videos/2084060.mp4,/datadrive2/lqh/testset_data/filtered_masks/2084060, man walking with a camera,14.59038543701172
+10276177,3,/datadrive2/lqh/testset_data/resized_videos/10276177.mp4,/datadrive2/lqh/testset_data/filtered_masks/10276177,"In a room washed with red, a figure pulls on a string, unveiling draped cloths or garments hung along the wall.",14.5589017868042
+4109319,3,/datadrive2/lqh/testset_data/resized_videos/4109319.mp4,/datadrive2/lqh/testset_data/filtered_masks/4109319,"A hand glides over a white iron on a grey ironing board, smoothing out wrinkles in preparation for wear.",14.392494201660156
+5356841,3,/datadrive2/lqh/testset_data/resized_videos/5356841.mp4,/datadrive2/lqh/testset_data/filtered_masks/5356841, uv teeth whitening tools at dentist clinic,14.294038772583008
+5956875,3,/datadrive2/lqh/testset_data/resized_videos/5956875.mp4,/datadrive2/lqh/testset_data/filtered_masks/5956875, little boy adding milk in his cereals,14.287142753601074
+5815282,3,/datadrive2/lqh/testset_data/resized_videos/5815282.mp4,/datadrive2/lqh/testset_data/filtered_masks/5815282, person cutting black fabric with scissors,14.281516075134276
+5905062,3,/datadrive2/lqh/testset_data/resized_videos/5905062.mp4,/datadrive2/lqh/testset_data/filtered_masks/5905062, man with prosthetic leg sitting and making a phone call,14.205928802490234
+6539122,3,/datadrive2/lqh/testset_data/resized_videos/6539122.mp4,/datadrive2/lqh/testset_data/filtered_masks/6539122,"Two individuals are practicing ice skating together in an indoor rink, gliding on the ice in synchronized motion.",14.144583702087402
+4969060,3,/datadrive2/lqh/testset_data/resized_videos/4969060.mp4,/datadrive2/lqh/testset_data/filtered_masks/4969060, close up view of a person mixing ingredients,13.909554481506348
+3252344,3,/datadrive2/lqh/testset_data/resized_videos/3252344.mp4,/datadrive2/lqh/testset_data/filtered_masks/3252344, two women in conversation giving each other the high five hand gesture,13.89797019958496
+4856509,3,/datadrive2/lqh/testset_data/resized_videos/4856509.mp4,/datadrive2/lqh/testset_data/filtered_masks/4856509, a vast cropland in indonesia,13.878087997436523
+5637325,3,/datadrive2/lqh/testset_data/resized_videos/5637325.mp4,/datadrive2/lqh/testset_data/filtered_masks/5637325, three women picking flowers in the grassfield,13.780988693237305
+6143551,3,/datadrive2/lqh/testset_data/resized_videos/6143551.mp4,/datadrive2/lqh/testset_data/filtered_masks/6143551, woman holding wine glass dancing,13.454873085021973
+6519566,3,/datadrive2/lqh/testset_data/resized_videos/6519566.mp4,/datadrive2/lqh/testset_data/filtered_masks/6519566,"Two people wearing party hats sit at a table with a cake and red cups, one gesturing while holding a ladle.",13.41621208190918
+5364842,3,/datadrive2/lqh/testset_data/resized_videos/5364842.mp4,/datadrive2/lqh/testset_data/filtered_masks/5364842, man from a cheerful camper group feeds dog,13.252214431762695
+6034882,3,/datadrive2/lqh/testset_data/resized_videos/6034882.mp4,/datadrive2/lqh/testset_data/filtered_masks/6034882, a woman typing on her laptop beside a woman watching her,13.094083786010742
+6672369,3,/datadrive2/lqh/testset_data/resized_videos/6672369.mp4,/datadrive2/lqh/testset_data/filtered_masks/6672369, close up of student using cheat sheet,13.093427658081056
+4555395,3,/datadrive2/lqh/testset_data/resized_videos/4555395.mp4,/datadrive2/lqh/testset_data/filtered_masks/4555395, a child lying down on a pile of clothes,12.920191764831545
+6754427,3,/datadrive2/lqh/testset_data/resized_videos/6754427.mp4,/datadrive2/lqh/testset_data/filtered_masks/6754427, close up view of a person molding a clay,12.90428638458252
+14210989,3,/datadrive2/lqh/testset_data/resized_videos/14210989.mp4,/datadrive2/lqh/testset_data/filtered_masks/14210989,A conveyor belt with pieces of raw chicken moves through a processing plant.,12.900330543518066
+6595804,3,/datadrive2/lqh/testset_data/resized_videos/6595804.mp4,/datadrive2/lqh/testset_data/filtered_masks/6595804, father and daughter building a dollhouse,12.894004821777344
+6628572,3,/datadrive2/lqh/testset_data/resized_videos/6628572.mp4,/datadrive2/lqh/testset_data/filtered_masks/6628572, a woman having a massage,12.874692916870115
+5642588,3,/datadrive2/lqh/testset_data/resized_videos/5642588.mp4,/datadrive2/lqh/testset_data/filtered_masks/5642588, elderly couple standing on the street,12.840925216674805
+17361077,3,/datadrive2/lqh/testset_data/resized_videos/17361077.mp4,/datadrive2/lqh/testset_data/filtered_masks/17361077, sand summer fish fishes,12.817022323608398
+4174113,3,/datadrive2/lqh/testset_data/resized_videos/4174113.mp4,/datadrive2/lqh/testset_data/filtered_masks/4174113, video footage of the great pyramid of egypt,12.80519199371338
+5075242,3,/datadrive2/lqh/testset_data/resized_videos/5075242.mp4,/datadrive2/lqh/testset_data/filtered_masks/5075242,"A person in a plaid dress stands in an elevator with reflective gold interior, the floor indicator displaying the number four.",12.727701187133787
+6865083,3,/datadrive2/lqh/testset_data/resized_videos/6865083.mp4,/datadrive2/lqh/testset_data/filtered_masks/6865083, a woman petting her cat,12.682992935180664
+4086294,3,/datadrive2/lqh/testset_data/resized_videos/4086294.mp4,/datadrive2/lqh/testset_data/filtered_masks/4086294, pan shot of pine trees,12.514922142028809
+3819168,3,/datadrive2/lqh/testset_data/resized_videos/3819168.mp4,/datadrive2/lqh/testset_data/filtered_masks/3819168, a raft of ducks swimming in the water,12.473196029663086
+6935059,3,/datadrive2/lqh/testset_data/resized_videos/6935059.mp4,/datadrive2/lqh/testset_data/filtered_masks/6935059, a person on hang glider,12.21768283843994
+5481404,3,/datadrive2/lqh/testset_data/resized_videos/5481404.mp4,/datadrive2/lqh/testset_data/filtered_masks/5481404, a person cooking a food on frying pan,12.215458869934082
+5478744,3,/datadrive2/lqh/testset_data/resized_videos/5478744.mp4,/datadrive2/lqh/testset_data/filtered_masks/5478744, a woman looking in the mirror,11.99267292022705
+5168987,3,/datadrive2/lqh/testset_data/resized_videos/5168987.mp4,/datadrive2/lqh/testset_data/filtered_masks/5168987, man riding a bicycle in the street,11.947612762451172
+12196339,3,/datadrive2/lqh/testset_data/resized_videos/12196339.mp4,/datadrive2/lqh/testset_data/filtered_masks/12196339, woman sliding on snow in mountains,11.875555992126465
+6896045,3,/datadrive2/lqh/testset_data/resized_videos/6896045.mp4,/datadrive2/lqh/testset_data/filtered_masks/6896045, a director having a cast meeting,11.745034217834473
+5638095,3,/datadrive2/lqh/testset_data/resized_videos/5638095.mp4,/datadrive2/lqh/testset_data/filtered_masks/5638095, an elderly man reading a newspaper seating in the bench,11.66489601135254
+19412104,3,/datadrive2/lqh/testset_data/resized_videos/19412104.mp4,/datadrive2/lqh/testset_data/filtered_masks/19412104, farm animals birds feathers,11.37156867980957
+3111744,3,/datadrive2/lqh/testset_data/resized_videos/3111744.mp4,/datadrive2/lqh/testset_data/filtered_masks/3111744, a person wearing waterproof boots stomping rain water residue on the ground,11.368282318115234
+6828879,3,/datadrive2/lqh/testset_data/resized_videos/6828879.mp4,/datadrive2/lqh/testset_data/filtered_masks/6828879,Three individuals appear to be engaged in a discussion around a table in a room with a plain white wall.,11.321779251098633
+4842770,3,/datadrive2/lqh/testset_data/resized_videos/4842770.mp4,/datadrive2/lqh/testset_data/filtered_masks/4842770,"Two individuals are seated closely on a park bench, surrounded by lush green foliage, sharing a moment of companionship.",11.272245407104492
+6157985,3,/datadrive2/lqh/testset_data/resized_videos/6157985.mp4,/datadrive2/lqh/testset_data/filtered_masks/6157985, man putting tapes on the car,11.261682510375977
+19244373,3,/datadrive2/lqh/testset_data/resized_videos/19244373.mp4,/datadrive2/lqh/testset_data/filtered_masks/19244373,"A powerful geyser erupts, sending a massive plume of steam and water skyward, as onlookers observe from a nearby bridge.",11.14939022064209
+5861677,3,/datadrive2/lqh/testset_data/resized_videos/5861677.mp4,/datadrive2/lqh/testset_data/filtered_masks/5861677, a person slicing tuna sashimi,11.14876651763916
+4148338,3,/datadrive2/lqh/testset_data/resized_videos/4148338.mp4,/datadrive2/lqh/testset_data/filtered_masks/4148338, kids on the roof top talking to the camera,11.103537559509276
+5228662,3,/datadrive2/lqh/testset_data/resized_videos/5228662.mp4,/datadrive2/lqh/testset_data/filtered_masks/5228662, a person sitting on a chair and petting a dog,11.045825958251951
+6274811,3,/datadrive2/lqh/testset_data/resized_videos/6274811.mp4,/datadrive2/lqh/testset_data/filtered_masks/6274811, a man playing a bass guitar,10.807117462158203
+3999742,3,/datadrive2/lqh/testset_data/resized_videos/3999742.mp4,/datadrive2/lqh/testset_data/filtered_masks/3999742, passengers on a ferry boat,10.71180248260498
+18473881,3,/datadrive2/lqh/testset_data/resized_videos/18473881.mp4,/datadrive2/lqh/testset_data/filtered_masks/18473881,An overhead view of a beach shoreline with rolling waves crashing onto the dark sand.,10.692309379577637
+5586536,3,/datadrive2/lqh/testset_data/resized_videos/5586536.mp4,/datadrive2/lqh/testset_data/filtered_masks/5586536,"Two athletes, dressed in black and white respectively, engage in an intense basketball match on an outdoor court with the hoop in the background.",10.649847984313965
+5703652,3,/datadrive2/lqh/testset_data/resized_videos/5703652.mp4,/datadrive2/lqh/testset_data/filtered_masks/5703652, window in a church,10.608124732971191
+6923006,3,/datadrive2/lqh/testset_data/resized_videos/6923006.mp4,/datadrive2/lqh/testset_data/filtered_masks/6923006, a woman fixing a pink wig,10.554642677307127
+4154538,3,/datadrive2/lqh/testset_data/resized_videos/4154538.mp4,/datadrive2/lqh/testset_data/filtered_masks/4154538, close up shot following a hiker s foot steps,10.437407493591309
+6684201,3,/datadrive2/lqh/testset_data/resized_videos/6684201.mp4,/datadrive2/lqh/testset_data/filtered_masks/6684201, siblings playing and watching using their tablet in their bedroom,10.435072898864746
+5282319,3,/datadrive2/lqh/testset_data/resized_videos/5282319.mp4,/datadrive2/lqh/testset_data/filtered_masks/5282319, two people talking while sharing a laptop,10.392672538757324
+5272794,3,/datadrive2/lqh/testset_data/resized_videos/5272794.mp4,/datadrive2/lqh/testset_data/filtered_masks/5272794, three girls playing with stickers,10.344927787780762
+6476485,3,/datadrive2/lqh/testset_data/resized_videos/6476485.mp4,/datadrive2/lqh/testset_data/filtered_masks/6476485, a woman teaching the little girl how to read,10.314664840698242
+10844247,3,/datadrive2/lqh/testset_data/resized_videos/10844247.mp4,/datadrive2/lqh/testset_data/filtered_masks/10844247,"Hands skillfully shape wet clay on a rustic work surface, surrounded by tools and unfinished pottery pieces, under the warmth of a sunlit environment.",10.299482345581056
+4683423,3,/datadrive2/lqh/testset_data/resized_videos/4683423.mp4,/datadrive2/lqh/testset_data/filtered_masks/4683423, video of man doing the art of pottery,10.243084907531738
+6098178,3,/datadrive2/lqh/testset_data/resized_videos/6098178.mp4,/datadrive2/lqh/testset_data/filtered_masks/6098178, video of a christmas gifts,10.223690032958984
+6761210,3,/datadrive2/lqh/testset_data/resized_videos/6761210.mp4,/datadrive2/lqh/testset_data/filtered_masks/6761210,"Three individuals, holding wine glasses, engage in a conversation within a room with wooden doors and light walls.",10.16971206665039
+4723777,3,/datadrive2/lqh/testset_data/resized_videos/4723777.mp4,/datadrive2/lqh/testset_data/filtered_masks/4723777,"A person with a voluminous white hairstyle stands in a dimly lit corridor, illuminated by a neon red light, creating a moody and mysterious atmosphere.",10.114699363708496
+10397725,3,/datadrive2/lqh/testset_data/resized_videos/10397725.mp4,/datadrive2/lqh/testset_data/filtered_masks/10397725,"A person wearing a cap stands near a green fence with lush trees in the background, against a backdrop of a brick wall.",10.110785484313965
+13102603,3,/datadrive2/lqh/testset_data/resized_videos/13102603.mp4,/datadrive2/lqh/testset_data/filtered_masks/13102603, people walking near palace,10.09227466583252
+6774777,3,/datadrive2/lqh/testset_data/resized_videos/6774777.mp4,/datadrive2/lqh/testset_data/filtered_masks/6774777, a group of people giving high fives for their success,10.031937599182127
+15483822,3,/datadrive2/lqh/testset_data/resized_videos/15483822.mp4,/datadrive2/lqh/testset_data/filtered_masks/15483822, wave banner freedom flag,9.96194076538086
+4507874,3,/datadrive2/lqh/testset_data/resized_videos/4507874.mp4,/datadrive2/lqh/testset_data/filtered_masks/4507874, glass plant cactus houseplants,9.928556442260742
+4374509,3,/datadrive2/lqh/testset_data/resized_videos/4374509.mp4,/datadrive2/lqh/testset_data/filtered_masks/4374509,"Two candles rest on a wooden board alongside essential oil bottles and a French press filled with coffee, lit by natural light from a nearby window.",9.885961532592772
+12213086,3,/datadrive2/lqh/testset_data/resized_videos/12213086.mp4,/datadrive2/lqh/testset_data/filtered_masks/12213086, hands controlling and moving buttons,9.854360580444336
+5925966,3,/datadrive2/lqh/testset_data/resized_videos/5925966.mp4,/datadrive2/lqh/testset_data/filtered_masks/5925966, close up video of person removing the leaf from the stem,9.7521390914917
+4213954,3,/datadrive2/lqh/testset_data/resized_videos/4213954.mp4,/datadrive2/lqh/testset_data/filtered_masks/4213954,A person is pulling out a tissue from a green tissue box with a blurred background.,9.727320671081545
+3752548,3,/datadrive2/lqh/testset_data/resized_videos/3752548.mp4,/datadrive2/lqh/testset_data/filtered_masks/3752548, close up view of paper money inside a bottle,9.727042198181152
+17854218,3,/datadrive2/lqh/testset_data/resized_videos/17854218.mp4,/datadrive2/lqh/testset_data/filtered_masks/17854218,Two individuals are using a rope to pull a red car that has fallen off the road onto a grassy area.,9.583657264709473
+6620872,3,/datadrive2/lqh/testset_data/resized_videos/6620872.mp4,/datadrive2/lqh/testset_data/filtered_masks/6620872, close up of a silver necklace,9.473946571350098
+5331166,3,/datadrive2/lqh/testset_data/resized_videos/5331166.mp4,/datadrive2/lqh/testset_data/filtered_masks/5331166, person playing a violin,9.45516872406006
+5799458,3,/datadrive2/lqh/testset_data/resized_videos/5799458.mp4,/datadrive2/lqh/testset_data/filtered_masks/5799458, a mom and son duo painting their walls,9.381558418273926
+5200025,3,/datadrive2/lqh/testset_data/resized_videos/5200025.mp4,/datadrive2/lqh/testset_data/filtered_masks/5200025,"In a classroom, a person in a brown jacket leans over a desk, guiding a student's pencil during a writing task.",9.378740310668944
+6558235,3,/datadrive2/lqh/testset_data/resized_videos/6558235.mp4,/datadrive2/lqh/testset_data/filtered_masks/6558235, man discussing in front of audience,9.33969020843506
+4278126,3,/datadrive2/lqh/testset_data/resized_videos/4278126.mp4,/datadrive2/lqh/testset_data/filtered_masks/4278126, woman unpacking a box,9.288467407226562
+6184973,3,/datadrive2/lqh/testset_data/resized_videos/6184973.mp4,/datadrive2/lqh/testset_data/filtered_masks/6184973, person walking towards to table to serve cake,9.214605331420898
+4102801,3,/datadrive2/lqh/testset_data/resized_videos/4102801.mp4,/datadrive2/lqh/testset_data/filtered_masks/4102801, a pan shot of parked motorcycles,9.19455909729004
+5737395,3,/datadrive2/lqh/testset_data/resized_videos/5737395.mp4,/datadrive2/lqh/testset_data/filtered_masks/5737395,"A panoramic cityscape of Athens stretches out beneath a dusky sky, with soft lights twinkling from the closely-packed buildings.",9.07701587677002
+4888602,3,/datadrive2/lqh/testset_data/resized_videos/4888602.mp4,/datadrive2/lqh/testset_data/filtered_masks/4888602, person using a circular saw in making a skateboard,9.007519721984863
+3585876,3,/datadrive2/lqh/testset_data/resized_videos/3585876.mp4,/datadrive2/lqh/testset_data/filtered_masks/3585876, top view footage of the river flow,8.961469650268555
+11095395,3,/datadrive2/lqh/testset_data/resized_videos/11095395.mp4,/datadrive2/lqh/testset_data/filtered_masks/11095395, tall trees in a winter forest,8.924169540405273
+3976813,3,/datadrive2/lqh/testset_data/resized_videos/3976813.mp4,/datadrive2/lqh/testset_data/filtered_masks/3976813, close up shot of marigold flowers,8.913826942443848
+4166271,3,/datadrive2/lqh/testset_data/resized_videos/4166271.mp4,/datadrive2/lqh/testset_data/filtered_masks/4166271, a video of a bonsai collection,8.89257526397705
+19285894,3,/datadrive2/lqh/testset_data/resized_videos/19285894.mp4,/datadrive2/lqh/testset_data/filtered_masks/19285894,"Amidst the vast olive groves, scattered buildings and serpentine roads create a serene rural landscape.",8.792821884155273
+5271748,3,/datadrive2/lqh/testset_data/resized_videos/5271748.mp4,/datadrive2/lqh/testset_data/filtered_masks/5271748, friends drawing on the ground with colored chalks,8.758136749267578
+6949561,3,/datadrive2/lqh/testset_data/resized_videos/6949561.mp4,/datadrive2/lqh/testset_data/filtered_masks/6949561,A person in a patterned sweater raises a glass of red wine against a backdrop of lush green foliage.,8.676313400268555
+11172936,4,/datadrive2/lqh/testset_data/resized_videos/11172936.mp4,/datadrive2/lqh/testset_data/filtered_masks/11172936, waves of disturbed sea,63.479976654052734
+4804857,4,/datadrive2/lqh/testset_data/resized_videos/4804857.mp4,/datadrive2/lqh/testset_data/filtered_masks/4804857, close up video of person wrapping hands,62.64431381225586
+4107377,4,/datadrive2/lqh/testset_data/resized_videos/4107377.mp4,/datadrive2/lqh/testset_data/filtered_masks/4107377,"A person in a red shirt gestures with their hand, conversing with a person sporting a ponytail, in a room with indistinct background details.",47.25447845458984
+4765785,4,/datadrive2/lqh/testset_data/resized_videos/4765785.mp4,/datadrive2/lqh/testset_data/filtered_masks/4765785, a group of dancers performing outdoors at night,43.913700103759766
+3967173,4,/datadrive2/lqh/testset_data/resized_videos/3967173.mp4,/datadrive2/lqh/testset_data/filtered_masks/3967173,"A young person in a traditional, colorful garment and headdress is about to high-five someone in a dimly-lit room with a wooden ceiling.",43.77384185791016
+5220473,4,/datadrive2/lqh/testset_data/resized_videos/5220473.mp4,/datadrive2/lqh/testset_data/filtered_masks/5220473, a person counting money,41.46220397949219
+3769485,4,/datadrive2/lqh/testset_data/resized_videos/3769485.mp4,/datadrive2/lqh/testset_data/filtered_masks/3769485,"An aerial view of a green-roofed house nestled among trees, dirt roads, and a small blue pond in a rural landscape.",35.657073974609375
+12893899,4,/datadrive2/lqh/testset_data/resized_videos/12893899.mp4,/datadrive2/lqh/testset_data/filtered_masks/12893899, dj playing music at a nightclub party,34.07139205932617
+4903186,4,/datadrive2/lqh/testset_data/resized_videos/4903186.mp4,/datadrive2/lqh/testset_data/filtered_masks/4903186,"In a weathered room, a figure in a brown coat captures a moment through a camera lens, hands clad in worn gloves.",30.33480262756348
+18023428,4,/datadrive2/lqh/testset_data/resized_videos/18023428.mp4,/datadrive2/lqh/testset_data/filtered_masks/18023428,"The ocean waves crash against the shore, creating a frothy white foam that gently recedes back into the sea.",29.847339630126957
+5848223,4,/datadrive2/lqh/testset_data/resized_videos/5848223.mp4,/datadrive2/lqh/testset_data/filtered_masks/5848223, person placing a thank you card on ceramic plate,26.319320678710938
+6296872,4,/datadrive2/lqh/testset_data/resized_videos/6296872.mp4,/datadrive2/lqh/testset_data/filtered_masks/6296872,"A person with vibrant purple hair is bent over touching their toes, and decorative fish plaques adorn the wall behind them.",23.1634521484375
+6156506,4,/datadrive2/lqh/testset_data/resized_videos/6156506.mp4,/datadrive2/lqh/testset_data/filtered_masks/6156506,"In a softly lit room, individuals engage in casual conversation, nestled amongst cozy furnishings and a hint of festive decor.",22.00731468200684
+18496733,4,/datadrive2/lqh/testset_data/resized_videos/18496733.mp4,/datadrive2/lqh/testset_data/filtered_masks/18496733,Cars zip past in the foreground as emergency vehicles with flashing lights are parked behind trees on a city street.,20.88092041015625
+4667121,4,/datadrive2/lqh/testset_data/resized_videos/4667121.mp4,/datadrive2/lqh/testset_data/filtered_masks/4667121, hands bar barman anonymous,20.468111038208008
+15642984,4,/datadrive2/lqh/testset_data/resized_videos/15642984.mp4,/datadrive2/lqh/testset_data/filtered_masks/15642984, blur of people running in marathon,20.37286949157715
+6062485,4,/datadrive2/lqh/testset_data/resized_videos/6062485.mp4,/datadrive2/lqh/testset_data/filtered_masks/6062485, people writing on a whiteboard,20.13338851928711
+18069862,4,/datadrive2/lqh/testset_data/resized_videos/18069862.mp4,/datadrive2/lqh/testset_data/filtered_masks/18069862, an artist s depiction of artificial intelligence ai this video explores how humans can creatively collaborate with artificial general intelligence agi in the future and how it can off,19.632814407348636
+1086529,4,/datadrive2/lqh/testset_data/resized_videos/1086529.mp4,/datadrive2/lqh/testset_data/filtered_masks/1086529, person getting a tattoo,19.123336791992188
+3049540,4,/datadrive2/lqh/testset_data/resized_videos/3049540.mp4,/datadrive2/lqh/testset_data/filtered_masks/3049540, a man waving a rainbow flag while parading in the street,18.917325973510746
+5741346,4,/datadrive2/lqh/testset_data/resized_videos/5741346.mp4,/datadrive2/lqh/testset_data/filtered_masks/5741346,A person's hands are chopping green herbs with a large knife on a dark cutting board.,17.963375091552734
+3747862,4,/datadrive2/lqh/testset_data/resized_videos/3747862.mp4,/datadrive2/lqh/testset_data/filtered_masks/3747862, top view footage of someone walking down the stairs,17.583972930908203
+6305123,4,/datadrive2/lqh/testset_data/resized_videos/6305123.mp4,/datadrive2/lqh/testset_data/filtered_masks/6305123, a family eating on the table,15.466811180114746
+4295732,4,/datadrive2/lqh/testset_data/resized_videos/4295732.mp4,/datadrive2/lqh/testset_data/filtered_masks/4295732, men loading boxes of materials in a delivery van,14.8311128616333
+5104858,4,/datadrive2/lqh/testset_data/resized_videos/5104858.mp4,/datadrive2/lqh/testset_data/filtered_masks/5104858,"A fluffy dog prances across a wooden deck adorned with blooming hydrangeas, next to a modern glass-paneled house surrounded by verdant greenery.",14.801750183105469
+5964114,4,/datadrive2/lqh/testset_data/resized_videos/5964114.mp4,/datadrive2/lqh/testset_data/filtered_masks/5964114, close up view of eye eyes hanging,14.776081085205078
+6216951,4,/datadrive2/lqh/testset_data/resized_videos/6216951.mp4,/datadrive2/lqh/testset_data/filtered_masks/6216951,Players are actively engaged in a volleyball match in a gymnasium with a high ceiling and Olympic rings symbols displayed on the upper walls.,14.712306022644045
+4640062,4,/datadrive2/lqh/testset_data/resized_videos/4640062.mp4,/datadrive2/lqh/testset_data/filtered_masks/4640062, raindrops sliding on a train window,14.156709671020508
+6995918,4,/datadrive2/lqh/testset_data/resized_videos/6995918.mp4,/datadrive2/lqh/testset_data/filtered_masks/6995918, women in a art teraphy,13.907008171081545
+17490903,4,/datadrive2/lqh/testset_data/resized_videos/17490903.mp4,/datadrive2/lqh/testset_data/filtered_masks/17490903,"A hand holds a bottle, feeding milk to a young calf peeking through a wooden fence on a sunny day.",13.883675575256348
+6300450,4,/datadrive2/lqh/testset_data/resized_videos/6300450.mp4,/datadrive2/lqh/testset_data/filtered_masks/6300450, family playing with the autumn leaves,13.089276313781738
+5837657,4,/datadrive2/lqh/testset_data/resized_videos/5837657.mp4,/datadrive2/lqh/testset_data/filtered_masks/5837657,"A person with prominent muscles is lifting a dumbbell outdoors, showcasing strength and fitness.",13.010088920593262
+4661342,4,/datadrive2/lqh/testset_data/resized_videos/4661342.mp4,/datadrive2/lqh/testset_data/filtered_masks/4661342, hands texture marble stone,12.391435623168944
+5039719,4,/datadrive2/lqh/testset_data/resized_videos/5039719.mp4,/datadrive2/lqh/testset_data/filtered_masks/5039719, teens talking to each other,12.188105583190918
+6299840,4,/datadrive2/lqh/testset_data/resized_videos/6299840.mp4,/datadrive2/lqh/testset_data/filtered_masks/6299840, men teaching kids to surf,12.10930061340332
+3917905,4,/datadrive2/lqh/testset_data/resized_videos/3917905.mp4,/datadrive2/lqh/testset_data/filtered_masks/3917905, person putting straw in cup,11.951986312866213
+14313664,4,/datadrive2/lqh/testset_data/resized_videos/14313664.mp4,/datadrive2/lqh/testset_data/filtered_masks/14313664, green trees and open field,11.909989356994627
+6561845,4,/datadrive2/lqh/testset_data/resized_videos/6561845.mp4,/datadrive2/lqh/testset_data/filtered_masks/6561845,A group of individuals engage in a discussion around a table with stationery and drinks while a presentation screen displays a quote about innovation and leadership.,11.8228759765625
+5243453,4,/datadrive2/lqh/testset_data/resized_videos/5243453.mp4,/datadrive2/lqh/testset_data/filtered_masks/5243453, a raft of ducks in the garden,11.696605682373049
+4369670,4,/datadrive2/lqh/testset_data/resized_videos/4369670.mp4,/datadrive2/lqh/testset_data/filtered_masks/4369670, person putting toppings on the coffee,11.670976638793944
+4090372,4,/datadrive2/lqh/testset_data/resized_videos/4090372.mp4,/datadrive2/lqh/testset_data/filtered_masks/4090372,"Four individuals stand closely together in a room adorned with green potted plants, exuding a casual and united vibe.",11.612574577331545
+12819898,4,/datadrive2/lqh/testset_data/resized_videos/12819898.mp4,/datadrive2/lqh/testset_data/filtered_masks/12819898, group of geese on waterside,11.567753791809082
+4887279,4,/datadrive2/lqh/testset_data/resized_videos/4887279.mp4,/datadrive2/lqh/testset_data/filtered_masks/4887279, nature field flowers village,11.371886253356934
+4750064,4,/datadrive2/lqh/testset_data/resized_videos/4750064.mp4,/datadrive2/lqh/testset_data/filtered_masks/4750064, two love couples walking inside a mall,11.350192070007324
+5658110,4,/datadrive2/lqh/testset_data/resized_videos/5658110.mp4,/datadrive2/lqh/testset_data/filtered_masks/5658110, water falling through rocks,11.339937210083008
+4738111,4,/datadrive2/lqh/testset_data/resized_videos/4738111.mp4,/datadrive2/lqh/testset_data/filtered_masks/4738111,A person carries a boombox on their shoulder while walking by a bench outside a yellow and brown apartment building with green foliage surrounding the area.,11.30410861968994
+14149943,4,/datadrive2/lqh/testset_data/resized_videos/14149943.mp4,/datadrive2/lqh/testset_data/filtered_masks/14149943, drone footage of santa monica yacht club marina,11.282959938049316
+2430262,4,/datadrive2/lqh/testset_data/resized_videos/2430262.mp4,/datadrive2/lqh/testset_data/filtered_masks/2430262,"Two Barbary macaques huddle together, with the larger one grooming the smaller one, on a grassy field with scattered leaves.",11.20291805267334
+5801598,4,/datadrive2/lqh/testset_data/resized_videos/5801598.mp4,/datadrive2/lqh/testset_data/filtered_masks/5801598,Two individuals stand by a stage with red curtains opening to a backdrop adorned with stars and festive streamers.,11.022746086120604
+5020955,4,/datadrive2/lqh/testset_data/resized_videos/5020955.mp4,/datadrive2/lqh/testset_data/filtered_masks/5020955,"A close-up of a person wearing a shimmering blue dress under a purple light, with subtle folds and movements in the fabric.",10.356369972229004
+6024382,4,/datadrive2/lqh/testset_data/resized_videos/6024382.mp4,/datadrive2/lqh/testset_data/filtered_masks/6024382, serving coffee with latex gloves close up,9.927638053894045
+3188893,4,/datadrive2/lqh/testset_data/resized_videos/3188893.mp4,/datadrive2/lqh/testset_data/filtered_masks/3188893, a group of people socializing in a party,9.7570161819458
+6724621,4,/datadrive2/lqh/testset_data/resized_videos/6724621.mp4,/datadrive2/lqh/testset_data/filtered_masks/6724621,"An arrangement of spa products, including a bath bomb, candle, and essential oils.",9.74492645263672
+6557763,4,/datadrive2/lqh/testset_data/resized_videos/6557763.mp4,/datadrive2/lqh/testset_data/filtered_masks/6557763,"In a warmly lit room, a person stands near a shelf with a potted plant, while another blurred figure faces away in the foreground.",9.67156219482422
+5998007,4,/datadrive2/lqh/testset_data/resized_videos/5998007.mp4,/datadrive2/lqh/testset_data/filtered_masks/5998007, children playing in the living room,9.614225387573242
+4275772,4,/datadrive2/lqh/testset_data/resized_videos/4275772.mp4,/datadrive2/lqh/testset_data/filtered_masks/4275772,"A powerful, dark-skinned fist is raised to express determination, strength, and unity against a plain background.",9.581732749938965
+3209014,4,/datadrive2/lqh/testset_data/resized_videos/3209014.mp4,/datadrive2/lqh/testset_data/filtered_masks/3209014, a person typing on a laptop keyboard,9.53945541381836
+4569926,4,/datadrive2/lqh/testset_data/resized_videos/4569926.mp4,/datadrive2/lqh/testset_data/filtered_masks/4569926,A person is using a marker to write 'STAFF' and draw a smiley face on a cardboard box while another person stands nearby.,9.52888011932373
+5668822,4,/datadrive2/lqh/testset_data/resized_videos/5668822.mp4,/datadrive2/lqh/testset_data/filtered_masks/5668822,"A person in a white bathrobe relaxes in a bathtub, toasting with a glass of wine, reflected in a mirror.",9.500609397888184
+6424089,4,/datadrive2/lqh/testset_data/resized_videos/6424089.mp4,/datadrive2/lqh/testset_data/filtered_masks/6424089, dressmaker cutting fabric close up,9.432745933532717
+11640943,4,/datadrive2/lqh/testset_data/resized_videos/11640943.mp4,/datadrive2/lqh/testset_data/filtered_masks/11640943, a cheerful group of friends dancing and singing at a house party,9.357831954956056
+5888659,4,/datadrive2/lqh/testset_data/resized_videos/5888659.mp4,/datadrive2/lqh/testset_data/filtered_masks/5888659, female dance group dancing together outdoors,9.178439140319824
+4010195,4,/datadrive2/lqh/testset_data/resized_videos/4010195.mp4,/datadrive2/lqh/testset_data/filtered_masks/4010195,"Two players sit on a couch, engrossed in a fighting game displayed on a large screen, with the red text 'FINISH HIM' awaiting their next move.",9.166251182556152
+12690275,4,/datadrive2/lqh/testset_data/resized_videos/12690275.mp4,/datadrive2/lqh/testset_data/filtered_masks/12690275, close up of clay handcraft shaping,9.09535789489746
+11863944,4,/datadrive2/lqh/testset_data/resized_videos/11863944.mp4,/datadrive2/lqh/testset_data/filtered_masks/11863944, a person walking with chains on their feet during a procession,8.85781192779541
+4351287,4,/datadrive2/lqh/testset_data/resized_videos/4351287.mp4,/datadrive2/lqh/testset_data/filtered_masks/4351287,"A person in a white coat is intently using a digital tablet, possibly reviewing information, while another individual in a blue garment is present in the background.",8.85659122467041
+5940472,4,/datadrive2/lqh/testset_data/resized_videos/5940472.mp4,/datadrive2/lqh/testset_data/filtered_masks/5940472, a woman discussing in front of her team,8.727486610412598
+6346226,4,/datadrive2/lqh/testset_data/resized_videos/6346226.mp4,/datadrive2/lqh/testset_data/filtered_masks/6346226, a close up shot of a face,8.695098876953125
+6813641,4,/datadrive2/lqh/testset_data/resized_videos/6813641.mp4,/datadrive2/lqh/testset_data/filtered_masks/6813641, a person laying out the cards on the table,8.424661636352539
+5157346,4,/datadrive2/lqh/testset_data/resized_videos/5157346.mp4,/datadrive2/lqh/testset_data/filtered_masks/5157346, girls talking to each other and their friends in background,8.05097770690918
+5910444,4,/datadrive2/lqh/testset_data/resized_videos/5910444.mp4,/datadrive2/lqh/testset_data/filtered_masks/5910444,"A person's hands delicately plant a small bonsai tree in a glass bowl filled with soil, surrounded by moss and gardening tools.",8.001255989074707
+10010480,4,/datadrive2/lqh/testset_data/resized_videos/10010480.mp4,/datadrive2/lqh/testset_data/filtered_masks/10010480, workers working on building construction,7.942311286926269
+10632973,4,/datadrive2/lqh/testset_data/resized_videos/10632973.mp4,/datadrive2/lqh/testset_data/filtered_masks/10632973, a broken tombstone with hebrew inscriptions,7.916287899017334
+1315988,4,/datadrive2/lqh/testset_data/resized_videos/1315988.mp4,/datadrive2/lqh/testset_data/filtered_masks/1315988, close up shot of grass,7.893489360809326
+6901757,4,/datadrive2/lqh/testset_data/resized_videos/6901757.mp4,/datadrive2/lqh/testset_data/filtered_masks/6901757, aerial footage of a woman wearing swimsuit lying on rock,7.827719688415527
+5330876,4,/datadrive2/lqh/testset_data/resized_videos/5330876.mp4,/datadrive2/lqh/testset_data/filtered_masks/5330876,"Iconic black cabs navigate the bustling streets near a store with 'Thank You #OurHeroes' banners, as pedestrians wait to cross.",7.7221598625183105
+4273470,4,/datadrive2/lqh/testset_data/resized_videos/4273470.mp4,/datadrive2/lqh/testset_data/filtered_masks/4273470, hands art creative flowers,7.669394016265869
+5999064,4,/datadrive2/lqh/testset_data/resized_videos/5999064.mp4,/datadrive2/lqh/testset_data/filtered_masks/5999064,A child in a blue shirt holds a pink bottle while sitting on a yellow couch in a brightly lit room.,7.371957778930664
+13193366,4,/datadrive2/lqh/testset_data/resized_videos/13193366.mp4,/datadrive2/lqh/testset_data/filtered_masks/13193366,"A traditional Korean pagoda stands in a park with modern skyscrapers towering in the background, showcasing a blend of old and new architecture.",7.306890487670898
+2896090,4,/datadrive2/lqh/testset_data/resized_videos/2896090.mp4,/datadrive2/lqh/testset_data/filtered_masks/2896090, fallen of flowers getting loose by the blows of the wind,6.956353664398193
+3946593,4,/datadrive2/lqh/testset_data/resized_videos/3946593.mp4,/datadrive2/lqh/testset_data/filtered_masks/3946593, a car with ticket on the windshield,6.8574090003967285
+6944596,4,/datadrive2/lqh/testset_data/resized_videos/6944596.mp4,/datadrive2/lqh/testset_data/filtered_masks/6944596,"A person with tattooed arms raised in a neon-lit room, possibly dancing or celebrating.",6.834243774414063
+4412729,4,/datadrive2/lqh/testset_data/resized_videos/4412729.mp4,/datadrive2/lqh/testset_data/filtered_masks/4412729, pink and white cherry blossoms,6.790618896484375
+3195348,4,/datadrive2/lqh/testset_data/resized_videos/3195348.mp4,/datadrive2/lqh/testset_data/filtered_masks/3195348, a woman instructor guiding an elderly couple in stretching exercises,6.728823184967041
+5282311,4,/datadrive2/lqh/testset_data/resized_videos/5282311.mp4,/datadrive2/lqh/testset_data/filtered_masks/5282311,"Two individuals stand barefoot on a gray background, one with vitiligo-affected legs and the other with unblemished skin.",6.720077037811279
+19212502,4,/datadrive2/lqh/testset_data/resized_videos/19212502.mp4,/datadrive2/lqh/testset_data/filtered_masks/19212502,"A hand holds a blue lighter, igniting a bright flame in the darkness.",6.692408084869385
+6761264,4,/datadrive2/lqh/testset_data/resized_videos/6761264.mp4,/datadrive2/lqh/testset_data/filtered_masks/6761264, elderly couple drinking white wine,6.469416618347168
+6767488,4,/datadrive2/lqh/testset_data/resized_videos/6767488.mp4,/datadrive2/lqh/testset_data/filtered_masks/6767488, man talking to the basketball team,6.456029415130615
+5583487,4,/datadrive2/lqh/testset_data/resized_videos/5583487.mp4,/datadrive2/lqh/testset_data/filtered_masks/5583487,"Three people in vibrant attire engage in a conversation beside a white fan, against a backdrop of a tree and pebbled wall.",6.394310474395752
+3712898,4,/datadrive2/lqh/testset_data/resized_videos/3712898.mp4,/datadrive2/lqh/testset_data/filtered_masks/3712898, a man kissing the lips of a head bust,6.314383506774902
+5002355,4,/datadrive2/lqh/testset_data/resized_videos/5002355.mp4,/datadrive2/lqh/testset_data/filtered_masks/5002355, wilted yellow daisy flowers,6.29547929763794
+6603184,4,/datadrive2/lqh/testset_data/resized_videos/6603184.mp4,/datadrive2/lqh/testset_data/filtered_masks/6603184, women shooting with bow and arrow,6.293867588043213
+11124067,4,/datadrive2/lqh/testset_data/resized_videos/11124067.mp4,/datadrive2/lqh/testset_data/filtered_masks/11124067, asphalt road surrounded by evergreen trees covered in snow,6.272665977478027
+5607635,4,/datadrive2/lqh/testset_data/resized_videos/5607635.mp4,/datadrive2/lqh/testset_data/filtered_masks/5607635,"Children in autumnal attire sit by a teepee, adorned with feathered headbands, engrossed in conversation amidst a rustic outdoor setting.",6.272015571594238
+5155607,4,/datadrive2/lqh/testset_data/resized_videos/5155607.mp4,/datadrive2/lqh/testset_data/filtered_masks/5155607,"Lavender pink flowers bloom among the lush green foliage, their delicate petals standing out against the background.",6.262024402618408
+4716647,4,/datadrive2/lqh/testset_data/resized_videos/4716647.mp4,/datadrive2/lqh/testset_data/filtered_masks/4716647, reflection makeup preparation gender,6.232978820800781
+3015511,4,/datadrive2/lqh/testset_data/resized_videos/3015511.mp4,/datadrive2/lqh/testset_data/filtered_masks/3015511, people watching hot air balloons up in the sky,6.107900142669678
+17045497,4,/datadrive2/lqh/testset_data/resized_videos/17045497.mp4,/datadrive2/lqh/testset_data/filtered_masks/17045497, fotografo en lago drone shot,6.039628028869629
+12356223,4,/datadrive2/lqh/testset_data/resized_videos/12356223.mp4,/datadrive2/lqh/testset_data/filtered_masks/12356223, white clouds on sky,5.980692863464356
+13666555,4,/datadrive2/lqh/testset_data/resized_videos/13666555.mp4,/datadrive2/lqh/testset_data/filtered_masks/13666555, close up of cows behind bars,5.83613920211792
+3808526,4,/datadrive2/lqh/testset_data/resized_videos/3808526.mp4,/datadrive2/lqh/testset_data/filtered_masks/3808526, people buying from a street vendor,5.827808380126953
+6628558,4,/datadrive2/lqh/testset_data/resized_videos/6628558.mp4,/datadrive2/lqh/testset_data/filtered_masks/6628558, woman doing a back massage,5.817140102386475
+3201297,4,/datadrive2/lqh/testset_data/resized_videos/3201297.mp4,/datadrive2/lqh/testset_data/filtered_masks/3201297, mother and daughter bonding together with a background of christmas,5.794712066650391
+5255959,4,/datadrive2/lqh/testset_data/resized_videos/5255959.mp4,/datadrive2/lqh/testset_data/filtered_masks/5255959, couple kissing while holding a flowers,5.734324455261231
+3181733,4,/datadrive2/lqh/testset_data/resized_videos/3181733.mp4,/datadrive2/lqh/testset_data/filtered_masks/3181733, a makeup artist applying makeup on a woman s eyebrow,5.705735206604004
+4210977,4,/datadrive2/lqh/testset_data/resized_videos/4210977.mp4,/datadrive2/lqh/testset_data/filtered_masks/4210977,A black and tan dog is being petted by a human hand while a white and black dog looks on in the background.,5.679318904876709
+4154231,4,/datadrive2/lqh/testset_data/resized_videos/4154231.mp4,/datadrive2/lqh/testset_data/filtered_masks/4154231, hands bathroom getting ready soap,5.65709924697876
+3999349,4,/datadrive2/lqh/testset_data/resized_videos/3999349.mp4,/datadrive2/lqh/testset_data/filtered_masks/3999349, close up of a wall with colorful bricks and letters,5.62791919708252
+6594037,4,/datadrive2/lqh/testset_data/resized_videos/6594037.mp4,/datadrive2/lqh/testset_data/filtered_masks/6594037, woman picking up clothes on the floor,5.564001083374023
+5844086,4,/datadrive2/lqh/testset_data/resized_videos/5844086.mp4,/datadrive2/lqh/testset_data/filtered_masks/5844086, a flag on a fence,5.514690399169922
+3682818,4,/datadrive2/lqh/testset_data/resized_videos/3682818.mp4,/datadrive2/lqh/testset_data/filtered_masks/3682818, a girl playing with wooden toy animals,5.513558864593506
+6810723,4,/datadrive2/lqh/testset_data/resized_videos/6810723.mp4,/datadrive2/lqh/testset_data/filtered_masks/6810723, aerial shot of motor boats,5.46801233291626
+6481777,4,/datadrive2/lqh/testset_data/resized_videos/6481777.mp4,/datadrive2/lqh/testset_data/filtered_masks/6481777,"Two people are cozily lounging on a beige sofa adorned with decorative pillows, in a softly lit room with a modern cabinet displaying fish motifs.",5.461441040039063
+5968245,4,/datadrive2/lqh/testset_data/resized_videos/5968245.mp4,/datadrive2/lqh/testset_data/filtered_masks/5968245,"Two fencers in protective gear and masks are engaged in a duel, while another fencer watches on the side.",5.45645809173584
+1338592,4,/datadrive2/lqh/testset_data/resized_videos/1338592.mp4,/datadrive2/lqh/testset_data/filtered_masks/1338592, people using escalators in the mall,5.42067813873291
+1186778,4,/datadrive2/lqh/testset_data/resized_videos/1186778.mp4,/datadrive2/lqh/testset_data/filtered_masks/1186778, pink bell flowers,5.406893730163574
+5602511,4,/datadrive2/lqh/testset_data/resized_videos/5602511.mp4,/datadrive2/lqh/testset_data/filtered_masks/5602511, video of halloween decorations hanging,5.318428039550781
+5020920,4,/datadrive2/lqh/testset_data/resized_videos/5020920.mp4,/datadrive2/lqh/testset_data/filtered_masks/5020920,"Three people stand close, amidst a purple-hued party, holding glasses, suggesting a lively social gathering.",5.194618701934815
+5998687,4,/datadrive2/lqh/testset_data/resized_videos/5998687.mp4,/datadrive2/lqh/testset_data/filtered_masks/5998687, a boy playing toys in the living room,5.178194522857666
+5965077,4,/datadrive2/lqh/testset_data/resized_videos/5965077.mp4,/datadrive2/lqh/testset_data/filtered_masks/5965077, back view of women walking with their bikes,5.15813684463501
+2815407,4,/datadrive2/lqh/testset_data/resized_videos/2815407.mp4,/datadrive2/lqh/testset_data/filtered_masks/2815407,"The sun shines brightly over a calm river surrounded by lush green hills, with a few clouds scattered across the sky.",5.146637916564941
+5798782,4,/datadrive2/lqh/testset_data/resized_videos/5798782.mp4,/datadrive2/lqh/testset_data/filtered_masks/5798782, elderly couple using temperature,5.107090473175049
+13188720,4,/datadrive2/lqh/testset_data/resized_videos/13188720.mp4,/datadrive2/lqh/testset_data/filtered_masks/13188720, aerial view of the abandoned city of pripyat ukraine,5.076895236968994
+6762835,4,/datadrive2/lqh/testset_data/resized_videos/6762835.mp4,/datadrive2/lqh/testset_data/filtered_masks/6762835,"Three individuals in wheelchairs are positioned on a basketball court, indicating an adaptive sports activity.",5.032223224639893
+6174378,4,/datadrive2/lqh/testset_data/resized_videos/6174378.mp4,/datadrive2/lqh/testset_data/filtered_masks/6174378, guys having beer at a bar,4.952584743499756
+6775053,4,/datadrive2/lqh/testset_data/resized_videos/6775053.mp4,/datadrive2/lqh/testset_data/filtered_masks/6775053,"Two individuals engage in conversation, lounging on a sofa in a room with sunlight filtering through the blinds.",4.925439357757568
+6537020,4,/datadrive2/lqh/testset_data/resized_videos/6537020.mp4,/datadrive2/lqh/testset_data/filtered_masks/6537020, people doing fencing together,4.923511505126953
+4321720,4,/datadrive2/lqh/testset_data/resized_videos/4321720.mp4,/datadrive2/lqh/testset_data/filtered_masks/4321720, a close up shot of tulips,4.843729019165039
+4554458,4,/datadrive2/lqh/testset_data/resized_videos/4554458.mp4,/datadrive2/lqh/testset_data/filtered_masks/4554458,"A person is moving a wrapped painting into a room filled with cardboard boxes, indicating a moving scenario, with another person assisting.",4.742585182189941
+10518489,4,/datadrive2/lqh/testset_data/resized_videos/10518489.mp4,/datadrive2/lqh/testset_data/filtered_masks/10518489, buildings on beach near dubai,4.741820812225342
+5633930,4,/datadrive2/lqh/testset_data/resized_videos/5633930.mp4,/datadrive2/lqh/testset_data/filtered_masks/5633930,"A group of people in eclectic attire appears to be engaged in a lively nighttime discussion or activity, illuminated by soft lighting in an outdoor setting.",4.690549850463867
+5894607,4,/datadrive2/lqh/testset_data/resized_videos/5894607.mp4,/datadrive2/lqh/testset_data/filtered_masks/5894607,"A person in a white t-shirt and jeans sits on the floor by a teal sofa adorned with colorful cushions, while another's bare feet peek into view.",4.6757426261901855
+10071336,4,/datadrive2/lqh/testset_data/resized_videos/10071336.mp4,/datadrive2/lqh/testset_data/filtered_masks/10071336, group of people drinking wine in park,4.655097484588623
+5272502,4,/datadrive2/lqh/testset_data/resized_videos/5272502.mp4,/datadrive2/lqh/testset_data/filtered_masks/5272502, kids playing with colorful stickers,4.601644515991211
+5693315,4,/datadrive2/lqh/testset_data/resized_videos/5693315.mp4,/datadrive2/lqh/testset_data/filtered_masks/5693315, houses in a canal from a boat,4.590866565704346
+5074351,4,/datadrive2/lqh/testset_data/resized_videos/5074351.mp4,/datadrive2/lqh/testset_data/filtered_masks/5074351, overhead shot of a beach,4.576282501220703
+5658544,4,/datadrive2/lqh/testset_data/resized_videos/5658544.mp4,/datadrive2/lqh/testset_data/filtered_masks/5658544, video of grapes hanging on the vine,4.535955429077148
+12886080,4,/datadrive2/lqh/testset_data/resized_videos/12886080.mp4,/datadrive2/lqh/testset_data/filtered_masks/12886080, decorations in the streets of madeira island portugal,4.532106399536133
+6771499,4,/datadrive2/lqh/testset_data/resized_videos/6771499.mp4,/datadrive2/lqh/testset_data/filtered_masks/6771499, a man typing using a laptop,4.527889251708984
+6719635,4,/datadrive2/lqh/testset_data/resized_videos/6719635.mp4,/datadrive2/lqh/testset_data/filtered_masks/6719635,A close-up of a wooden board and rusty chisel lying amidst sawdust on a workbench.,4.51117467880249
+2932289,4,/datadrive2/lqh/testset_data/resized_videos/2932289.mp4,/datadrive2/lqh/testset_data/filtered_masks/2932289, close up footage of fountain with its water flowing down a pond,4.510372161865234
+10014066,4,/datadrive2/lqh/testset_data/resized_videos/10014066.mp4,/datadrive2/lqh/testset_data/filtered_masks/10014066, close up of red japanese maple leaves,4.493856906890869
+11737098,4,/datadrive2/lqh/testset_data/resized_videos/11737098.mp4,/datadrive2/lqh/testset_data/filtered_masks/11737098, drone footage of woodland,4.481978893280029
+6290153,4,/datadrive2/lqh/testset_data/resized_videos/6290153.mp4,/datadrive2/lqh/testset_data/filtered_masks/6290153, a family enjoying ice skating together at ice skating rink,4.434055328369141
+1375821,4,/datadrive2/lqh/testset_data/resized_videos/1375821.mp4,/datadrive2/lqh/testset_data/filtered_masks/1375821, silhouette of trees at sunrise,4.413532733917236
+1375826,4,/datadrive2/lqh/testset_data/resized_videos/1375826.mp4,/datadrive2/lqh/testset_data/filtered_masks/1375826, silhouette of trees at sunrise,4.40009880065918
+6084862,4,/datadrive2/lqh/testset_data/resized_videos/6084862.mp4,/datadrive2/lqh/testset_data/filtered_masks/6084862, close up shot of dried plants in a wooden basket,4.3714447021484375
+6694775,4,/datadrive2/lqh/testset_data/resized_videos/6694775.mp4,/datadrive2/lqh/testset_data/filtered_masks/6694775, top view of a person making a clay pot,4.361494541168213
+4828739,4,/datadrive2/lqh/testset_data/resized_videos/4828739.mp4,/datadrive2/lqh/testset_data/filtered_masks/4828739, reusable bags used in buying fresh fruits,4.351008892059326
+5377270,4,/datadrive2/lqh/testset_data/resized_videos/5377270.mp4,/datadrive2/lqh/testset_data/filtered_masks/5377270,"A person, wearing headphones and a hoodie, is seated in a gaming chair, immersed in an activity on the computer screen.",4.273090362548828
+14259309,5,/datadrive2/lqh/testset_data/resized_videos/14259309.mp4,/datadrive2/lqh/testset_data/filtered_masks/14259309, man standing at the doorway of a train,46.63985061645508
+4215906,5,/datadrive2/lqh/testset_data/resized_videos/4215906.mp4,/datadrive2/lqh/testset_data/filtered_masks/4215906, person wiping mobile phone,46.493309020996094
+6138681,5,/datadrive2/lqh/testset_data/resized_videos/6138681.mp4,/datadrive2/lqh/testset_data/filtered_masks/6138681, man walking in the outdoors with dogs,44.7230110168457
+12171748,5,/datadrive2/lqh/testset_data/resized_videos/12171748.mp4,/datadrive2/lqh/testset_data/filtered_masks/12171748, women in wreathes dancing,29.874223709106445
+6557560,5,/datadrive2/lqh/testset_data/resized_videos/6557560.mp4,/datadrive2/lqh/testset_data/filtered_masks/6557560,"Two men sit on a couch, one with an arm around the other, watching a TV screen in a cozy living room.",27.70619201660156
+4814030,5,/datadrive2/lqh/testset_data/resized_videos/4814030.mp4,/datadrive2/lqh/testset_data/filtered_masks/4814030,"An adult's hands gently guide a child's in shaping a piece of clay, suggesting a pottery-making activity.",26.156991958618164
+16637354,5,/datadrive2/lqh/testset_data/resized_videos/16637354.mp4,/datadrive2/lqh/testset_data/filtered_masks/16637354, close up view of a brood of embden goslings,23.47246742248535
+10276476,5,/datadrive2/lqh/testset_data/resized_videos/10276476.mp4,/datadrive2/lqh/testset_data/filtered_masks/10276476, person looking at a variety of filmstrips,22.97511482238769
+2966107,5,/datadrive2/lqh/testset_data/resized_videos/2966107.mp4,/datadrive2/lqh/testset_data/filtered_masks/2966107, video of flags during daytime,22.430519104003903
+12737210,5,/datadrive2/lqh/testset_data/resized_videos/12737210.mp4,/datadrive2/lqh/testset_data/filtered_masks/12737210, people on boats in city,20.441110610961918
+5935403,5,/datadrive2/lqh/testset_data/resized_videos/5935403.mp4,/datadrive2/lqh/testset_data/filtered_masks/5935403, group of friends dancing while holding beer,20.079856872558597
+3196635,5,/datadrive2/lqh/testset_data/resized_videos/3196635.mp4,/datadrive2/lqh/testset_data/filtered_masks/3196635, woman walking leisurely with her backpack and a folder,17.844263076782227
+6004982,5,/datadrive2/lqh/testset_data/resized_videos/6004982.mp4,/datadrive2/lqh/testset_data/filtered_masks/6004982, variety of graze food in a platter,17.619159698486328
+6868111,5,/datadrive2/lqh/testset_data/resized_videos/6868111.mp4,/datadrive2/lqh/testset_data/filtered_masks/6868111, a man picks a package to deliver,17.12824821472168
+4983695,5,/datadrive2/lqh/testset_data/resized_videos/4983695.mp4,/datadrive2/lqh/testset_data/filtered_masks/4983695, a person using a deep fryer,16.594114303588867
+6266265,5,/datadrive2/lqh/testset_data/resized_videos/6266265.mp4,/datadrive2/lqh/testset_data/filtered_masks/6266265,A person with a black outfit and silver accessories counts a stack of hundred-dollar bills at a desk.,15.549697875976562
+5235875,5,/datadrive2/lqh/testset_data/resized_videos/5235875.mp4,/datadrive2/lqh/testset_data/filtered_masks/5235875,"Three people with tattoos sit on a bench, sharing a cigarette.",15.420724868774414
+5651583,5,/datadrive2/lqh/testset_data/resized_videos/5651583.mp4,/datadrive2/lqh/testset_data/filtered_masks/5651583, scrabble blocks lay out on the table,14.923052787780762
+4277726,5,/datadrive2/lqh/testset_data/resized_videos/4277726.mp4,/datadrive2/lqh/testset_data/filtered_masks/4277726, man and woman carrying boxes,14.73215675354004
+5926951,5,/datadrive2/lqh/testset_data/resized_videos/5926951.mp4,/datadrive2/lqh/testset_data/filtered_masks/5926951, video of person picking dead petals from the flower,14.56254768371582
+5801597,5,/datadrive2/lqh/testset_data/resized_videos/5801597.mp4,/datadrive2/lqh/testset_data/filtered_masks/5801597, a boy performing in front of his family,14.515665054321287
+14755751,5,/datadrive2/lqh/testset_data/resized_videos/14755751.mp4,/datadrive2/lqh/testset_data/filtered_masks/14755751, timelapse footage of people at times square,14.280726432800291
+5237049,5,/datadrive2/lqh/testset_data/resized_videos/5237049.mp4,/datadrive2/lqh/testset_data/filtered_masks/5237049, people running at an underpass,13.954174041748049
+3252971,5,/datadrive2/lqh/testset_data/resized_videos/3252971.mp4,/datadrive2/lqh/testset_data/filtered_masks/3252971,"A person in a blue shirt sits in a room with dark walls, possibly engaged in conversation with an out-of-focus figure nearby.",13.881993293762209
+6764810,5,/datadrive2/lqh/testset_data/resized_videos/6764810.mp4,/datadrive2/lqh/testset_data/filtered_masks/6764810, women huddling in the locker room,13.73780345916748
+12169465,5,/datadrive2/lqh/testset_data/resized_videos/12169465.mp4,/datadrive2/lqh/testset_data/filtered_masks/12169465, friends putting their hands together at a beach volleyball court,11.918511390686035
+5199638,5,/datadrive2/lqh/testset_data/resized_videos/5199638.mp4,/datadrive2/lqh/testset_data/filtered_masks/5199638, a teacher and her students sharing a box of pizza,11.868694305419922
+5646054,5,/datadrive2/lqh/testset_data/resized_videos/5646054.mp4,/datadrive2/lqh/testset_data/filtered_masks/5646054, close up of women in trendy outfits posing by a doorway,11.791202545166016
+3253208,5,/datadrive2/lqh/testset_data/resized_videos/3253208.mp4,/datadrive2/lqh/testset_data/filtered_masks/3253208,"In an affectionate embrace, a person with long dreadlocks lifts another individual against an outdoor setting with trees and a soft glow of sunset.",11.687552452087402
+5780298,5,/datadrive2/lqh/testset_data/resized_videos/5780298.mp4,/datadrive2/lqh/testset_data/filtered_masks/5780298,A gloved hand slices through a carrot with a sharp chef's knife on a white cutting board.,11.62547206878662
+10176476,5,/datadrive2/lqh/testset_data/resized_videos/10176476.mp4,/datadrive2/lqh/testset_data/filtered_masks/10176476, blind couple with butterflies on eyes,11.279787063598633
+15405846,5,/datadrive2/lqh/testset_data/resized_videos/15405846.mp4,/datadrive2/lqh/testset_data/filtered_masks/15405846, a group of pakistani women filling water pots with a hand pump,11.278934478759766
+4765810,5,/datadrive2/lqh/testset_data/resized_videos/4765810.mp4,/datadrive2/lqh/testset_data/filtered_masks/4765810,"Two musicians raise their bows in unison, wearing gold top hats, as a fiery cello stands in the foreground.",11.2780122756958
+4367750,5,/datadrive2/lqh/testset_data/resized_videos/4367750.mp4,/datadrive2/lqh/testset_data/filtered_masks/4367750, a man walking in the gym putting on headphones,11.265334129333496
+5862031,5,/datadrive2/lqh/testset_data/resized_videos/5862031.mp4,/datadrive2/lqh/testset_data/filtered_masks/5862031,"A black and white striped fish swims above the rocky, marine landscape as a translucent, winged creature glides along the bottom.",10.926180839538574
+6374806,5,/datadrive2/lqh/testset_data/resized_videos/6374806.mp4,/datadrive2/lqh/testset_data/filtered_masks/6374806, a time lapse of a skyscraper,10.92002010345459
+6760670,5,/datadrive2/lqh/testset_data/resized_videos/6760670.mp4,/datadrive2/lqh/testset_data/filtered_masks/6760670, people dancing on a rooftop while holding wine glass,10.84581470489502
+10558691,5,/datadrive2/lqh/testset_data/resized_videos/10558691.mp4,/datadrive2/lqh/testset_data/filtered_masks/10558691, women dancing around woman wearing eye band,10.625362396240234
+10495797,5,/datadrive2/lqh/testset_data/resized_videos/10495797.mp4,/datadrive2/lqh/testset_data/filtered_masks/10495797, man leaning on a tree while at the beach,10.428607940673828
+6714663,5,/datadrive2/lqh/testset_data/resized_videos/6714663.mp4,/datadrive2/lqh/testset_data/filtered_masks/6714663, couple taking pictures from the camera,10.419267654418944
+6745312,5,/datadrive2/lqh/testset_data/resized_videos/6745312.mp4,/datadrive2/lqh/testset_data/filtered_masks/6745312, low angle view of a trees,10.075613975524902
+3052766,5,/datadrive2/lqh/testset_data/resized_videos/3052766.mp4,/datadrive2/lqh/testset_data/filtered_masks/3052766, man taking photo of a huge rock,9.994621276855469
+14010959,5,/datadrive2/lqh/testset_data/resized_videos/14010959.mp4,/datadrive2/lqh/testset_data/filtered_masks/14010959, people hiking in mountains,9.8807373046875
+6290111,5,/datadrive2/lqh/testset_data/resized_videos/6290111.mp4,/datadrive2/lqh/testset_data/filtered_masks/6290111, a young girl skating on a ice rink,9.852190017700195
+5973237,5,/datadrive2/lqh/testset_data/resized_videos/5973237.mp4,/datadrive2/lqh/testset_data/filtered_masks/5973237, a man smoothing the wood edges,9.673731803894045
+5934349,5,/datadrive2/lqh/testset_data/resized_videos/5934349.mp4,/datadrive2/lqh/testset_data/filtered_masks/5934349,A person in a wide-brimmed hat and white shirt is touching their hat by a calm lake on a bright day.,9.665224075317385
+3872445,5,/datadrive2/lqh/testset_data/resized_videos/3872445.mp4,/datadrive2/lqh/testset_data/filtered_masks/3872445, a close up of a person eating a crepe,9.19947338104248
+6835454,5,/datadrive2/lqh/testset_data/resized_videos/6835454.mp4,/datadrive2/lqh/testset_data/filtered_masks/6835454, women modeling with neon lights,9.123730659484863
+6774217,5,/datadrive2/lqh/testset_data/resized_videos/6774217.mp4,/datadrive2/lqh/testset_data/filtered_masks/6774217,"Three individuals actively engage in a task on the floor of a modern room filled with natural light, while one person observes with a smile.",9.11798095703125
+4932737,5,/datadrive2/lqh/testset_data/resized_videos/4932737.mp4,/datadrive2/lqh/testset_data/filtered_masks/4932737,"A pair of hands, dusted with flour, gently roll a sheet of cinnamon dough on a table, creating a perfect swirl.",8.92078971862793
+5703666,5,/datadrive2/lqh/testset_data/resized_videos/5703666.mp4,/datadrive2/lqh/testset_data/filtered_masks/5703666, people playing musical instruments,8.848466873168945
+10598576,5,/datadrive2/lqh/testset_data/resized_videos/10598576.mp4,/datadrive2/lqh/testset_data/filtered_masks/10598576,"A person in a denim jacket strides across a bedroom adorned with posters, holding a red object in their hand.",8.598148345947266
+6655816,5,/datadrive2/lqh/testset_data/resized_videos/6655816.mp4,/datadrive2/lqh/testset_data/filtered_masks/6655816,"A woman in a plaid shirt gestures while speaking to a person holding a blue bow, with a man standing nearby in a dimly lit archery range.",8.34127140045166
+4624090,5,/datadrive2/lqh/testset_data/resized_videos/4624090.mp4,/datadrive2/lqh/testset_data/filtered_masks/4624090,"Two individuals engage with laptops on a table cluttered with papers and cups, amidst an office setting with a pop of yellow from a chair.",7.922209739685059
+4918265,5,/datadrive2/lqh/testset_data/resized_videos/4918265.mp4,/datadrive2/lqh/testset_data/filtered_masks/4918265,"People in casual attire are aboard a sailboat, with one individual adjusting the sail while others sit and stand, surrounded by calm waters and other boats.",7.894756317138672
+5848369,5,/datadrive2/lqh/testset_data/resized_videos/5848369.mp4,/datadrive2/lqh/testset_data/filtered_masks/5848369, video of a person slicing meat on table,7.845784664154053
+11530045,5,/datadrive2/lqh/testset_data/resized_videos/11530045.mp4,/datadrive2/lqh/testset_data/filtered_masks/11530045, a person flipping pages of an old book,7.723508834838867
+12945953,5,/datadrive2/lqh/testset_data/resized_videos/12945953.mp4,/datadrive2/lqh/testset_data/filtered_masks/12945953, time lapse of white clouds on a blue sky,7.666067123413086
+5916712,5,/datadrive2/lqh/testset_data/resized_videos/5916712.mp4,/datadrive2/lqh/testset_data/filtered_masks/5916712, close up shot of a man s hands holding wall climbing grips,7.604465007781982
+4878065,5,/datadrive2/lqh/testset_data/resized_videos/4878065.mp4,/datadrive2/lqh/testset_data/filtered_masks/4878065,"A person in a denim vest makes a hand gesture at a table with an uncorked champagne bottle, against a backdrop of urban buildings.",7.529931545257568
+15703466,5,/datadrive2/lqh/testset_data/resized_videos/15703466.mp4,/datadrive2/lqh/testset_data/filtered_masks/15703466, bread food toast dawn,7.041445255279541
+15361112,5,/datadrive2/lqh/testset_data/resized_videos/15361112.mp4,/datadrive2/lqh/testset_data/filtered_masks/15361112, close up of a rotating bunch of flowers,6.821196556091309
+5762195,5,/datadrive2/lqh/testset_data/resized_videos/5762195.mp4,/datadrive2/lqh/testset_data/filtered_masks/5762195, man in blue dress shirt standing and talking in front of people,6.716371536254883
+2098057,5,/datadrive2/lqh/testset_data/resized_videos/2098057.mp4,/datadrive2/lqh/testset_data/filtered_masks/2098057,"The sun sets over Warwick Business School, casting a warm glow on the modern buildings and green spaces surrounding the campus.",6.7017107009887695
+4196258,5,/datadrive2/lqh/testset_data/resized_videos/4196258.mp4,/datadrive2/lqh/testset_data/filtered_masks/4196258,A bustling street filled with a dense crowd of pedestrians flanked by stores and Turkish flags under a clear sky.,6.630395412445068
+5147307,5,/datadrive2/lqh/testset_data/resized_videos/5147307.mp4,/datadrive2/lqh/testset_data/filtered_masks/5147307,"In a cozy kitchen, a person in white attire stands by the stove, seemingly engaged in cooking, with various utensils and items scattered around the cooking area.",6.620357036590576
+15726089,5,/datadrive2/lqh/testset_data/resized_videos/15726089.mp4,/datadrive2/lqh/testset_data/filtered_masks/15726089,Two individuals with dynamic hair motion are captured mid-conversation in an indoor environment with visible windows and blurry outdoor scenery.,6.613351821899414
+10036902,5,/datadrive2/lqh/testset_data/resized_videos/10036902.mp4,/datadrive2/lqh/testset_data/filtered_masks/10036902, family enjoying birthday party in garden,6.489808082580566
+11566609,5,/datadrive2/lqh/testset_data/resized_videos/11566609.mp4,/datadrive2/lqh/testset_data/filtered_masks/11566609, green trees on snow covered ground,6.4665350914001465
+18009340,5,/datadrive2/lqh/testset_data/resized_videos/18009340.mp4,/datadrive2/lqh/testset_data/filtered_masks/18009340,Dancers in vibrantly adorned blue and white costumes with bells perform on a sunlit street before an audience of onlookers.,6.363275527954102
+6537567,5,/datadrive2/lqh/testset_data/resized_videos/6537567.mp4,/datadrive2/lqh/testset_data/filtered_masks/6537567, tracking shot of wall with graffiti art,6.283953666687012
+5559191,5,/datadrive2/lqh/testset_data/resized_videos/5559191.mp4,/datadrive2/lqh/testset_data/filtered_masks/5559191, kids in mummy costume holding a trick or treat bucket,6.117286205291748
+6949109,5,/datadrive2/lqh/testset_data/resized_videos/6949109.mp4,/datadrive2/lqh/testset_data/filtered_masks/6949109, adults playing indoor game,6.031074523925781
+10019102,5,/datadrive2/lqh/testset_data/resized_videos/10019102.mp4,/datadrive2/lqh/testset_data/filtered_masks/10019102, group of piglets suckling,5.924172878265381
+6724756,5,/datadrive2/lqh/testset_data/resized_videos/6724756.mp4,/datadrive2/lqh/testset_data/filtered_masks/6724756, close up footage of dried lavender flowers inside an oil bottle,5.884546279907227
+3201198,5,/datadrive2/lqh/testset_data/resized_videos/3201198.mp4,/datadrive2/lqh/testset_data/filtered_masks/3201198, a boy grabbing a box of gift and attempting to open it,5.807440757751465
+4701050,5,/datadrive2/lqh/testset_data/resized_videos/4701050.mp4,/datadrive2/lqh/testset_data/filtered_masks/4701050, men playing the guitar,5.7922682762146
+6116152,5,/datadrive2/lqh/testset_data/resized_videos/6116152.mp4,/datadrive2/lqh/testset_data/filtered_masks/6116152,"Three women do planks on colorful yoga mats in a gym, surrounded by workout equipment, as others walk by.",5.782253742218018
+10330518,5,/datadrive2/lqh/testset_data/resized_videos/10330518.mp4,/datadrive2/lqh/testset_data/filtered_masks/10330518,"Four individuals stand close together, illuminated by sunlight, with a backdrop of a modern building featuring rectangular windows.",5.542306900024414
+10926868,5,/datadrive2/lqh/testset_data/resized_videos/10926868.mp4,/datadrive2/lqh/testset_data/filtered_masks/10926868, road along sandy beach,5.527937412261963
+4630101,5,/datadrive2/lqh/testset_data/resized_videos/4630101.mp4,/datadrive2/lqh/testset_data/filtered_masks/4630101, video of people looking at the screen,5.4844255447387695
+6755241,5,/datadrive2/lqh/testset_data/resized_videos/6755241.mp4,/datadrive2/lqh/testset_data/filtered_masks/6755241, hands sculpting with clay,5.431507587432861
+6443877,5,/datadrive2/lqh/testset_data/resized_videos/6443877.mp4,/datadrive2/lqh/testset_data/filtered_masks/6443877, woman reading messages on phone while in bed,5.362340927124023
+10484394,5,/datadrive2/lqh/testset_data/resized_videos/10484394.mp4,/datadrive2/lqh/testset_data/filtered_masks/10484394, priest and men with coffin behind,5.313235759735107
+6208372,5,/datadrive2/lqh/testset_data/resized_videos/6208372.mp4,/datadrive2/lqh/testset_data/filtered_masks/6208372,"A person stands amidst a vibrant array of hanging, luminous strands, which reflect light and create a lively, immersive environment.",5.274274826049805
+5602272,5,/datadrive2/lqh/testset_data/resized_videos/5602272.mp4,/datadrive2/lqh/testset_data/filtered_masks/5602272, pumpkin on the basket,5.22484827041626
+13107456,5,/datadrive2/lqh/testset_data/resized_videos/13107456.mp4,/datadrive2/lqh/testset_data/filtered_masks/13107456, people on steep street on madeira,5.067540168762207
+13220886,5,/datadrive2/lqh/testset_data/resized_videos/13220886.mp4,/datadrive2/lqh/testset_data/filtered_masks/13220886,"Cows eagerly feeding on hay in a barn, pushing their heads through metal bars to reach their meal.",5.033730030059815
+6663334,5,/datadrive2/lqh/testset_data/resized_videos/6663334.mp4,/datadrive2/lqh/testset_data/filtered_masks/6663334, houses by the coast,5.028127670288086
+5088352,5,/datadrive2/lqh/testset_data/resized_videos/5088352.mp4,/datadrive2/lqh/testset_data/filtered_masks/5088352, woman making ponytail of her daughter,4.988410472869873
+6543590,5,/datadrive2/lqh/testset_data/resized_videos/6543590.mp4,/datadrive2/lqh/testset_data/filtered_masks/6543590, a nepal firethorn plant,4.967545509338379
+5791523,5,/datadrive2/lqh/testset_data/resized_videos/5791523.mp4,/datadrive2/lqh/testset_data/filtered_masks/5791523, family sharing their foods,4.941110134124756
+6520463,5,/datadrive2/lqh/testset_data/resized_videos/6520463.mp4,/datadrive2/lqh/testset_data/filtered_masks/6520463, a close up video of fresh tomatoes,4.757362842559815
+5035827,5,/datadrive2/lqh/testset_data/resized_videos/5035827.mp4,/datadrive2/lqh/testset_data/filtered_masks/5035827,"Two individuals stand by an open window, with one seemingly leaning on the windowsill, in a room with curtains partially drawn aside.",4.705987453460693
+15070936,5,/datadrive2/lqh/testset_data/resized_videos/15070936.mp4,/datadrive2/lqh/testset_data/filtered_masks/15070936,"Winding road runs through a lush green landscape, surrounded by trees, with no signs of people or movement.",4.69287109375
+6684242,5,/datadrive2/lqh/testset_data/resized_videos/6684242.mp4,/datadrive2/lqh/testset_data/filtered_masks/6684242, a person typing on a laptop,4.689702033996582
+5399641,5,/datadrive2/lqh/testset_data/resized_videos/5399641.mp4,/datadrive2/lqh/testset_data/filtered_masks/5399641,"A person in an apron presents a bouquet with lilies and roses, surrounded by various flowers in a florist's shop.",4.6877522468566895
+5552846,5,/datadrive2/lqh/testset_data/resized_videos/5552846.mp4,/datadrive2/lqh/testset_data/filtered_masks/5552846, art fun kids cooking,4.655287742614746
+1535670,5,/datadrive2/lqh/testset_data/resized_videos/1535670.mp4,/datadrive2/lqh/testset_data/filtered_masks/1535670, groups of people walking at night,4.648468971252441
+3859438,5,/datadrive2/lqh/testset_data/resized_videos/3859438.mp4,/datadrive2/lqh/testset_data/filtered_masks/3859438, a prime residential community developed in an island,4.507690906524658
+10989074,5,/datadrive2/lqh/testset_data/resized_videos/10989074.mp4,/datadrive2/lqh/testset_data/filtered_masks/10989074, drone footage of snow covered trees and ground,4.303120136260986
+4165223,5,/datadrive2/lqh/testset_data/resized_videos/4165223.mp4,/datadrive2/lqh/testset_data/filtered_masks/4165223,"An aerial view of a historic village nestled in the mountains with a mosque, bell tower, and stone houses, overlooking a winding river and road.",4.273084163665772
+10493764,5,/datadrive2/lqh/testset_data/resized_videos/10493764.mp4,/datadrive2/lqh/testset_data/filtered_masks/10493764, people at the beach,4.263745307922363
+4364647,5,/datadrive2/lqh/testset_data/resized_videos/4364647.mp4,/datadrive2/lqh/testset_data/filtered_masks/4364647, time lapse video of the clouds in the sky,4.232229232788086
+6540261,5,/datadrive2/lqh/testset_data/resized_videos/6540261.mp4,/datadrive2/lqh/testset_data/filtered_masks/6540261, person pouring hot water,4.2313737869262695
+5384992,5,/datadrive2/lqh/testset_data/resized_videos/5384992.mp4,/datadrive2/lqh/testset_data/filtered_masks/5384992, vehicles on the road at night,4.227315425872803
+6274807,5,/datadrive2/lqh/testset_data/resized_videos/6274807.mp4,/datadrive2/lqh/testset_data/filtered_masks/6274807, a man playing drum,4.220017433166504
+4146845,5,/datadrive2/lqh/testset_data/resized_videos/4146845.mp4,/datadrive2/lqh/testset_data/filtered_masks/4146845, white health close up objects,4.216643810272217
+6338333,5,/datadrive2/lqh/testset_data/resized_videos/6338333.mp4,/datadrive2/lqh/testset_data/filtered_masks/6338333,"A narrow dirt path cuts through a golden field, leading toward silhouetted trees against a glowing sunrise.",4.196156978607178
+5391408,5,/datadrive2/lqh/testset_data/resized_videos/5391408.mp4,/datadrive2/lqh/testset_data/filtered_masks/5391408, young man setting ceiling rack,4.111355781555176
+5923354,5,/datadrive2/lqh/testset_data/resized_videos/5923354.mp4,/datadrive2/lqh/testset_data/filtered_masks/5923354, video of colleagues walking up the stairs,3.922672510147095
+5319455,5,/datadrive2/lqh/testset_data/resized_videos/5319455.mp4,/datadrive2/lqh/testset_data/filtered_masks/5319455,"Two people stand before a large window with an expansive view of a calm sea and sky, their hair ruffled by a gentle breeze.",3.913042545318604
+5450065,5,/datadrive2/lqh/testset_data/resized_videos/5450065.mp4,/datadrive2/lqh/testset_data/filtered_masks/5450065, a man talking to his friends,3.8615975379943848
+4877892,5,/datadrive2/lqh/testset_data/resized_videos/4877892.mp4,/datadrive2/lqh/testset_data/filtered_masks/4877892,"People gather around a table adorned with food, drinks, and flowers, enjoying a rooftop meal under the open sky.",3.771242380142212
+4443790,5,/datadrive2/lqh/testset_data/resized_videos/4443790.mp4,/datadrive2/lqh/testset_data/filtered_masks/4443790,"A person in a dimly lit room reaches out towards a pile of folded clothes, with a balcony and household items in the background.",3.748092651367188
+5251980,5,/datadrive2/lqh/testset_data/resized_videos/5251980.mp4,/datadrive2/lqh/testset_data/filtered_masks/5251980, women in their undergarments,3.742285966873169
+5423493,5,/datadrive2/lqh/testset_data/resized_videos/5423493.mp4,/datadrive2/lqh/testset_data/filtered_masks/5423493, football player jump and defense training,3.6510777473449703
+6471433,5,/datadrive2/lqh/testset_data/resized_videos/6471433.mp4,/datadrive2/lqh/testset_data/filtered_masks/6471433,"A person wearing a pink hoodie holds a blue condom, focusing on a diagram showing the female reproductive system.",3.6321420669555664
+5426857,5,/datadrive2/lqh/testset_data/resized_videos/5426857.mp4,/datadrive2/lqh/testset_data/filtered_masks/5426857, students sharing a phone inside the classroom during break time,3.499213933944702
+19426374,5,/datadrive2/lqh/testset_data/resized_videos/19426374.mp4,/datadrive2/lqh/testset_data/filtered_masks/19426374,The image shows a birds-eye view of a dense Mediterranean town with clusters of white buildings and a large dome structure.,3.21821928024292
+10397823,5,/datadrive2/lqh/testset_data/resized_videos/10397823.mp4,/datadrive2/lqh/testset_data/filtered_masks/10397823, hip hop friends pulling up on soccer goal,3.2119877338409424
+6305193,5,/datadrive2/lqh/testset_data/resized_videos/6305193.mp4,/datadrive2/lqh/testset_data/filtered_masks/6305193, woman lighting candles on birthday cake,3.1944339275360107
+4874103,5,/datadrive2/lqh/testset_data/resized_videos/4874103.mp4,/datadrive2/lqh/testset_data/filtered_masks/4874103, people waiting for the train,2.986542224884033
+5561491,5,/datadrive2/lqh/testset_data/resized_videos/5561491.mp4,/datadrive2/lqh/testset_data/filtered_masks/5561491,A photographer captures a vibrant urban scene where individuals pose on graffiti-laden steps.,2.944309711456299
+3251737,5,/datadrive2/lqh/testset_data/resized_videos/3251737.mp4,/datadrive2/lqh/testset_data/filtered_masks/3251737, men and women busy working on their computers,2.9170706272125244
+10620156,5,/datadrive2/lqh/testset_data/resized_videos/10620156.mp4,/datadrive2/lqh/testset_data/filtered_masks/10620156, faces of people in suits,2.8692424297332764
+4629677,5,/datadrive2/lqh/testset_data/resized_videos/4629677.mp4,/datadrive2/lqh/testset_data/filtered_masks/4629677, a man with a moustache discussing ideas with the team,2.840315818786621
+19522773,5,/datadrive2/lqh/testset_data/resized_videos/19522773.mp4,/datadrive2/lqh/testset_data/filtered_masks/19522773,"A leafless tree stands in front of a white and gray apartment building, its branches reaching towards the sky.",2.8084957599639893
+5841964,5,/datadrive2/lqh/testset_data/resized_videos/5841964.mp4,/datadrive2/lqh/testset_data/filtered_masks/5841964, video of trees in the woods,2.7979323863983154
+10653579,5,/datadrive2/lqh/testset_data/resized_videos/10653579.mp4,/datadrive2/lqh/testset_data/filtered_masks/10653579, top view of little girls putting objects in a glass jewelry box,2.678830862045288
+15814656,5,/datadrive2/lqh/testset_data/resized_videos/15814656.mp4,/datadrive2/lqh/testset_data/filtered_masks/15814656,"A rustic entrance with red bamboo pillars and a wooden sign welcomes visitors to the Surface Interval Beach Resort, nestled among lush greenery.",2.540919780731201
+19607907,5,/datadrive2/lqh/testset_data/resized_videos/19607907.mp4,/datadrive2/lqh/testset_data/filtered_masks/19607907,"A black and white cat grooms its paw while laying on a cushioned surface, with another cat sleeping in the background.",2.495747804641724
+6336773,5,/datadrive2/lqh/testset_data/resized_videos/6336773.mp4,/datadrive2/lqh/testset_data/filtered_masks/6336773, father and kids using the computer,2.3799850940704346
+6619862,5,/datadrive2/lqh/testset_data/resized_videos/6619862.mp4,/datadrive2/lqh/testset_data/filtered_masks/6619862,"A pink frosted donut is being carefully placed onto a wooden plate beside another donut, using a spatula.",2.3696768283843994
+3255228,5,/datadrive2/lqh/testset_data/resized_videos/3255228.mp4,/datadrive2/lqh/testset_data/filtered_masks/3255228,"A group of people are gathered in a modern room with exposed brick walls, engaged in a discussion with tablets and notebooks in hand.",2.335638999938965
+5940063,5,/datadrive2/lqh/testset_data/resized_videos/5940063.mp4,/datadrive2/lqh/testset_data/filtered_masks/5940063,"In a brightly lit library, a teacher assists students working on laptops, with shelves of books in the background.",2.146790742874145
+13125039,5,/datadrive2/lqh/testset_data/resized_videos/13125039.mp4,/datadrive2/lqh/testset_data/filtered_masks/13125039, town on hill with trees,2.121222734451294
+10580463,5,/datadrive2/lqh/testset_data/resized_videos/10580463.mp4,/datadrive2/lqh/testset_data/filtered_masks/10580463, mosque among skyscrapers in dubai,2.113330602645874
+5781320,5,/datadrive2/lqh/testset_data/resized_videos/5781320.mp4,/datadrive2/lqh/testset_data/filtered_masks/5781320,"An empty wooden bookshelf stands with its doors open, revealing a dark and vacant background.",2.020005226135254
+12921593,5,/datadrive2/lqh/testset_data/resized_videos/12921593.mp4,/datadrive2/lqh/testset_data/filtered_masks/12921593, drone footage of the wat samphran temple in thailand,1.7482619285583496
+4629084,5,/datadrive2/lqh/testset_data/resized_videos/4629084.mp4,/datadrive2/lqh/testset_data/filtered_masks/4629084,"In a modern office, people are engaged in discussion around a table scattered with fabric samples, books labeled 'INTERIOR TEXTILES,' and laptops under a geometric pendant light.",1.6219072341918943
+6279929,5,/datadrive2/lqh/testset_data/resized_videos/6279929.mp4,/datadrive2/lqh/testset_data/filtered_masks/6279929, young male student resting on chair with book on face,1.3622182607650757
+11356760,6,/datadrive2/lqh/testset_data/resized_videos/11356760.mp4,/datadrive2/lqh/testset_data/filtered_masks/11356760, reflections of walking people,88.29276275634766
+4623267,8,/datadrive2/lqh/testset_data/resized_videos/4623267.mp4,/datadrive2/lqh/testset_data/filtered_masks/4623267, people protesting on the streets,51.90830612182617
+4313003,6,/datadrive2/lqh/testset_data/resized_videos/4313003.mp4,/datadrive2/lqh/testset_data/filtered_masks/4313003, close up shot of flashing lights,44.49026870727539
+4646057,7,/datadrive2/lqh/testset_data/resized_videos/4646057.mp4,/datadrive2/lqh/testset_data/filtered_masks/4646057, people enjoying dancing at night,42.15176010131836
+12333631,11,/datadrive2/lqh/testset_data/resized_videos/12333631.mp4,/datadrive2/lqh/testset_data/filtered_masks/12333631, masked people dancing at the tastoanes festival in mexico,40.163818359375
+4225156,8,/datadrive2/lqh/testset_data/resized_videos/4225156.mp4,/datadrive2/lqh/testset_data/filtered_masks/4225156, rotating shot in close up of fresh oranges,33.07745361328125
+3159483,10,/datadrive2/lqh/testset_data/resized_videos/3159483.mp4,/datadrive2/lqh/testset_data/filtered_masks/3159483, crowd on the street at night,32.294281005859375
+6421474,6,/datadrive2/lqh/testset_data/resized_videos/6421474.mp4,/datadrive2/lqh/testset_data/filtered_masks/6421474,"The clear water flows quickly over mossy rocks, splashing and creating white foam.",32.176937103271484
+3209858,6,/datadrive2/lqh/testset_data/resized_videos/3209858.mp4,/datadrive2/lqh/testset_data/filtered_masks/3209858, group of women dancing in a disco,30.086498260498047
+10763213,6,/datadrive2/lqh/testset_data/resized_videos/10763213.mp4,/datadrive2/lqh/testset_data/filtered_masks/10763213, close up of rolling dough with rolling pin,29.414743423461918
+1689828,12,/datadrive2/lqh/testset_data/resized_videos/1689828.mp4,/datadrive2/lqh/testset_data/filtered_masks/1689828, close view of yellow flowers,28.79247283935547
+5699549,10,/datadrive2/lqh/testset_data/resized_videos/5699549.mp4,/datadrive2/lqh/testset_data/filtered_masks/5699549, man selecting a hat from shop,27.9930362701416
+13892561,9,/datadrive2/lqh/testset_data/resized_videos/13892561.mp4,/datadrive2/lqh/testset_data/filtered_masks/13892561,A person is organizing and moving around cards with printed designs on a wooden table.,27.49204635620117
+6830135,9,/datadrive2/lqh/testset_data/resized_videos/6830135.mp4,/datadrive2/lqh/testset_data/filtered_masks/6830135,"The domino pieces are set up on a black textured surface, with one piece standing, ready to topple the rest.",27.41514778137207
+12333633,6,/datadrive2/lqh/testset_data/resized_videos/12333633.mp4,/datadrive2/lqh/testset_data/filtered_masks/12333633, actors performing at the tastoanes festival in mexico,26.63455581665039
+17529647,7,/datadrive2/lqh/testset_data/resized_videos/17529647.mp4,/datadrive2/lqh/testset_data/filtered_masks/17529647, student playing kho kho in school,25.418306350708008
+10643350,9,/datadrive2/lqh/testset_data/resized_videos/10643350.mp4,/datadrive2/lqh/testset_data/filtered_masks/10643350, preserved algae and fungi in jars,25.4171199798584
+5301100,7,/datadrive2/lqh/testset_data/resized_videos/5301100.mp4,/datadrive2/lqh/testset_data/filtered_masks/5301100,A person in a blue and white striped shirt is using an ax to chop a tree trunk on the ground.,25.389890670776367
+10561216,6,/datadrive2/lqh/testset_data/resized_videos/10561216.mp4,/datadrive2/lqh/testset_data/filtered_masks/10561216, close up on cutting lemon,23.579784393310547
+19074467,9,/datadrive2/lqh/testset_data/resized_videos/19074467.mp4,/datadrive2/lqh/testset_data/filtered_masks/19074467,"In a dark, murky underwater scene, a lone fish glides past rugged rock formations.",23.278474807739254
+6258138,10,/datadrive2/lqh/testset_data/resized_videos/6258138.mp4,/datadrive2/lqh/testset_data/filtered_masks/6258138,A person in a leather jacket is energetically raising a bright pink sign above their head in an urban setting.,22.583398818969727
+5032157,6,/datadrive2/lqh/testset_data/resized_videos/5032157.mp4,/datadrive2/lqh/testset_data/filtered_masks/5032157, meat barbecue on a griller,21.02606010437012
+12026578,16,/datadrive2/lqh/testset_data/resized_videos/12026578.mp4,/datadrive2/lqh/testset_data/filtered_masks/12026578, hands making face with clay,20.42974853515625
+2405523,14,/datadrive2/lqh/testset_data/resized_videos/2405523.mp4,/datadrive2/lqh/testset_data/filtered_masks/2405523, aerial footage of stilted houses build on shallow waters,19.236114501953125
+5364533,6,/datadrive2/lqh/testset_data/resized_videos/5364533.mp4,/datadrive2/lqh/testset_data/filtered_masks/5364533, close up view of a papaya tree,18.55753898620605
+4459706,9,/datadrive2/lqh/testset_data/resized_videos/4459706.mp4,/datadrive2/lqh/testset_data/filtered_masks/4459706, women dancing on the stage,18.493989944458008
+3402685,7,/datadrive2/lqh/testset_data/resized_videos/3402685.mp4,/datadrive2/lqh/testset_data/filtered_masks/3402685, people making a toast with their drinks,18.46273803710937
+5365348,7,/datadrive2/lqh/testset_data/resized_videos/5365348.mp4,/datadrive2/lqh/testset_data/filtered_masks/5365348, young people dancing in camping site,18.1536922454834
+11733294,8,/datadrive2/lqh/testset_data/resized_videos/11733294.mp4,/datadrive2/lqh/testset_data/filtered_masks/11733294, leafless trees in forest,17.666719436645508
+6396284,6,/datadrive2/lqh/testset_data/resized_videos/6396284.mp4,/datadrive2/lqh/testset_data/filtered_masks/6396284, people having a toast,17.45610809326172
+6232456,7,/datadrive2/lqh/testset_data/resized_videos/6232456.mp4,/datadrive2/lqh/testset_data/filtered_masks/6232456, close up of dried lime chestnuts and star anise,16.795495986938477
+3770387,8,/datadrive2/lqh/testset_data/resized_videos/3770387.mp4,/datadrive2/lqh/testset_data/filtered_masks/3770387, people walking outside a mosque,16.442203521728516
+5699960,6,/datadrive2/lqh/testset_data/resized_videos/5699960.mp4,/datadrive2/lqh/testset_data/filtered_masks/5699960, woman standing in front of a mirror,16.3523006439209
+5286276,10,/datadrive2/lqh/testset_data/resized_videos/5286276.mp4,/datadrive2/lqh/testset_data/filtered_masks/5286276,"A crowd holds signs aloft, with prominent ones stating 'GEORGE FLOYD' and 'ERIC GARNER,' evoking a sense of protest and solidarity.",16.06584358215332
+19550565,7,/datadrive2/lqh/testset_data/resized_videos/19550565.mp4,/datadrive2/lqh/testset_data/filtered_masks/19550565,"Costumed characters parade down the festive, crowd-lined street, with a balloon float soaring behind them amidst Christmas decorations.",15.515655517578123
+4438993,6,/datadrive2/lqh/testset_data/resized_videos/4438993.mp4,/datadrive2/lqh/testset_data/filtered_masks/4438993, wind blowing the hanging clothes,15.3956937789917
+6519532,9,/datadrive2/lqh/testset_data/resized_videos/6519532.mp4,/datadrive2/lqh/testset_data/filtered_masks/6519532, sweets for christmas celebration,15.277573585510254
+6183153,7,/datadrive2/lqh/testset_data/resized_videos/6183153.mp4,/datadrive2/lqh/testset_data/filtered_masks/6183153, people holding paper plates on the street,15.120549201965332
+4474704,6,/datadrive2/lqh/testset_data/resized_videos/4474704.mp4,/datadrive2/lqh/testset_data/filtered_masks/4474704, people wearing costumes outdoors,14.809800148010254
+3873222,7,/datadrive2/lqh/testset_data/resized_videos/3873222.mp4,/datadrive2/lqh/testset_data/filtered_masks/3873222, mockup of citrus fruits and tablets,14.467578887939451
+16456496,8,/datadrive2/lqh/testset_data/resized_videos/16456496.mp4,/datadrive2/lqh/testset_data/filtered_masks/16456496,"On a busy street at night, people walk while vehicles pass by, and a group gathers at a food stand.",14.31403350830078
+5542075,6,/datadrive2/lqh/testset_data/resized_videos/5542075.mp4,/datadrive2/lqh/testset_data/filtered_masks/5542075, person cooking eggs on a pan,14.172097206115724
+4813259,6,/datadrive2/lqh/testset_data/resized_videos/4813259.mp4,/datadrive2/lqh/testset_data/filtered_masks/4813259, drone flying over the docking area of a sea port,13.912701606750488
+4913136,9,/datadrive2/lqh/testset_data/resized_videos/4913136.mp4,/datadrive2/lqh/testset_data/filtered_masks/4913136, traditional food selling in the street,13.860300064086914
+5871325,7,/datadrive2/lqh/testset_data/resized_videos/5871325.mp4,/datadrive2/lqh/testset_data/filtered_masks/5871325, close up shot of fingers with yellow slime,13.673379898071287
+3971844,10,/datadrive2/lqh/testset_data/resized_videos/3971844.mp4,/datadrive2/lqh/testset_data/filtered_masks/3971844, woman putting on makeup,13.62498664855957
+10556465,7,/datadrive2/lqh/testset_data/resized_videos/10556465.mp4,/datadrive2/lqh/testset_data/filtered_masks/10556465, group of women dancing on beach,13.561708450317385
+6672703,7,/datadrive2/lqh/testset_data/resized_videos/6672703.mp4,/datadrive2/lqh/testset_data/filtered_masks/6672703,"A snowy path cuts through a forest blanketed in white, with trees bowing under the weight of the snow.",13.19437026977539
+17199603,6,/datadrive2/lqh/testset_data/resized_videos/17199603.mp4,/datadrive2/lqh/testset_data/filtered_masks/17199603,"Baboons wander near a palm tree trunk, with one carrying a baby on its back, amidst a rocky terrain.",13.139077186584473
+6174236,6,/datadrive2/lqh/testset_data/resized_videos/6174236.mp4,/datadrive2/lqh/testset_data/filtered_masks/6174236,Several pairs of legs clad in high heels and fishnet stockings move rhythmically across a wooden dance floor.,12.566202163696287
+6193887,8,/datadrive2/lqh/testset_data/resized_videos/6193887.mp4,/datadrive2/lqh/testset_data/filtered_masks/6193887,"The image shows a group of people's legs and feet as they walk across a shiny, reflective floor, with chairs visible in the background.",12.496670722961426
+2711306,10,/datadrive2/lqh/testset_data/resized_videos/2711306.mp4,/datadrive2/lqh/testset_data/filtered_masks/2711306, drone footage of a lumber company,12.365819931030272
+4366966,7,/datadrive2/lqh/testset_data/resized_videos/4366966.mp4,/datadrive2/lqh/testset_data/filtered_masks/4366966, flock of goats in the field,12.335205078125
+6258028,10,/datadrive2/lqh/testset_data/resized_videos/6258028.mp4,/datadrive2/lqh/testset_data/filtered_masks/6258028, group of protesters on the street,12.240169525146484
+4000563,6,/datadrive2/lqh/testset_data/resized_videos/4000563.mp4,/datadrive2/lqh/testset_data/filtered_masks/4000563,"Customers browse an array of merchandise in a bustling indoor market, with wind chimes on display in the foreground.",12.061190605163574
+17251496,12,/datadrive2/lqh/testset_data/resized_videos/17251496.mp4,/datadrive2/lqh/testset_data/filtered_masks/17251496,A vast array of buildings and a road surrounded by lush trees paint a vibrant cityscape.,11.904513359069824
+5962309,6,/datadrive2/lqh/testset_data/resized_videos/5962309.mp4,/datadrive2/lqh/testset_data/filtered_masks/5962309, man performing for the people in the streets of london,11.845111846923828
+3978439,10,/datadrive2/lqh/testset_data/resized_videos/3978439.mp4,/datadrive2/lqh/testset_data/filtered_masks/3978439, green trees on the field,11.79587173461914
+5220728,6,/datadrive2/lqh/testset_data/resized_videos/5220728.mp4,/datadrive2/lqh/testset_data/filtered_masks/5220728,"Two people enjoy a casual coffee date, holding disposable cups while a half-eaten pastry and a camera rest on the table.",11.78676700592041
+5498960,6,/datadrive2/lqh/testset_data/resized_videos/5498960.mp4,/datadrive2/lqh/testset_data/filtered_masks/5498960,A white table displays an arrangement of sliced pineapple and dried orange slices with scattered red peppercorns.,11.739256858825684
+2248533,11,/datadrive2/lqh/testset_data/resized_videos/2248533.mp4,/datadrive2/lqh/testset_data/filtered_masks/2248533,"Aerial view of an urban landscape with buildings, streets, and a central round plaza surrounded by trees and parked cars.",11.73542594909668
+6577992,6,/datadrive2/lqh/testset_data/resized_videos/6577992.mp4,/datadrive2/lqh/testset_data/filtered_masks/6577992, drone footage of a man and a woman balancing on columns,11.6913480758667
+5075243,7,/datadrive2/lqh/testset_data/resized_videos/5075243.mp4,/datadrive2/lqh/testset_data/filtered_masks/5075243, a young woman choosing clothes in a dressing room,11.331761360168455
+4281649,10,/datadrive2/lqh/testset_data/resized_videos/4281649.mp4,/datadrive2/lqh/testset_data/filtered_masks/4281649, a close up shot of barbeque meat,11.296339988708496
+4568766,10,/datadrive2/lqh/testset_data/resized_videos/4568766.mp4,/datadrive2/lqh/testset_data/filtered_masks/4568766,"In a room filled with cardboard boxes, an adult and child engage in the activity of packing or unpacking, amidst potential moving preparations.",11.18539333343506
+6225141,7,/datadrive2/lqh/testset_data/resized_videos/6225141.mp4,/datadrive2/lqh/testset_data/filtered_masks/6225141,A person pours wine into a glass held by another individual in a vibrant party atmosphere with retro-patterned wallpaper in the background.,11.060816764831545
+12392436,6,/datadrive2/lqh/testset_data/resized_videos/12392436.mp4,/datadrive2/lqh/testset_data/filtered_masks/12392436, clouds on sky,11.032882690429688
+6230913,6,/datadrive2/lqh/testset_data/resized_videos/6230913.mp4,/datadrive2/lqh/testset_data/filtered_masks/6230913, high angle shot of plants on the table,10.869279861450195
+17038759,6,/datadrive2/lqh/testset_data/resized_videos/17038759.mp4,/datadrive2/lqh/testset_data/filtered_masks/17038759,"An abandoned and vandalized building with graffiti-covered walls, broken windows, and scattered debris.",10.547552108764648
+4819171,9,/datadrive2/lqh/testset_data/resized_videos/4819171.mp4,/datadrive2/lqh/testset_data/filtered_masks/4819171, costumes worn in the street parade in thailand,10.281408309936523
+5726280,9,/datadrive2/lqh/testset_data/resized_videos/5726280.mp4,/datadrive2/lqh/testset_data/filtered_masks/5726280, food on the table during thanksgiving,10.244673728942873
+12333630,6,/datadrive2/lqh/testset_data/resized_videos/12333630.mp4,/datadrive2/lqh/testset_data/filtered_masks/12333630, actors in costumes performing at the tastoanes festival in mexico,10.144767761230469
+4330655,10,/datadrive2/lqh/testset_data/resized_videos/4330655.mp4,/datadrive2/lqh/testset_data/filtered_masks/4330655, a person wearing fairy lights dancing,10.017836570739746
+1188449,6,/datadrive2/lqh/testset_data/resized_videos/1188449.mp4,/datadrive2/lqh/testset_data/filtered_masks/1188449, close up video of blue flowers,9.96541976928711
+6338353,7,/datadrive2/lqh/testset_data/resized_videos/6338353.mp4,/datadrive2/lqh/testset_data/filtered_masks/6338353, ice hockey team celebrating the championship,9.953125953674316
+18545069,6,/datadrive2/lqh/testset_data/resized_videos/18545069.mp4,/datadrive2/lqh/testset_data/filtered_masks/18545069,"The image shows a green house with a well-manicured, dome-shaped hedge on the front yard, and white railing gate leading up to the entrance.",9.653040885925291
+5511865,6,/datadrive2/lqh/testset_data/resized_videos/5511865.mp4,/datadrive2/lqh/testset_data/filtered_masks/5511865, two kids wearing nasa spacesuit costume,9.62861442565918
+5243391,6,/datadrive2/lqh/testset_data/resized_videos/5243391.mp4,/datadrive2/lqh/testset_data/filtered_masks/5243391,"A close-up shot of pink and yellow flowers in full bloom, with vibrant petals overlapping each other in a beautiful garden scene.",9.612960815429688
+6072871,8,/datadrive2/lqh/testset_data/resized_videos/6072871.mp4,/datadrive2/lqh/testset_data/filtered_masks/6072871,"A person's hands hold a small glass bowl of salt and carefully pour it into a larger jar, surrounded by twinkling holiday lights.",9.581844329833984
+6340288,7,/datadrive2/lqh/testset_data/resized_videos/6340288.mp4,/datadrive2/lqh/testset_data/filtered_masks/6340288,Ice hockey players in various stances skate energetically across the rink during a practice session.,9.125601768493652
+5235745,8,/datadrive2/lqh/testset_data/resized_videos/5235745.mp4,/datadrive2/lqh/testset_data/filtered_masks/5235745,"A group of people, some seated and others standing, strike dynamic poses around a motorcycle under a clear sky amidst urban surroundings.",9.028947830200195
+6011446,8,/datadrive2/lqh/testset_data/resized_videos/6011446.mp4,/datadrive2/lqh/testset_data/filtered_masks/6011446, a beautiful fireworks display,8.920528411865234
+6519551,7,/datadrive2/lqh/testset_data/resized_videos/6519551.mp4,/datadrive2/lqh/testset_data/filtered_masks/6519551, people having pie at office christmas party,8.918277740478516
+4618500,15,/datadrive2/lqh/testset_data/resized_videos/4618500.mp4,/datadrive2/lqh/testset_data/filtered_masks/4618500, drone footage of a resort and trees,8.746516227722168
+5286975,7,/datadrive2/lqh/testset_data/resized_videos/5286975.mp4,/datadrive2/lqh/testset_data/filtered_masks/5286975, a man holding a placard in the middle of a rallying crowd,8.738743782043457
+5286851,8,/datadrive2/lqh/testset_data/resized_videos/5286851.mp4,/datadrive2/lqh/testset_data/filtered_masks/5286851, protesters walking on the road,8.677315711975098
+6762936,6,/datadrive2/lqh/testset_data/resized_videos/6762936.mp4,/datadrive2/lqh/testset_data/filtered_masks/6762936,"Two athletes in wheelchairs navigate a wooden court, indicating an intense moment in a wheelchair basketball game.",8.672266006469727
+17058576,6,/datadrive2/lqh/testset_data/resized_videos/17058576.mp4,/datadrive2/lqh/testset_data/filtered_masks/17058576,"A group of fluffy yellow goslings huddle together for warmth on a wooden surface, their tiny beaks and closed eyes visible amidst their soft down feathers.",8.377214431762695
+4440825,7,/datadrive2/lqh/testset_data/resized_videos/4440825.mp4,/datadrive2/lqh/testset_data/filtered_masks/4440825,"In a serene outdoor setting, a person's hand reaches towards a string of hanging bells, preparing to ring them, creating a harmonious sound amidst the tranquil backdrop of nature.",8.358152389526367
+3403228,7,/datadrive2/lqh/testset_data/resized_videos/3403228.mp4,/datadrive2/lqh/testset_data/filtered_masks/3403228, a group of people attending an event posing for the cameras,8.231614112854004
+4718683,8,/datadrive2/lqh/testset_data/resized_videos/4718683.mp4,/datadrive2/lqh/testset_data/filtered_masks/4718683,"In a dimly lit dressing room, a person stands in front of a mirror, surrounded by assorted garments, under the glow of a fluorescent light.",8.138346672058105
+10270863,11,/datadrive2/lqh/testset_data/resized_videos/10270863.mp4,/datadrive2/lqh/testset_data/filtered_masks/10270863, drone footage of houses on an island,7.894490718841553
+10037765,7,/datadrive2/lqh/testset_data/resized_videos/10037765.mp4,/datadrive2/lqh/testset_data/filtered_masks/10037765, family playing tug of war in yard,7.873601913452148
+5921020,7,/datadrive2/lqh/testset_data/resized_videos/5921020.mp4,/datadrive2/lqh/testset_data/filtered_masks/5921020, close up of a sunflower,7.845208644866943
+4919532,7,/datadrive2/lqh/testset_data/resized_videos/4919532.mp4,/datadrive2/lqh/testset_data/filtered_masks/4919532,"Three individuals in light-colored jackets sit casually against a backdrop of serene waterfront lined with docked boats, evoking a crisp maritime ambiance.",7.820836067199707
+5434006,8,/datadrive2/lqh/testset_data/resized_videos/5434006.mp4,/datadrive2/lqh/testset_data/filtered_masks/5434006, display of acrylic paintings on an alley,7.65493631362915
+16128245,11,/datadrive2/lqh/testset_data/resized_videos/16128245.mp4,/datadrive2/lqh/testset_data/filtered_masks/16128245, nature field summer sun,7.628356456756592
+13689702,7,/datadrive2/lqh/testset_data/resized_videos/13689702.mp4,/datadrive2/lqh/testset_data/filtered_masks/13689702,"A herd of black and white goats gathers on a rocky terrain, navigating through the uneven ground and greenery in the background.",7.612969398498535
+18014635,6,/datadrive2/lqh/testset_data/resized_videos/18014635.mp4,/datadrive2/lqh/testset_data/filtered_masks/18014635, historical historic center history ruins,7.509864330291748
+4107844,7,/datadrive2/lqh/testset_data/resized_videos/4107844.mp4,/datadrive2/lqh/testset_data/filtered_masks/4107844, a close up shot of different kind of flowers,7.404484272003174
+5370874,10,/datadrive2/lqh/testset_data/resized_videos/5370874.mp4,/datadrive2/lqh/testset_data/filtered_masks/5370874, two men unloading packages,7.396738052368164
+6235582,10,/datadrive2/lqh/testset_data/resized_videos/6235582.mp4,/datadrive2/lqh/testset_data/filtered_masks/6235582, drone footage of trees covered with snow,7.371471405029297
+10045015,9,/datadrive2/lqh/testset_data/resized_videos/10045015.mp4,/datadrive2/lqh/testset_data/filtered_masks/10045015, children hitting a pinata,7.2657151222229
+6860445,6,/datadrive2/lqh/testset_data/resized_videos/6860445.mp4,/datadrive2/lqh/testset_data/filtered_masks/6860445, close up view of people holding hands,7.254877090454102
+17431770,6,/datadrive2/lqh/testset_data/resized_videos/17431770.mp4,/datadrive2/lqh/testset_data/filtered_masks/17431770,"People walk through a tunnel of orange torii gates, some with graffiti, at a Japanese shrine.",7.181919097900391
+6975026,6,/datadrive2/lqh/testset_data/resized_videos/6975026.mp4,/datadrive2/lqh/testset_data/filtered_masks/6975026, houses on top of a mountain,7.108129024505615
+6225080,7,/datadrive2/lqh/testset_data/resized_videos/6225080.mp4,/datadrive2/lqh/testset_data/filtered_masks/6225080, women wearing roller blades while lying down in bed,7.0274810791015625
+17231899,6,/datadrive2/lqh/testset_data/resized_videos/17231899.mp4,/datadrive2/lqh/testset_data/filtered_masks/17231899, fishing boats moored on the coast of c n gi vietnam,7.023340702056885
+14388539,9,/datadrive2/lqh/testset_data/resized_videos/14388539.mp4,/datadrive2/lqh/testset_data/filtered_masks/14388539, drone footage of capitol records building,7.017391681671143
+5286830,9,/datadrive2/lqh/testset_data/resized_videos/5286830.mp4,/datadrive2/lqh/testset_data/filtered_masks/5286830, video of people in a protest rally,6.942995071411133
+2424117,11,/datadrive2/lqh/testset_data/resized_videos/2424117.mp4,/datadrive2/lqh/testset_data/filtered_masks/2424117,"People walk past a solemn outdoor exhibit of photographs and stories mounted on panels, with a reflective water body in the background.",6.913455009460449
+14149939,6,/datadrive2/lqh/testset_data/resized_videos/14149939.mp4,/datadrive2/lqh/testset_data/filtered_masks/14149939, drone footage of watercrafts at marina del rey in los angeles california,6.904125690460205
+5032153,8,/datadrive2/lqh/testset_data/resized_videos/5032153.mp4,/datadrive2/lqh/testset_data/filtered_masks/5032153, a person grilling meat,6.881218433380127
+5875504,6,/datadrive2/lqh/testset_data/resized_videos/5875504.mp4,/datadrive2/lqh/testset_data/filtered_masks/5875504, people reading a booklet,6.781741619110107
+6308043,17,/datadrive2/lqh/testset_data/resized_videos/6308043.mp4,/datadrive2/lqh/testset_data/filtered_masks/6308043, chinese red lanterns hanging in street,6.760481834411621
+6491262,9,/datadrive2/lqh/testset_data/resized_videos/6491262.mp4,/datadrive2/lqh/testset_data/filtered_masks/6491262,"The image shows a repeated pattern of a person in a white sweater, captured in a dreamlike, kaleidoscopic effect with a warm, golden glow.",6.681081295013428
+4191314,7,/datadrive2/lqh/testset_data/resized_videos/4191314.mp4,/datadrive2/lqh/testset_data/filtered_masks/4191314, vehicles on the road,6.666991233825684
+5731535,9,/datadrive2/lqh/testset_data/resized_videos/5731535.mp4,/datadrive2/lqh/testset_data/filtered_masks/5731535,"A close-up of a pile of ripe, red persimmons with green leaves on top, displayed for sale at a market.",6.630387306213379
+11863934,6,/datadrive2/lqh/testset_data/resized_videos/11863934.mp4,/datadrive2/lqh/testset_data/filtered_masks/11863934, men in blue and purple hoods walking during a religious procession,6.627954483032227
+5077431,18,/datadrive2/lqh/testset_data/resized_videos/5077431.mp4,/datadrive2/lqh/testset_data/filtered_masks/5077431, people on kayak in sup festival,6.521143436431885
+5286352,9,/datadrive2/lqh/testset_data/resized_videos/5286352.mp4,/datadrive2/lqh/testset_data/filtered_masks/5286352, people in a rally chanting black lives matter,6.518332481384277
+5427608,6,/datadrive2/lqh/testset_data/resized_videos/5427608.mp4,/datadrive2/lqh/testset_data/filtered_masks/5427608, teacher and students in chemistry class,6.469618320465088
+5287065,8,/datadrive2/lqh/testset_data/resized_videos/5287065.mp4,/datadrive2/lqh/testset_data/filtered_masks/5287065, crowd of protesters shouting and raising their placards,6.426463127136231
+6258331,6,/datadrive2/lqh/testset_data/resized_videos/6258331.mp4,/datadrive2/lqh/testset_data/filtered_masks/6258331, people making protest signs,6.3965935707092285
+11895780,13,/datadrive2/lqh/testset_data/resized_videos/11895780.mp4,/datadrive2/lqh/testset_data/filtered_masks/11895780, firefighters teaching people how to stop cylinder fire,6.368152141571045
+11214348,6,/datadrive2/lqh/testset_data/resized_videos/11214348.mp4,/datadrive2/lqh/testset_data/filtered_masks/11214348,"A kettlebell swings effortlessly between two legs, clad in black converse sneakers, as red bricks blur in the background.",6.362327098846436
+5079463,11,/datadrive2/lqh/testset_data/resized_videos/5079463.mp4,/datadrive2/lqh/testset_data/filtered_masks/5079463, aerial shot of palm trees,6.351383686065674
+4655603,6,/datadrive2/lqh/testset_data/resized_videos/4655603.mp4,/datadrive2/lqh/testset_data/filtered_masks/4655603, close up hoya flowers,6.2749505043029785
+5498890,7,/datadrive2/lqh/testset_data/resized_videos/5498890.mp4,/datadrive2/lqh/testset_data/filtered_masks/5498890, close up shot of colored pencils in the cup,6.260846614837647
+13048931,8,/datadrive2/lqh/testset_data/resized_videos/13048931.mp4,/datadrive2/lqh/testset_data/filtered_masks/13048931,"Golden fish-oil capsules rest on a spoon, their translucent, liquid-filled bodies reflecting light.",6.246724605560303
+5513026,6,/datadrive2/lqh/testset_data/resized_videos/5513026.mp4,/datadrive2/lqh/testset_data/filtered_masks/5513026, a person slicing sausages,6.170271873474121
+17418615,8,/datadrive2/lqh/testset_data/resized_videos/17418615.mp4,/datadrive2/lqh/testset_data/filtered_masks/17418615,Pedestrians explore a bustling market street adorned with lanterns and lined with various shops and food stalls.,6.034997940063477
+3987662,10,/datadrive2/lqh/testset_data/resized_videos/3987662.mp4,/datadrive2/lqh/testset_data/filtered_masks/3987662,"The image captures rows of flickering red votive candles emitting a warm glow, creating a serene and peaceful atmosphere.",6.032086849212647
+5287081,10,/datadrive2/lqh/testset_data/resized_videos/5287081.mp4,/datadrive2/lqh/testset_data/filtered_masks/5287081, people rallying on the street,5.993222236633301
+13723246,8,/datadrive2/lqh/testset_data/resized_videos/13723246.mp4,/datadrive2/lqh/testset_data/filtered_masks/13723246,"An aerial view captures a beautiful white building standing tall among other skyscrapers, with a bustling port in the background.",5.9232587814331055
+4752978,6,/datadrive2/lqh/testset_data/resized_videos/4752978.mp4,/datadrive2/lqh/testset_data/filtered_masks/4752978, people riding on bicycles in the city,5.90659761428833
+3805774,7,/datadrive2/lqh/testset_data/resized_videos/3805774.mp4,/datadrive2/lqh/testset_data/filtered_masks/3805774, woman wiring flowers for decoration,5.857486248016357
+5944788,13,/datadrive2/lqh/testset_data/resized_videos/5944788.mp4,/datadrive2/lqh/testset_data/filtered_masks/5944788, person laying sliced kiwi on a wooden chopping board,5.815920352935791
+4873090,8,/datadrive2/lqh/testset_data/resized_videos/4873090.mp4,/datadrive2/lqh/testset_data/filtered_masks/4873090,"A beautiful seaside view with waves crashing onto the shore, large boulders in the foreground, and majestic mountains in the background.",5.8150739669799805
+4623266,9,/datadrive2/lqh/testset_data/resized_videos/4623266.mp4,/datadrive2/lqh/testset_data/filtered_masks/4623266,"A diverse crowd raises their fists and placards in unity at a sunlit outdoor protest, with a backdrop of urban buildings and lush trees.",5.7396240234375
+10910660,9,/datadrive2/lqh/testset_data/resized_videos/10910660.mp4,/datadrive2/lqh/testset_data/filtered_masks/10910660, close up on christmas balls,5.654069423675537
+5286860,9,/datadrive2/lqh/testset_data/resized_videos/5286860.mp4,/datadrive2/lqh/testset_data/filtered_masks/5286860, people walking on new jersey streets to protest,5.635631561279297
+5243083,8,/datadrive2/lqh/testset_data/resized_videos/5243083.mp4,/datadrive2/lqh/testset_data/filtered_masks/5243083, sliced watermelon on a plate,5.616939067840576
+13440266,11,/datadrive2/lqh/testset_data/resized_videos/13440266.mp4,/datadrive2/lqh/testset_data/filtered_masks/13440266,"An aerial view of a residential construction site with unfinished houses on the left and completed gray-roofed homes on the right, separated by a dirt road.",5.589404106140137
+5124507,9,/datadrive2/lqh/testset_data/resized_videos/5124507.mp4,/datadrive2/lqh/testset_data/filtered_masks/5124507, cars stuck on the road,5.545449256896973
+3196545,6,/datadrive2/lqh/testset_data/resized_videos/3196545.mp4,/datadrive2/lqh/testset_data/filtered_masks/3196545, a person arranging the christmas ornaments decor used for a vase,5.51415491104126
+5400766,8,/datadrive2/lqh/testset_data/resized_videos/5400766.mp4,/datadrive2/lqh/testset_data/filtered_masks/5400766,Two individuals arrange various flowers in a serene floral shop filled with an assortment of blooms and decorative items.,5.504719257354736
+6481494,6,/datadrive2/lqh/testset_data/resized_videos/6481494.mp4,/datadrive2/lqh/testset_data/filtered_masks/6481494,"Two people can be seen making cookies, using various shaped cookie cutters, on a flour-covered table with kitchen utensils and glasses of juice.",5.481998920440674
+4945117,7,/datadrive2/lqh/testset_data/resized_videos/4945117.mp4,/datadrive2/lqh/testset_data/filtered_masks/4945117,A person stands contemplatively inside a room with expansive windows overlooking a misty mountainous landscape.,5.464217662811279
+3671388,6,/datadrive2/lqh/testset_data/resized_videos/3671388.mp4,/datadrive2/lqh/testset_data/filtered_masks/3671388,"The sun sets behind the clouds, casting golden rays across the vast horizon, creating a peaceful scene of tranquility.",5.434390544891357

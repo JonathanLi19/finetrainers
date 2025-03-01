@@ -4,10 +4,10 @@ export WANDB_MODE="offline"
 export NCCL_P2P_DISABLE=1
 export TORCH_NCCL_ENABLE_MONITORING=0
 export TOKENIZERS_PARALLELISM=False
-export CUDA_VISIBLE_DEVICES=3
+export CUDA_VISIBLE_DEVICES=2
 MODEL_PATH="THUDM/CogVideoX-5b-I2V"
-perception_head_path="checkpoints/box_ablation_progressive/checkpoint-3500/perception_head-checkpoint-3500.pt"
-controlnet_path="checkpoints/box_ablation_progressive/checkpoint-3500/controlnet-checkpoint-3500.pt"
+perception_head_path="checkpoints/box_ablation_progressive/checkpoint-5500/perception_head-checkpoint-5500.pt"
+controlnet_path="checkpoints/box_ablation_progressive/checkpoint-5500/controlnet-checkpoint-5500.pt"
 
 python training/cogvideox/I2V_inference_controlnet.py \
     --pretrained_model_name_or_path  $MODEL_PATH \

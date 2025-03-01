@@ -179,14 +179,14 @@ samples/
 output_trajectory/
 visualization/
 utils/
-testset/
 checkpoints/
 data/DAVIS
 data/SA-V
 data/MeViS/mask_dict.json
 data/MeViS/meta_expressions.json
 data/MeViS/MeViS
-!training/cogvideox/validation_args/testset/
-!training/cogvideox/validation_args/utils
+!training/cogvideox/validation_args
 *.pt
 *.zip
+testset/mask_condition
+testset/sparse_box_condition

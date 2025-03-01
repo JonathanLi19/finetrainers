@@ -6,13 +6,16 @@ export TORCH_NCCL_ENABLE_MONITORING=0
 export TOKENIZERS_PARALLELISM=False
 export CUDA_VISIBLE_DEVICES=3
 MODEL_PATH="THUDM/CogVideoX-5b-I2V"
-controlnet_path="checkpoints/box_ablation_segment/checkpoint-5500.pt"
+perception_head_path="checkpoints/box_ablation_progressive/checkpoint-6500/perception_head-checkpoint-6500.pt"
+controlnet_path="checkpoints/box_ablation_progressive/checkpoint-6500/controlnet-checkpoint-6500.pt"
 
 python training/cogvideox/I2V_inference_controlnet.py \
     --pretrained_model_name_or_path  $MODEL_PATH \
     --pretrained_controlnet_path $controlnet_path \
-    --validation_args_csv  "training/cogvideox/validation_args/DAVIS/box_segment_ablation/testset_DAVIS.csv" \
+    --pretrained_perception_head_path $perception_head_path \
+    --validation_args_csv  "training/cogvideox/validation_args/DAVIS/box_progressive_ablation/remote_machine/step6500.csv" \
     --num_validation_videos 1 \
     --seed 42 \
     --height 480 \
     --width 720 \
+    --use_perception_head
